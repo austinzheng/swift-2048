@@ -8,7 +8,7 @@
 
 import XCTest
 
-class ModelTests: XCTestCase {
+class ModelTests: XCTestCase, GameModelProtocol {
 
   override func setUp() {
     super.setUp()
@@ -20,10 +20,16 @@ class ModelTests: XCTestCase {
     super.tearDown()
   }
 
+  // Would be better to just make the merge and associated methods static.
+  func scoreChanged(score: Int) { }
+  func moveOneTile(from: (Int, Int), to: (Int, Int), value: Int) { }
+  func moveTwoTiles(from: ((Int, Int), (Int, Int)), to: (Int, Int), value: Int) { }
+  func insertTile(location: (Int, Int), value: Int) { }
+
   // --------- TEST CONDENSE --------- //
 
   func testCondense1() {
-    let m = GameModel(dimension: 5, threshold: 2048)
+    let m = GameModel(dimension: 5, threshold: 2048, delegate: self)
     var group = [TileObject.Tile(value: 1),
       TileObject.Tile(value: 2),
       TileObject.Tile(value: 4),
@@ -53,7 +59,7 @@ class ModelTests: XCTestCase {
   }
 
   func testCondense1b() {
-    let m = GameModel(dimension: 5, threshold: 2048)
+    let m = GameModel(dimension: 5, threshold: 2048, delegate: self)
     var group = [TileObject.Tile(value: 1),
       TileObject.Empty,
       TileObject.Tile(value: 4),
@@ -99,7 +105,7 @@ class ModelTests: XCTestCase {
   }
 
   func testCondense1c() {
-    let m = GameModel(dimension: 5, threshold: 2048)
+    let m = GameModel(dimension: 5, threshold: 2048, delegate: self)
     var group = [TileObject.Tile(value: 1),
       TileObject.Tile(value: 4),
       TileObject.Empty,
@@ -146,7 +152,7 @@ class ModelTests: XCTestCase {
   }
 
   func testCondense1d() {
-    let m = GameModel(dimension: 5, threshold: 2048)
+    let m = GameModel(dimension: 5, threshold: 2048, delegate: self)
     var group = [TileObject.Empty,
       TileObject.Empty,
       TileObject.Tile(value: 1),
@@ -187,7 +193,7 @@ class ModelTests: XCTestCase {
   }
 
   func testCondense4() {
-    let m = GameModel(dimension: 5, threshold: 2048)
+    let m = GameModel(dimension: 5, threshold: 2048, delegate: self)
     let group = [TileObject.Tile(value: 2),
       TileObject.Tile(value: 2),
       TileObject.Tile(value: 16),
@@ -200,7 +206,7 @@ class ModelTests: XCTestCase {
   // --------- TEST COLLAPSE --------- //
 
   func testCollapse1() {
-    let m = GameModel(dimension: 5, threshold: 2048)
+    let m = GameModel(dimension: 5, threshold: 2048, delegate: self)
     var group = [ActionToken.NoAction(source: 0, value: 4),
       ActionToken.NoAction(source: 1, value: 2),
       ActionToken.NoAction(source: 2, value: 4),
@@ -217,7 +223,7 @@ class ModelTests: XCTestCase {
 
   func testMerge1() {
     // Scenario: no movement at all
-    let m = GameModel(dimension: 5, threshold: 2048)
+    let m = GameModel(dimension: 5, threshold: 2048, delegate: self)
     var group = [TileObject.Tile(value: 1),
       TileObject.Tile(value: 2),
       TileObject.Tile(value: 4),
@@ -230,7 +236,7 @@ class ModelTests: XCTestCase {
 
   func testMerge2() {
     // Scenario: some moves
-    let m = GameModel(dimension: 5, threshold: 2048)
+    let m = GameModel(dimension: 5, threshold: 2048, delegate: self)
     var group = [TileObject.Tile(value: 1),
       TileObject.Empty,
       TileObject.Tile(value: 4),
@@ -263,7 +269,7 @@ class ModelTests: XCTestCase {
 
   func testMerge3() {
     // Scenario: no moves, one merge at end
-    let m = GameModel(dimension: 5, threshold: 2048)
+    let m = GameModel(dimension: 5, threshold: 2048, delegate: self)
     var group = [TileObject.Tile(value: 1),
       TileObject.Tile(value: 2),
       TileObject.Tile(value: 4),
@@ -291,7 +297,7 @@ class ModelTests: XCTestCase {
 
   func testMerge4() {
     // Scenario: one move, one merge
-    let m = GameModel(dimension: 5, threshold: 2048)
+    let m = GameModel(dimension: 5, threshold: 2048, delegate: self)
     let group = [TileObject.Tile(value: 2),
       TileObject.Tile(value: 2),
       TileObject.Tile(value: 16),
@@ -329,7 +335,7 @@ class ModelTests: XCTestCase {
 
   func testMerge5() {
     // Scenario: multi-merge with 3 equal tiles involved
-    let m = GameModel(dimension: 5, threshold: 2048)
+    let m = GameModel(dimension: 5, threshold: 2048, delegate: self)
     let group = [TileObject.Tile(value: 2),
       TileObject.Tile(value: 2),
       TileObject.Tile(value: 2),
@@ -362,7 +368,7 @@ class ModelTests: XCTestCase {
 
   func testMerge6() {
     // Scenario: multiple merges
-    let m = GameModel(dimension: 5, threshold: 2048)
+    let m = GameModel(dimension: 5, threshold: 2048, delegate: self)
     let group = [TileObject.Tile(value: 2),
       TileObject.Tile(value: 2),
       TileObject.Tile(value: 2),
@@ -403,7 +409,7 @@ class ModelTests: XCTestCase {
 
   func testMerge7() {
     // Scenario: multiple spaces and merges
-    let m = GameModel(dimension: 5, threshold: 2048)
+    let m = GameModel(dimension: 5, threshold: 2048, delegate: self)
     let group = [TileObject.Empty,
       TileObject.Tile(value: 2),
       TileObject.Tile(value: 2),
@@ -438,7 +444,7 @@ class ModelTests: XCTestCase {
 
   func testMerge8() {
     // Scenario: multiple spaces and merges
-    let m = GameModel(dimension: 5, threshold: 2048)
+    let m = GameModel(dimension: 5, threshold: 2048, delegate: self)
     let group = [TileObject.Tile(value: 4),
       TileObject.Empty,
       TileObject.Tile(value: 4),
@@ -474,7 +480,7 @@ class ModelTests: XCTestCase {
 
   func testMerge9() {
     // Scenario: multiple moves with leading space
-    let m = GameModel(dimension: 5, threshold: 2048)
+    let m = GameModel(dimension: 5, threshold: 2048, delegate: self)
     let group = [TileObject.Empty,
       TileObject.Empty,
       TileObject.Tile(value: 4),
