@@ -12,6 +12,9 @@
 		1AC563E8193DCE6000402286 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1AC563E6193DCE6000402286 /* Main.storyboard */; };
 		1AC563EA193DCE6000402286 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1AC563E9193DCE6000402286 /* Images.xcassets */; };
 		1AC563F6193DCE6000402286 /* swift_2048Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC563F5193DCE6000402286 /* swift_2048Tests.swift */; };
+		1AE339B2193DCF110081FFA4 /* GameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE339B1193DCF110081FFA4 /* GameModel.swift */; };
+		1AE339B4193DF5FF0081FFA4 /* ModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE339B3193DF5FF0081FFA4 /* ModelTests.swift */; };
+		1AE339B5193DF6540081FFA4 /* GameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE339B1193DCF110081FFA4 /* GameModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +37,8 @@
 		1AC563EF193DCE6000402286 /* swift-2048Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "swift-2048Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AC563F4193DCE6000402286 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1AC563F5193DCE6000402286 /* swift_2048Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = swift_2048Tests.swift; sourceTree = "<group>"; };
+		1AE339B1193DCF110081FFA4 /* GameModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameModel.swift; path = Models/GameModel.swift; sourceTree = "<group>"; };
+		1AE339B3193DF5FF0081FFA4 /* ModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +85,8 @@
 				1AC563E6193DCE6000402286 /* Main.storyboard */,
 				1AC563E9193DCE6000402286 /* Images.xcassets */,
 				1AC563E0193DCE6000402286 /* Supporting Files */,
+				1AE339AF193DCE990081FFA4 /* Models */,
+				1AE339B0193DCEAE0081FFA4 /* Views */,
 			);
 			path = "swift-2048";
 			sourceTree = "<group>";
@@ -97,6 +104,7 @@
 			children = (
 				1AC563F5193DCE6000402286 /* swift_2048Tests.swift */,
 				1AC563F3193DCE6000402286 /* Supporting Files */,
+				1AE339B3193DF5FF0081FFA4 /* ModelTests.swift */,
 			);
 			path = "swift-2048Tests";
 			sourceTree = "<group>";
@@ -107,6 +115,21 @@
 				1AC563F4193DCE6000402286 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		1AE339AF193DCE990081FFA4 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				1AE339B1193DCF110081FFA4 /* GameModel.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		1AE339B0193DCEAE0081FFA4 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -210,6 +233,7 @@
 			files = (
 				1AC563E5193DCE6000402286 /* ViewController.swift in Sources */,
 				1AC563E3193DCE6000402286 /* AppDelegate.swift in Sources */,
+				1AE339B2193DCF110081FFA4 /* GameModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -218,6 +242,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				1AC563F6193DCE6000402286 /* swift_2048Tests.swift in Sources */,
+				1AE339B4193DF5FF0081FFA4 /* ModelTests.swift in Sources */,
+				1AE339B5193DF6540081FFA4 /* GameModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -399,6 +425,7 @@
 				1AC563FB193DCE6000402286 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		1AC563FC193DCE6000402286 /* Build configuration list for PBXNativeTarget "swift-2048Tests" */ = {
 			isa = XCConfigurationList;
@@ -407,6 +434,7 @@
 				1AC563FE193DCE6000402286 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
