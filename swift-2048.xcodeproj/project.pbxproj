@@ -15,10 +15,21 @@
 		1AE339B2193DCF110081FFA4 /* GameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE339B1193DCF110081FFA4 /* GameModel.swift */; };
 		1AE339B4193DF5FF0081FFA4 /* ModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE339B3193DF5FF0081FFA4 /* ModelTests.swift */; };
 		1AE339B5193DF6540081FFA4 /* GameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE339B1193DCF110081FFA4 /* GameModel.swift */; };
+		1AE8BEF0193EEE24007592BA /* GameboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE8BEEF193EEE24007592BA /* GameboardView.swift */; };
+		1AE8BEF2193EF1C7007592BA /* AppearanceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE8BEF1193EF1C7007592BA /* AppearanceProvider.swift */; };
+		1AE8BEF4193EF260007592BA /* NumberTileGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE8BEF3193EF260007592BA /* NumberTileGame.swift */; };
+		1AE8BEF6193EF4B6007592BA /* TileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE8BEF5193EF4B6007592BA /* TileView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
 		1AC563F0193DCE6000402286 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1AC563D5193DCE6000402286 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1AC563DC193DCE6000402286;
+			remoteInfo = "swift-2048";
+		};
+		1AE8BEF7193F1090007592BA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1AC563D5193DCE6000402286 /* Project object */;
 			proxyType = 1;
@@ -39,6 +50,10 @@
 		1AC563F5193DCE6000402286 /* swift_2048Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = swift_2048Tests.swift; sourceTree = "<group>"; };
 		1AE339B1193DCF110081FFA4 /* GameModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameModel.swift; path = Models/GameModel.swift; sourceTree = "<group>"; };
 		1AE339B3193DF5FF0081FFA4 /* ModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelTests.swift; sourceTree = "<group>"; };
+		1AE8BEEF193EEE24007592BA /* GameboardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameboardView.swift; path = Views/GameboardView.swift; sourceTree = "<group>"; };
+		1AE8BEF1193EF1C7007592BA /* AppearanceProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppearanceProvider.swift; sourceTree = "<group>"; };
+		1AE8BEF3193EF260007592BA /* NumberTileGame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumberTileGame.swift; sourceTree = "<group>"; };
+		1AE8BEF5193EF4B6007592BA /* TileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TileView.swift; path = Views/TileView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +102,8 @@
 				1AC563E0193DCE6000402286 /* Supporting Files */,
 				1AE339AF193DCE990081FFA4 /* Models */,
 				1AE339B0193DCEAE0081FFA4 /* Views */,
+				1AE8BEF3193EF260007592BA /* NumberTileGame.swift */,
+				1AE8BEF1193EF1C7007592BA /* AppearanceProvider.swift */,
 			);
 			path = "swift-2048";
 			sourceTree = "<group>";
@@ -128,6 +145,8 @@
 		1AE339B0193DCEAE0081FFA4 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				1AE8BEEF193EEE24007592BA /* GameboardView.swift */,
+				1AE8BEF5193EF4B6007592BA /* TileView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -164,6 +183,7 @@
 			);
 			dependencies = (
 				1AC563F1193DCE6000402286 /* PBXTargetDependency */,
+				1AE8BEF8193F1090007592BA /* PBXTargetDependency */,
 			);
 			name = "swift-2048Tests";
 			productName = "swift-2048Tests";
@@ -231,9 +251,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1AE8BEF4193EF260007592BA /* NumberTileGame.swift in Sources */,
+				1AE8BEF6193EF4B6007592BA /* TileView.swift in Sources */,
 				1AC563E5193DCE6000402286 /* ViewController.swift in Sources */,
+				1AE8BEF2193EF1C7007592BA /* AppearanceProvider.swift in Sources */,
 				1AC563E3193DCE6000402286 /* AppDelegate.swift in Sources */,
 				1AE339B2193DCF110081FFA4 /* GameModel.swift in Sources */,
+				1AE8BEF0193EEE24007592BA /* GameboardView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -254,6 +278,11 @@
 			isa = PBXTargetDependency;
 			target = 1AC563DC193DCE6000402286 /* swift-2048 */;
 			targetProxy = 1AC563F0193DCE6000402286 /* PBXContainerItemProxy */;
+		};
+		1AE8BEF8193F1090007592BA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1AC563DC193DCE6000402286 /* swift-2048 */;
+			targetProxy = 1AE8BEF7193F1090007592BA /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

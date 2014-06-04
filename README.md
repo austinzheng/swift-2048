@@ -5,7 +5,12 @@ A port of [iOS-2048](https://github.com/austinzheng/iOS-2048) to Apple's new Swi
 
 Like the original Objective-C version, swift-2048 does not rely upon SpriteKit. See the description for iOS-2048 for more information.
 
-You will need the Xcode 6 Developer Preview to build and run the project.
+Instructions
+------------
+
+You will need the Xcode 6 Developer Preview to build and run the project. However, it should run under either iOS 7 or iOS 8 (on the simulator).
+
+Tap the button to play the game. Swipe to move the tiles.
 
 License
 -------

@@ -81,7 +81,8 @@ class GameModel: NSObject {
     self.delegate.scoreChanged(score)
   }
   }
-  var gameboard: TileObject[][]
+//  var gameboard: TileObject[][] = TileObject[][]()
+  var gameboard_temp: TileObject[]
 
   let delegate: GameModelProtocol
 
@@ -91,18 +92,19 @@ class GameModel: NSObject {
   let maxCommands = 100
   let queueDelay = 0.3
 
-  init(dimension: Int, threshold: Int, delegate: GameModelProtocol) {
-    self.dimension = dimension
-    self.threshold = threshold
+  init(dimension d: Int, threshold t: Int, delegate: GameModelProtocol) {
+    self.dimension = d
+    self.threshold = t
     self.delegate = delegate
     self.queue = MoveCommand[]()
     self.timer = NSTimer()
 
     // Initialize the gameboard. Not sure how to do this more efficiently
-    gameboard = TileObject[][]()
-    for i in 0...dimension {
-      gameboard.append(TileObject[](count:dimension, repeatedValue:TileObject.Empty))
-    }
+//    for i in 0...dimension-1 {
+//      self.gameboard.append(TileObject[](count:dimension, repeatedValue:TileObject.Empty))
+//    }
+    self.gameboard_temp = TileObject[](count: (d*d), repeatedValue:TileObject.Empty)
+    NSLog("DEBUG: gameboard_temp has a count of \(self.gameboard_temp.count)")
     super.init()
   }
 
@@ -155,11 +157,26 @@ class GameModel: NSObject {
 
   //------------------------------------------------------------------------------------------------------------------//
 
+  func temp_getFromGameboard(#x: Int, y: Int) -> TileObject {
+    let idx = x*self.dimension + y
+    return self.gameboard_temp[idx]
+  }
+
+  func temp_setOnGameboard(#x: Int, y: Int, obj: TileObject) {
+    self.gameboard_temp[x*self.dimension + y] = obj
+  }
+
+  //------------------------------------------------------------------------------------------------------------------//
+
   func insertTile(pos: (Int, Int), value: Int) {
     let (x, y) = pos
-    switch gameboard[x][y] {
+    // TODO: hack
+    switch temp_getFromGameboard(x: x, y: y) {
+//    switch gameboard[x][y] {
     case .Empty:
-      gameboard[x][y] = TileObject.Tile(value: value)
+      // TODO: hack
+      temp_setOnGameboard(x: x, y: y, obj: TileObject.Tile(value: value))
+//      gameboard[x][y] = TileObject.Tile(value: value)
       self.delegate.insertTile(pos, value: value)
     case .Tile:
       break
@@ -173,19 +190,22 @@ class GameModel: NSObject {
       return
     }
     // Randomly select an open spot, and put a new tile there
-    let (x, y) = openSpots[Int(arc4random_uniform(UInt32(self.dimension)))]
-    gameboard[x][y] = TileObject.Tile(value: value)
+    let idx = Int(arc4random_uniform(UInt32(openSpots.count-1)))
+    let (x, y) = openSpots[idx]
+    insertTile((x, y), value: value)
   }
 
   func gameboardEmptySpots() -> (Int, Int)[] {
     var buffer = Array<(Int, Int)>()
-    for i in 0...dimension {
-      for j in 0...dimension {
-        switch gameboard[i][j] {
+    for i in 0...dimension-1 {
+      for j in 0...dimension-1 {
+        // TODO: hack
+        switch temp_getFromGameboard(x: i, y: j) {
+//        switch self.gameboard[i][j] {
         case .Empty:
-          break
-        case .Tile:
           buffer += (i, j)
+        case .Tile:
+          break
         }
       }
     }
@@ -209,7 +229,9 @@ class GameModel: NSObject {
       if y == dimension-1 {
         return false
       }
-      switch gameboard[x][y+1] {
+      // TODO: hack
+      switch temp_getFromGameboard(x: x, y: y+1) {
+//      switch gameboard[x][y+1] {
       case let .Tile(v):
         return v == value
       default:
@@ -222,7 +244,9 @@ class GameModel: NSObject {
       if x == dimension-1 {
         return false
       }
-      switch gameboard[x+1][y] {
+      // TODO: hack
+      switch temp_getFromGameboard(x: x+1, y: y) {
+//      switch gameboard[x+1][y] {
       case let .Tile(v):
         return v == value
       default:
@@ -231,9 +255,11 @@ class GameModel: NSObject {
     }
 
     // Run through all the tiles and check for possible moves
-    for i in 0...dimension {
-      for j in 0...dimension {
-        switch gameboard[i][j] {
+    for i in 0...dimension-1 {
+      for j in 0...dimension-1 {
+        // TODO: hack
+        switch temp_getFromGameboard(x: i, y: j) {
+//        switch gameboard[i][j] {
         case .Empty:
           assert(false, "Gameboard reported itself as full, but we still found an empty tile. This is a logic error.")
         case let .Tile(v):
@@ -247,10 +273,12 @@ class GameModel: NSObject {
   }
 
   func userHasWon() -> (Bool, (Int, Int)?) {
-    for i in 0...dimension {
-      for j in 0...dimension {
+    for i in 0...dimension-1 {
+      for j in 0...dimension-1 {
         // Look for a tile with the winning score or greater
-        switch gameboard[i][j] {
+        // TODO: hack
+        switch temp_getFromGameboard(x: i, y: j) {
+//        switch gameboard[i][j] {
         case let .Tile(v) where v >= threshold:
           return (true, (i, j))
         default:
@@ -268,26 +296,28 @@ class GameModel: NSObject {
     // Prepare the generator closure
     let coordinateGenerator: (Int) -> (Int, Int)[] = { (iteration: Int) -> (Int, Int)[] in
       let buffer = Array<(Int, Int)>(count:self.dimension, repeatedValue: (0, 0))
-      for i in 0...self.dimension {
+      for i in 0...self.dimension-1 {
         switch direction {
-        case .Up: buffer[i] = (iteration, i)
-        case .Down: buffer[i] = (iteration, self.dimension - i - 1)
-        case .Left: buffer[i] = (i, iteration)
-        case .Right: buffer[i] = (self.dimension - i - 1, iteration)
+        case .Up: buffer[i] = (i, iteration)
+        case .Down: buffer[i] = (self.dimension - i - 1, iteration)
+        case .Left: buffer[i] = (iteration, i)
+        case .Right: buffer[i] = (iteration, self.dimension - i - 1)
         }
       }
       return buffer
     }
 
     var atLeastOneMove = false
-    for i in 0...dimension {
+    for i in 0...dimension-1 {
       // Get the list of coords
       let coords = coordinateGenerator(i)
 
       // Get the corresponding list of tiles
       let tiles = coords.map() { (c: (Int, Int)) -> TileObject in
         let (x, y) = c
-        return self.gameboard[x][y]
+        // TODO: hack
+        return self.temp_getFromGameboard(x: x, y: y)
+//        return self.gameboard[x][y]
       }
 
       // Perform the operation
@@ -302,8 +332,11 @@ class GameModel: NSObject {
           let (sx, sy) = coords[s]
           let (dx, dy) = coords[d]
           score += v
-          gameboard[sx][sy] = TileObject.Empty
-          gameboard[dx][dy] = TileObject.Tile(value: v)
+          // TODO: hack
+          temp_setOnGameboard(x: sx, y: sy, obj: TileObject.Empty)
+          temp_setOnGameboard(x: dx, y: dy, obj: TileObject.Tile(value: v))
+//          gameboard[sx][sy] = TileObject.Empty
+//          gameboard[dx][dy] = TileObject.Tile(value: v)
           delegate.moveOneTile(coords[s], to: coords[d], value: v)
         case let MoveOrder.DoubleMoveOrder(s1, s2, d, v):
           // Perform a simultaneous two-tile move
@@ -311,9 +344,13 @@ class GameModel: NSObject {
           let (s2x, s2y) = coords[s2]
           let (dx, dy) = coords[d]
           score += v
-          gameboard[s1x][s1y] = TileObject.Empty
-          gameboard[s2x][s2y] = TileObject.Empty
-          gameboard[dx][dy] = TileObject.Tile(value: v)
+          // TODO: hack
+          temp_setOnGameboard(x: s1x, y: s1y, obj: TileObject.Empty)
+          temp_setOnGameboard(x: s2x, y: s2y, obj: TileObject.Empty)
+          temp_setOnGameboard(x: dx, y: dy, obj: TileObject.Tile(value: v))
+//          gameboard[s1x][s1y] = TileObject.Empty
+//          gameboard[s2x][s2y] = TileObject.Empty
+//          gameboard[dx][dy] = TileObject.Tile(value: v)
           delegate.moveTwoTiles((coords[s1], coords[s2]), to: coords[d], value: v)
         }
       }
