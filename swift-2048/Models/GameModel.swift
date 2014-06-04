@@ -8,6 +8,31 @@
 
 import UIKit
 
+protocol GameModelProtocol {
+  func scoreChanged(score: Int)
+  func moveOneTile(from: (Int, Int), to: (Int, Int), value: Int)
+  func moveTwoTiles(from: ((Int, Int), (Int, Int)), to: (Int, Int), value: Int)
+  func insertTile(location: (Int, Int), value: Int)
+}
+
+// Represents directions supported by the game model
+enum MoveDirection {
+  case Up
+  case Down
+  case Left
+  case Right
+}
+
+// Represents a move command
+struct MoveCommand {
+  var direction: MoveDirection
+  var completion: (Bool) -> ()
+  init(d: MoveDirection, c: (Bool) -> ()) {
+    direction = d
+    completion = c
+  }
+}
+
 // Represents a 'move order'
 enum MoveOrder {
   case SingleMoveOrder(source: Int, destination: Int, value: Int)
@@ -51,15 +76,28 @@ class GameModel: NSObject {
   let dimension: Int
   let threshold: Int
 
-  var score: Int
+  var score: Int = 0 {
+  didSet {
+    self.delegate.scoreChanged(score)
+  }
+  }
   var gameboard: TileObject[][]
 
-  init(dimension: Int, threshold: Int) {
+  let delegate: GameModelProtocol
+
+  var queue: MoveCommand[]
+  var timer: NSTimer
+
+  let maxCommands = 100
+  let queueDelay = 0.3
+
+  init(dimension: Int, threshold: Int, delegate: GameModelProtocol) {
     self.dimension = dimension
     self.threshold = threshold
-    // TODO: delegate
+    self.delegate = delegate
+    self.queue = MoveCommand[]()
+    self.timer = NSTimer()
 
-    score = 0
     // Initialize the gameboard. Not sure how to do this more efficiently
     gameboard = TileObject[][]()
     for i in 0...dimension {
@@ -69,8 +107,218 @@ class GameModel: NSObject {
   }
 
   func reset() {
-    // TODO: reset
     self.score = 0
+    self.queue.removeAll(keepCapacity: true)
+    self.timer.invalidate()
+  }
+
+  func queueMove(direction: MoveDirection, completion: (Bool) -> ()) {
+    if queue.count > maxCommands {
+      // Queue is wedged. This should actually never happen in practice.
+      return
+    }
+    let command = MoveCommand(d: direction, c: completion)
+    queue.append(command)
+    if (!timer.valid) {
+      // Timer isn't running, so fire the event immediately
+      timerFired(timer)
+    }
+  }
+
+  //------------------------------------------------------------------------------------------------------------------//
+
+  func timerFired(timer: NSTimer) {
+    if queue.count == 0 {
+      return
+    }
+    // Go through the queue until a valid command is run or the queue is empty
+    var changed = false
+    while queue.count > 0 {
+      let command = queue[0]
+      queue.removeAtIndex(0)
+      changed = performMove(command.direction)
+      command.completion(changed)
+      if changed {
+        // If the command doesn't change anything, we immediately run the next one
+        break
+      }
+    }
+    if changed {
+      self.timer = NSTimer.scheduledTimerWithTimeInterval(queueDelay,
+        target: self,
+        selector:
+        Selector("timerFired:"),
+        userInfo: nil,
+        repeats: false)
+    }
+  }
+
+  //------------------------------------------------------------------------------------------------------------------//
+
+  func insertTile(pos: (Int, Int), value: Int) {
+    let (x, y) = pos
+    switch gameboard[x][y] {
+    case .Empty:
+      gameboard[x][y] = TileObject.Tile(value: value)
+      self.delegate.insertTile(pos, value: value)
+    case .Tile:
+      break
+    }
+  }
+
+  func insertTileAtRandomLocation(value: Int) {
+    let openSpots = gameboardEmptySpots()
+    if openSpots.count == 0 {
+      // No more open spots; don't even bother
+      return
+    }
+    // Randomly select an open spot, and put a new tile there
+    let (x, y) = openSpots[Int(arc4random_uniform(UInt32(self.dimension)))]
+    gameboard[x][y] = TileObject.Tile(value: value)
+  }
+
+  func gameboardEmptySpots() -> (Int, Int)[] {
+    var buffer = Array<(Int, Int)>()
+    for i in 0...dimension {
+      for j in 0...dimension {
+        switch gameboard[i][j] {
+        case .Empty:
+          break
+        case .Tile:
+          buffer += (i, j)
+        }
+      }
+    }
+    return buffer
+  }
+
+  func gameboardFull() -> Bool {
+    return gameboardEmptySpots().count == 0
+  }
+
+  //------------------------------------------------------------------------------------------------------------------//
+
+  func userHasLost() -> Bool {
+    if !gameboardFull() {
+      // Player can't lose before filling up the board
+      return false
+    }
+
+    func tileBelowHasSameValue(loc: (Int, Int), value: Int) -> Bool {
+      let (x, y) = loc
+      if y == dimension-1 {
+        return false
+      }
+      switch gameboard[x][y+1] {
+      case let .Tile(v):
+        return v == value
+      default:
+        return false
+      }
+    }
+
+    func tileToRightHasSameValue(loc: (Int, Int), value: Int) -> Bool {
+      let (x, y) = loc
+      if x == dimension-1 {
+        return false
+      }
+      switch gameboard[x+1][y] {
+      case let .Tile(v):
+        return v == value
+      default:
+        return false
+      }
+    }
+
+    // Run through all the tiles and check for possible moves
+    for i in 0...dimension {
+      for j in 0...dimension {
+        switch gameboard[i][j] {
+        case .Empty:
+          assert(false, "Gameboard reported itself as full, but we still found an empty tile. This is a logic error.")
+        case let .Tile(v):
+          if tileBelowHasSameValue((i, j), v) || tileToRightHasSameValue((i, j), v) {
+            return false
+          }
+        }
+      }
+    }
+    return true
+  }
+
+  func userHasWon() -> (Bool, (Int, Int)?) {
+    for i in 0...dimension {
+      for j in 0...dimension {
+        // Look for a tile with the winning score or greater
+        switch gameboard[i][j] {
+        case let .Tile(v) where v >= threshold:
+          return (true, (i, j))
+        default:
+          continue
+        }
+      }
+    }
+    return (false, nil)
+  }
+
+  //------------------------------------------------------------------------------------------------------------------//
+
+  // Perform move
+  func performMove(direction: MoveDirection) -> Bool {
+    // Prepare the generator closure
+    let coordinateGenerator: (Int) -> (Int, Int)[] = { (iteration: Int) -> (Int, Int)[] in
+      let buffer = Array<(Int, Int)>(count:self.dimension, repeatedValue: (0, 0))
+      for i in 0...self.dimension {
+        switch direction {
+        case .Up: buffer[i] = (iteration, i)
+        case .Down: buffer[i] = (iteration, self.dimension - i - 1)
+        case .Left: buffer[i] = (i, iteration)
+        case .Right: buffer[i] = (self.dimension - i - 1, iteration)
+        }
+      }
+      return buffer
+    }
+
+    var atLeastOneMove = false
+    for i in 0...dimension {
+      // Get the list of coords
+      let coords = coordinateGenerator(i)
+
+      // Get the corresponding list of tiles
+      let tiles = coords.map() { (c: (Int, Int)) -> TileObject in
+        let (x, y) = c
+        return self.gameboard[x][y]
+      }
+
+      // Perform the operation
+      let orders = merge(tiles)
+      atLeastOneMove = orders.count > 0 ? true : atLeastOneMove
+
+      // Write back the results
+      for object in orders {
+        switch object {
+        case let MoveOrder.SingleMoveOrder(s, d, v):
+          // Perform a single-tile move
+          let (sx, sy) = coords[s]
+          let (dx, dy) = coords[d]
+          score += v
+          gameboard[sx][sy] = TileObject.Empty
+          gameboard[dx][dy] = TileObject.Tile(value: v)
+          delegate.moveOneTile(coords[s], to: coords[d], value: v)
+        case let MoveOrder.DoubleMoveOrder(s1, s2, d, v):
+          // Perform a simultaneous two-tile move
+          let (s1x, s1y) = coords[s1]
+          let (s2x, s2y) = coords[s2]
+          let (dx, dy) = coords[d]
+          score += v
+          gameboard[s1x][s1y] = TileObject.Empty
+          gameboard[s2x][s2y] = TileObject.Empty
+          gameboard[dx][dy] = TileObject.Tile(value: v)
+          delegate.moveTwoTiles((coords[s1], coords[s2]), to: coords[d], value: v)
+        }
+      }
+    }
+    return atLeastOneMove
   }
 
   //------------------------------------------------------------------------------------------------------------------//
