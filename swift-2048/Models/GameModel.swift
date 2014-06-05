@@ -100,7 +100,7 @@ class GameModel: NSObject {
     self.timer = NSTimer()
 
     // Initialize the gameboard. Not sure how to do this more efficiently
-//    for i in 0...dimension-1 {
+//    for i in 0..dimension {
 //      self.gameboard.append(TileObject[](count:dimension, repeatedValue:TileObject.Empty))
 //    }
     self.gameboard_temp = TileObject[](count: (d*d), repeatedValue:TileObject.Empty)
@@ -197,8 +197,8 @@ class GameModel: NSObject {
 
   func gameboardEmptySpots() -> (Int, Int)[] {
     var buffer = Array<(Int, Int)>()
-    for i in 0...dimension-1 {
-      for j in 0...dimension-1 {
+    for i in 0..dimension {
+      for j in 0..dimension {
         // TODO: hack
         switch temp_getFromGameboard(x: i, y: j) {
 //        switch self.gameboard[i][j] {
@@ -255,8 +255,8 @@ class GameModel: NSObject {
     }
 
     // Run through all the tiles and check for possible moves
-    for i in 0...dimension-1 {
-      for j in 0...dimension-1 {
+    for i in 0..dimension {
+      for j in 0..dimension {
         // TODO: hack
         switch temp_getFromGameboard(x: i, y: j) {
 //        switch gameboard[i][j] {
@@ -273,8 +273,8 @@ class GameModel: NSObject {
   }
 
   func userHasWon() -> (Bool, (Int, Int)?) {
-    for i in 0...dimension-1 {
-      for j in 0...dimension-1 {
+    for i in 0..dimension {
+      for j in 0..dimension {
         // Look for a tile with the winning score or greater
         // TODO: hack
         switch temp_getFromGameboard(x: i, y: j) {
@@ -296,7 +296,7 @@ class GameModel: NSObject {
     // Prepare the generator closure
     let coordinateGenerator: (Int) -> (Int, Int)[] = { (iteration: Int) -> (Int, Int)[] in
       let buffer = Array<(Int, Int)>(count:self.dimension, repeatedValue: (0, 0))
-      for i in 0...self.dimension-1 {
+      for i in 0..self.dimension {
         switch direction {
         case .Up: buffer[i] = (i, iteration)
         case .Down: buffer[i] = (self.dimension - i - 1, iteration)
@@ -308,7 +308,7 @@ class GameModel: NSObject {
     }
 
     var atLeastOneMove = false
-    for i in 0...dimension-1 {
+    for i in 0..dimension {
       // Get the list of coords
       let coords = coordinateGenerator(i)
 
