@@ -247,7 +247,7 @@ class ModelTests: XCTestCase, GameModelProtocol {
     // Verify orders
     for (idx, order) in enumerate(orders) {
       switch order {
-      case let .SingleMoveOrder(s, d, v):
+      case let .SingleMoveOrder(s, d, v, _):
         if (idx == 0) {
           XCTAssert(s == 2, "Got a single move order at \(idx), but source was wrong. Got \(s) instead of 2")
           XCTAssert(d == 1, "Got a single move order at \(idx), but destination was wrong. Got \(d) instead of 1")
@@ -280,7 +280,7 @@ class ModelTests: XCTestCase, GameModelProtocol {
     // Verify orders
     for (idx, order) in enumerate(orders) {
       switch order {
-      case let .SingleMoveOrder(s, d, v):
+      case let .SingleMoveOrder(s, d, v, _):
         if (idx == 0) {
           XCTAssert(s == 4, "Got a single move order at \(idx), but source was wrong. Got \(s) instead of 4")
           XCTAssert(d == 3, "Got a single move order at \(idx), but destination was wrong. Got \(d) instead of 3")
@@ -308,7 +308,7 @@ class ModelTests: XCTestCase, GameModelProtocol {
     // Verify orders
     for (idx, order) in enumerate(orders) {
       switch order {
-      case let .SingleMoveOrder(s, d, v):
+      case let .SingleMoveOrder(s, d, v, _):
         if (idx == 0) {
           XCTAssert(s == 1, "Got a single move order at \(idx), but source was wrong. Got \(s) instead of 1")
           XCTAssert(d == 0, "Got a single move order at \(idx), but destination was wrong. Got \(d) instead of 0")
@@ -346,7 +346,7 @@ class ModelTests: XCTestCase, GameModelProtocol {
     // Verify orders
     for (idx, order) in enumerate(orders) {
       switch order {
-      case let .SingleMoveOrder(s, d, v):
+      case let .SingleMoveOrder(s, d, v, _):
         if (idx == 0) {
           XCTAssert(s == 1, "Got a single move order at \(idx), but source was wrong. Got \(s) instead of 1")
           XCTAssert(d == 0, "Got a single move order at \(idx), but destination was wrong. Got \(d) instead of 0")
@@ -379,7 +379,7 @@ class ModelTests: XCTestCase, GameModelProtocol {
     // Verify orders
     for (idx, order) in enumerate(orders) {
       switch order {
-      case let .SingleMoveOrder(s, d, v):
+      case let .SingleMoveOrder(s, d, v, _):
         if (idx == 0) {
           XCTAssert(s == 1, "Got a single move order at \(idx), but source was wrong. Got \(s) instead of 1")
           XCTAssert(d == 0, "Got a single move order at \(idx), but destination was wrong. Got \(d) instead of 0")
@@ -420,7 +420,7 @@ class ModelTests: XCTestCase, GameModelProtocol {
     // Verify orders
     for (idx, order) in enumerate(orders) {
       switch order {
-      case let .SingleMoveOrder(s, d, v):
+      case let .SingleMoveOrder(s, d, v, _):
         XCTFail("No single move orders are valid for this test")
       case let .DoubleMoveOrder(s1, s2, d, v):
         if (idx == 0) {
@@ -455,7 +455,7 @@ class ModelTests: XCTestCase, GameModelProtocol {
     // Verify orders
     for (idx, order) in enumerate(orders) {
       switch order {
-      case let .SingleMoveOrder(s, d, v):
+      case let .SingleMoveOrder(s, d, v, _):
         if (idx == 0) {
           XCTAssert(s == 2, "Got a single move order at \(idx), but source was wrong. Got \(s) instead of 2")
           XCTAssert(d == 0, "Got a single move order at \(idx), but destination was wrong. Got \(d) instead of 0")
@@ -491,7 +491,7 @@ class ModelTests: XCTestCase, GameModelProtocol {
     // Verify orders
     for (idx, order) in enumerate(orders) {
       switch order {
-      case let .SingleMoveOrder(s, d, v):
+      case let .SingleMoveOrder(s, d, v, _):
         if (idx == 0) {
           XCTAssert(s == 2, "Got a single move order at \(idx), but source was wrong. Got \(s) instead of 2")
           XCTAssert(d == 0, "Got a single move order at \(idx), but destination was wrong. Got \(d) instead of 0")

@@ -35,7 +35,7 @@ struct MoveCommand {
 
 // Represents a 'move order'
 enum MoveOrder {
-  case SingleMoveOrder(source: Int, destination: Int, value: Int)
+  case SingleMoveOrder(source: Int, destination: Int, value: Int, wasMerge: Bool)
   case DoubleMoveOrder(firstSource: Int, secondSource: Int, destination: Int, value: Int)
 }
 
@@ -327,11 +327,13 @@ class GameModel: NSObject {
       // Write back the results
       for object in orders {
         switch object {
-        case let MoveOrder.SingleMoveOrder(s, d, v):
+        case let MoveOrder.SingleMoveOrder(s, d, v, wasMerge):
           // Perform a single-tile move
           let (sx, sy) = coords[s]
           let (dx, dy) = coords[d]
-          score += v
+          if wasMerge {
+            score += v
+          }
           // TODO: hack
           temp_setOnGameboard(x: sx, y: sy, obj: TileObject.Empty)
           temp_setOnGameboard(x: dx, y: dy, obj: TileObject.Tile(value: v))
@@ -438,9 +440,9 @@ class GameModel: NSObject {
     for (idx, t) in enumerate(group) {
       switch t {
       case let .Move(s, v):
-        moveBuffer.append(MoveOrder.SingleMoveOrder(source: s, destination: idx, value: v))
+        moveBuffer.append(MoveOrder.SingleMoveOrder(source: s, destination: idx, value: v, wasMerge: false))
       case let .SingleCombine(s, v):
-        moveBuffer.append(MoveOrder.SingleMoveOrder(source: s, destination: idx, value: v))
+        moveBuffer.append(MoveOrder.SingleMoveOrder(source: s, destination: idx, value: v, wasMerge: true))
       case let .DoubleCombine(s1, s2, v):
         moveBuffer.append(MoveOrder.DoubleMoveOrder(firstSource: s1, secondSource: s2, destination: idx, value: v))
       default:

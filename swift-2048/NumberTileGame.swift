@@ -9,11 +9,27 @@
 import UIKit
 
 class NumberTileGameViewController : UIViewController, GameModelProtocol {
+  // How many tiles in both directions the gameboard contains
   var dimension: Int
+  // The value of the winning tile
   var threshold: Int
 
   var board: GameboardView?
   var model: GameModel?
+
+  var scoreView: ScoreViewProtocol?
+
+  // Width of the gameboard
+  let boardWidth: CGFloat = 230.0
+  // How much padding to place between the tiles
+  let thinPadding: CGFloat = 3.0
+  let thickPadding: CGFloat = 6.0
+
+  // Amount of space to place between the different component views (gameboard, score view, etc)
+  let viewPadding: CGFloat = 10.0
+
+  // Amount that the vertical alignment of the component views should differ from if they were centered
+  let verticalViewOffset: CGFloat = 0.0
 
   init(dimension d: NSInteger, threshold t: NSInteger) {
     self.dimension = d > 2 ? d : 2
@@ -64,24 +80,68 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
   }
 
   func setupGame() {
-    var totalHeight: CGFloat = 0
-    // TODO: set up other stuff
+    let vcHeight = self.view.bounds.size.height
+    let vcWidth = self.view.bounds.size.width
 
-    // Set up the gameboard
-    let padding: CGFloat = dimension > 5 ? 3.0 : 6.0
-    let v1 = CGFloat(230.0) - padding*(CGFloat(dimension + 1))
+    // This nested function provides the x-position for a component view
+    func xPositionToCenterView(v: UIView) -> CGFloat {
+      let viewWidth = v.bounds.size.width
+      let tentativeX = 0.5*(vcWidth - viewWidth)
+      return tentativeX >= 0 ? tentativeX : 0
+    }
+    // This nested function provides the y-position for a component view
+    func yPositionForViewAtPosition(order: Int, views: UIView[]) -> CGFloat {
+      assert(views.count > 0)
+      assert(order >= 0 && order < views.count)
+      let viewHeight = views[order].bounds.size.height
+      let totalHeight = CGFloat(views.count - 1)*viewPadding + views.map({ $0.bounds.size.height }).reduce(verticalViewOffset, { $0 + $1 })
+      let viewsTop = 0.5*(vcHeight - totalHeight) >= 0 ? 0.5*(vcHeight - totalHeight) : 0
+
+      // Not sure how to slice an array yet
+      var acc: CGFloat = 0
+      for i in 0..order {
+        acc += viewPadding + views[i].bounds.size.height
+      }
+      return viewsTop + acc
+    }
+
+    // Create the score view
+    let scoreView = ScoreView(backgroundColor: UIColor.blackColor(),
+      textColor: UIColor.whiteColor(),
+      font: UIFont(name: "HelveticaNeue-Bold", size: 16.0),
+      radius: 6)
+    scoreView.score = 0
+
+    // Create the gameboard
+    let padding: CGFloat = dimension > 5 ? thinPadding : thickPadding
+    let v1 = boardWidth - padding*(CGFloat(dimension + 1))
     let width: CGFloat = CGFloat(floorf(CFloat(v1)))/CGFloat(dimension)
-    let gameboard = GameboardView(dimension: dimension, tileWidth: width, tilePadding: padding, cornerRadius: 6, backgroundColor: UIColor.blackColor(), foregroundColor: UIColor.darkGrayColor())
+    let gameboard = GameboardView(dimension: dimension,
+      tileWidth: width,
+      tilePadding: padding,
+      cornerRadius: 6,
+      backgroundColor: UIColor.blackColor(),
+      foregroundColor: UIColor.darkGrayColor())
 
-    totalHeight += gameboard.bounds.size.height
-    var currentTop = 0.5*(self.view.bounds.size.height-totalHeight)
+    // Set up the frames
+    let views = [scoreView, gameboard]
 
-    var f = gameboard.frame
-    f.origin.x = 0.5*(self.view.bounds.size.width - f.size.width)
-    f.origin.y = currentTop
+    var f = scoreView.frame
+    f.origin.x = xPositionToCenterView(scoreView)
+    f.origin.y = yPositionForViewAtPosition(0, views)
+    scoreView.frame = f
+
+    f = gameboard.frame
+    f.origin.x = xPositionToCenterView(gameboard)
+    f.origin.y = yPositionForViewAtPosition(1, views)
     gameboard.frame = f
+
+
+    // Add to game state
     self.view.addSubview(gameboard)
     self.board = gameboard
+    self.view.addSubview(scoreView)
+    self.scoreView = scoreView
 
     assert(model != nil)
     let m = model!
@@ -96,10 +156,13 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
     let (userWon, winningCoords) = m.userHasWon()
     if userWon {
       // TODO: alert delegate we won
-      NSLog("You won!")
-      // Alert views are currently broken, for some reason.
-//      UIAlertView(title: "Victory!", message: "You won!", delegate: nil, cancelButtonTitle: "OK").show()
-//      return
+      let alertView = UIAlertView()
+      alertView.title = "Victory"
+      alertView.message = "You won!"
+      alertView.addButtonWithTitle("Cancel")
+      alertView.show()
+      // TODO: At this point we should stall the game until the user taps 'New Game' (which hasn't been implemented yet)
+      return
     }
 
     // Now, insert more tiles
@@ -110,9 +173,11 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
     if m.userHasLost() {
       // TODO: alert delegate we lost
       NSLog("You lost...")
-      // Alert views are currently broken, for some reason.
-//      let v = UIAlertView(title: "Defeat!", message: "You lost...", delegate: nil, cancelButtonTitle: "OK")
-//      v.show()
+      let alertView = UIAlertView()
+      alertView.title = "Defeat"
+      alertView.message = "You lost..."
+      alertView.addButtonWithTitle("Cancel")
+      alertView.show()
     }
   }
 
@@ -161,11 +226,14 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
       })
   }
 
-
   // Protocol
 
   func scoreChanged(score: Int) {
-    // Do nothing for now
+    if (!scoreView) {
+      return
+    }
+    let s = scoreView!
+    s.scoreChanged(newScore: score)
   }
 
   func moveOneTile(from: (Int, Int), to: (Int, Int), value: Int) {
