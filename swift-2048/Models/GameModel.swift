@@ -10,6 +10,7 @@ import UIKit
 
 protocol GameModelProtocol {
   func scoreChanged(score: Int)
+  func bestScoreChanged(newBest: Int)
   func moveOneTile(from: (Int, Int), to: (Int, Int), value: Int)
   func moveTwoTiles(from: ((Int, Int), (Int, Int)), to: (Int, Int), value: Int)
   func insertTile(location: (Int, Int), value: Int)
@@ -79,6 +80,7 @@ class GameModel: NSObject {
   var score: Int = 0 {
   didSet {
     self.delegate.scoreChanged(score)
+    NSLog("Score is \(score)");
   }
   }
 //  var gameboard: TileObject[][] = TileObject[][]()
@@ -331,7 +333,6 @@ class GameModel: NSObject {
           // Perform a single-tile move
           let (sx, sy) = coords[s]
           let (dx, dy) = coords[d]
-          score += v
           // TODO: hack
           temp_setOnGameboard(x: sx, y: sy, obj: TileObject.Empty)
           temp_setOnGameboard(x: dx, y: dy, obj: TileObject.Tile(value: v))
@@ -343,7 +344,6 @@ class GameModel: NSObject {
           let (s1x, s1y) = coords[s1]
           let (s2x, s2y) = coords[s2]
           let (dx, dy) = coords[d]
-          score += v
           // TODO: hack
           temp_setOnGameboard(x: s1x, y: s1y, obj: TileObject.Empty)
           temp_setOnGameboard(x: s2x, y: s2y, obj: TileObject.Empty)
@@ -405,6 +405,8 @@ class GameModel: NSObject {
         // The last tile is *not* eligible for a merge
         let next = group[idx+1]
         let nv = v + group[idx+1].getValue()
+        addCollapsedTileValueToScore(nv)
+        
         skipNext = true
         tokenBuffer.append(ActionToken.SingleCombine(source: next.getSource(), value: nv))
       case let t where (idx < group.count-1 && t.getValue() == group[idx+1].getValue()):
@@ -413,6 +415,8 @@ class GameModel: NSObject {
         // The last tile is *not* eligible for a merge
         let next = group[idx+1]
         let nv = t.getValue() + group[idx+1].getValue()
+        addCollapsedTileValueToScore(nv)
+        
         skipNext = true
         tokenBuffer.append(ActionToken.DoubleCombine(source: t.getSource(), second: next.getSource(), value: nv))
       case let .NoAction(s, v) where !quiescentTileStillQuiescent(idx, tokenBuffer.count, s):
@@ -455,4 +459,33 @@ class GameModel: NSObject {
   func merge(group: TileObject[]) -> MoveOrder[] {
     return convert(collapse(condense(group)))
   }
+    
+  //Score Helper
+  func addCollapsedTileValueToScore(value: Int){
+    score += value;
+    
+    var didBeatBestScore = checkIfScoreIsGreaterThanCurrentBest(score)
+    if didBeatBestScore {
+        self.delegate.bestScoreChanged(score)
+    }
+  }
+    
+    func getBestScore()->Int{
+        var userDefaults = NSUserDefaults()
+        userDefaults.integerForKey("USER_BEST_SCORE")
+        return 0;
+    }
+    
+    func checkIfScoreIsGreaterThanCurrentBest(score: Int)->Bool{
+        var currentBestScore = getBestScore()
+        var didChange = false;
+        
+        if score > currentBestScore{
+            var userDefaults = NSUserDefaults()
+            userDefaults.setInteger(score, forKey: "USER_BEST_SCORE")
+            didChange = true
+        }
+        
+        return didChange
+    }
 }

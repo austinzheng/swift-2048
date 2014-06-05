@@ -17,8 +17,9 @@
 		1AE339B5193DF6540081FFA4 /* GameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE339B1193DCF110081FFA4 /* GameModel.swift */; };
 		1AE8BEF0193EEE24007592BA /* GameboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE8BEEF193EEE24007592BA /* GameboardView.swift */; };
 		1AE8BEF2193EF1C7007592BA /* AppearanceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE8BEF1193EF1C7007592BA /* AppearanceProvider.swift */; };
-		1AE8BEF4193EF260007592BA /* NumberTileGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE8BEF3193EF260007592BA /* NumberTileGame.swift */; };
+		1AE8BEF4193EF260007592BA /* NumberTileGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE8BEF3193EF260007592BA /* NumberTileGameViewController.swift */; };
 		1AE8BEF6193EF4B6007592BA /* TileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE8BEF5193EF4B6007592BA /* TileView.swift */; };
+		F4E873F319402FEB001B8309 /* ScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E873F219402FEB001B8309 /* ScoreView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,8 +53,9 @@
 		1AE339B3193DF5FF0081FFA4 /* ModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelTests.swift; sourceTree = "<group>"; };
 		1AE8BEEF193EEE24007592BA /* GameboardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameboardView.swift; path = Views/GameboardView.swift; sourceTree = "<group>"; };
 		1AE8BEF1193EF1C7007592BA /* AppearanceProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppearanceProvider.swift; sourceTree = "<group>"; };
-		1AE8BEF3193EF260007592BA /* NumberTileGame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumberTileGame.swift; sourceTree = "<group>"; };
+		1AE8BEF3193EF260007592BA /* NumberTileGameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumberTileGameViewController.swift; sourceTree = "<group>"; };
 		1AE8BEF5193EF4B6007592BA /* TileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TileView.swift; path = Views/TileView.swift; sourceTree = "<group>"; };
+		F4E873F219402FEB001B8309 /* ScoreView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScoreView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,7 +104,7 @@
 				1AC563E0193DCE6000402286 /* Supporting Files */,
 				1AE339AF193DCE990081FFA4 /* Models */,
 				1AE339B0193DCEAE0081FFA4 /* Views */,
-				1AE8BEF3193EF260007592BA /* NumberTileGame.swift */,
+				1AE8BEF3193EF260007592BA /* NumberTileGameViewController.swift */,
 				1AE8BEF1193EF1C7007592BA /* AppearanceProvider.swift */,
 			);
 			path = "swift-2048";
@@ -147,6 +149,7 @@
 			children = (
 				1AE8BEEF193EEE24007592BA /* GameboardView.swift */,
 				1AE8BEF5193EF4B6007592BA /* TileView.swift */,
+				F4E873F219402FEB001B8309 /* ScoreView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -251,7 +254,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1AE8BEF4193EF260007592BA /* NumberTileGame.swift in Sources */,
+				1AE8BEF4193EF260007592BA /* NumberTileGameViewController.swift in Sources */,
+				F4E873F319402FEB001B8309 /* ScoreView.swift in Sources */,
 				1AE8BEF6193EF4B6007592BA /* TileView.swift in Sources */,
 				1AC563E5193DCE6000402286 /* ViewController.swift in Sources */,
 				1AE8BEF2193EF1C7007592BA /* AppearanceProvider.swift in Sources */,
