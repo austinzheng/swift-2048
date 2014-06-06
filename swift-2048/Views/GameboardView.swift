@@ -156,11 +156,7 @@ class GameboardView : UIView {
     let fromKeyA = NSIndexPath(forRow: fromRowA, inSection: fromColA)
     let fromKeyB = NSIndexPath(forRow: fromRowB, inSection: fromColB)
     let toKey = NSIndexPath(forRow: toRow, inSection: toCol)
-
-    if (tiles[fromKeyA] == nil || tiles[fromKeyB] == nil) {
-      // Invalid bounds?
-      return
-    }
+    
     assert(tiles[fromKeyA] != nil)
     assert(tiles[fromKeyB] != nil)
     let tileA = tiles[fromKeyA]!

@@ -31,12 +31,12 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
   // Amount that the vertical alignment of the component views should differ from if they were centered
   let verticalViewOffset: CGFloat = 0.0
 
-  init(dimension d: NSInteger, threshold t: NSInteger) {
-    self.dimension = d > 2 ? d : 2
-    self.threshold = t > 8 ? t : 8
+  init(dimension d: Int, threshold t: Int) {
+    dimension = d > 2 ? d : 2
+    threshold = t > 8 ? t : 8
     super.init(nibName: nil, bundle: nil)
     model = GameModel(dimension: dimension, threshold: threshold, delegate: self)
-    self.view.backgroundColor = UIColor.whiteColor()
+    view.backgroundColor = UIColor.whiteColor()
     setupSwipeControls()
   }
 
@@ -44,22 +44,22 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
     let upSwipe = UISwipeGestureRecognizer(target: self, action: Selector("upCommand"))
     upSwipe.numberOfTouchesRequired = 1
     upSwipe.direction = UISwipeGestureRecognizerDirection.Up
-    self.view.addGestureRecognizer(upSwipe)
+    view.addGestureRecognizer(upSwipe)
 
     let downSwipe = UISwipeGestureRecognizer(target: self, action: Selector("downCommand"))
     downSwipe.numberOfTouchesRequired = 1
     downSwipe.direction = UISwipeGestureRecognizerDirection.Down
-    self.view.addGestureRecognizer(downSwipe)
+    view.addGestureRecognizer(downSwipe)
 
     let leftSwipe = UISwipeGestureRecognizer(target: self, action: Selector("leftCommand"))
     leftSwipe.numberOfTouchesRequired = 1
     leftSwipe.direction = UISwipeGestureRecognizerDirection.Left
-    self.view.addGestureRecognizer(leftSwipe)
+    view.addGestureRecognizer(leftSwipe)
 
     let rightSwipe = UISwipeGestureRecognizer(target: self, action: Selector("rightCommand"))
     rightSwipe.numberOfTouchesRequired = 1
     rightSwipe.direction = UISwipeGestureRecognizerDirection.Right
-    self.view.addGestureRecognizer(rightSwipe)
+    view.addGestureRecognizer(rightSwipe)
   }
 
 
@@ -80,8 +80,8 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
   }
 
   func setupGame() {
-    let vcHeight = self.view.bounds.size.height
-    let vcWidth = self.view.bounds.size.width
+    let vcHeight = view.bounds.size.height
+    let vcWidth = view.bounds.size.width
 
     // This nested function provides the x-position for a component view
     func xPositionToCenterView(v: UIView) -> CGFloat {
@@ -138,9 +138,9 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
 
 
     // Add to game state
-    self.view.addSubview(gameboard)
-    self.board = gameboard
-    self.view.addSubview(scoreView)
+    view.addSubview(gameboard)
+    board = gameboard
+    view.addSubview(scoreView)
     self.scoreView = scoreView
 
     assert(model != nil)
