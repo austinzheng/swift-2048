@@ -29,18 +29,17 @@ class GameboardView : UIView {
 
   let perSquareSlideDuration: NSTimeInterval = 0.08
 
-
-  init(dimension: Int, tileWidth width: CGFloat, tilePadding padding: CGFloat, cornerRadius radius: CGFloat, backgroundColor bcolor: UIColor, foregroundColor: UIColor) {
-    assert(dimension > 0)
-    self.dimension = dimension
-    self.tileWidth = width
-    self.tilePadding = padding
-    self.cornerRadius = radius
-    self.tiles = Dictionary()
+  init(dimension d: Int, tileWidth width: CGFloat, tilePadding padding: CGFloat, cornerRadius radius: CGFloat, backgroundColor: UIColor, foregroundColor: UIColor) {
+    assert(d > 0)
+    dimension = d
+    tileWidth = width
+    tilePadding = padding
+    cornerRadius = radius
+    tiles = Dictionary()
     let sideLength = padding + CGFloat(dimension)*(width + padding)
     super.init(frame: CGRectMake(0, 0, sideLength, sideLength))
-    self.layer.cornerRadius = radius
-    self.setupBackground(bcolor, tileColor: foregroundColor)
+    layer.cornerRadius = radius
+    setupBackground(backgroundColor: backgroundColor, tileColor: foregroundColor)
   }
 
   func reset() {
@@ -50,19 +49,24 @@ class GameboardView : UIView {
     tiles.removeAll(keepCapacity: true)
   }
 
-  func setupBackground(backgroundColor: UIColor, tileColor: UIColor) {
-    self.backgroundColor = backgroundColor
+  func positionIsValid(pos: (Int, Int)) -> Bool {
+    let (x, y) = pos
+    return (x >= 0 && x < dimension && y >= 0 && y < dimension)
+  }
+
+  func setupBackground(backgroundColor bgColor: UIColor, tileColor: UIColor) {
+    backgroundColor = bgColor
     var xCursor = tilePadding
     var yCursor: CGFloat
-    let bgRadius = (self.cornerRadius >= 2) ? self.cornerRadius - 2 : 0
+    let bgRadius = (cornerRadius >= 2) ? cornerRadius - 2 : 0
     for i in 0...dimension-1 {
-      yCursor = self.tilePadding
+      yCursor = tilePadding
       for j in 0...dimension-1 {
         // Draw each tile
-        let background = UIView(frame: CGRectMake(xCursor, yCursor, self.tileWidth, self.tileWidth))
+        let background = UIView(frame: CGRectMake(xCursor, yCursor, tileWidth, tileWidth))
         background.layer.cornerRadius = bgRadius
         background.backgroundColor = tileColor
-        self.addSubview(background)
+        addSubview(background)
         yCursor += tilePadding + tileWidth
       }
       xCursor += tilePadding + tileWidth
@@ -70,16 +74,16 @@ class GameboardView : UIView {
   }
 
   func insertTile(pos: (Int, Int), value: Int) {
-    // TODO: Bounds checking
+    assert(positionIsValid(pos))
     let (row, col) = pos
     let x = tilePadding + CGFloat(col)*(tileWidth + tilePadding)
     let y = tilePadding + CGFloat(row)*(tileWidth + tilePadding)
-    let r = (self.cornerRadius >= 2) ? self.cornerRadius - 2 : 0
+    let r = (cornerRadius >= 2) ? cornerRadius - 2 : 0
     let tile = TileView(position: CGPointMake(x, y), width: tileWidth, value: value, radius: r, delegate: provider)
     tile.layer.setAffineTransform(CGAffineTransformMakeScale(tilePopStartScale, tilePopStartScale))
 
-    self.addSubview(tile)
-    self.bringSubviewToFront(tile)
+    addSubview(tile)
+    bringSubviewToFront(tile)
     tiles[NSIndexPath(forRow: row, inSection: col)] = tile
 
     // Add to board
@@ -97,7 +101,7 @@ class GameboardView : UIView {
   }
 
   func moveOneTile(from: (Int, Int), to: (Int, Int), value: Int) {
-    // TODO: Bounds checking
+    assert(positionIsValid(from) && positionIsValid(to))
     let (fromRow, fromCol) = from
     let (toRow, toCol) = to
     let fromKey = NSIndexPath(forRow: fromRow, inSection: fromCol)
@@ -149,7 +153,7 @@ class GameboardView : UIView {
   }
 
   func moveTwoTiles(from: ((Int, Int), (Int, Int)), to: (Int, Int), value: Int) {
-    // TODO: Bounds checking
+    assert(positionIsValid(from.0) && positionIsValid(from.1) && positionIsValid(to))
     let (fromRowA, fromColA) = from.0
     let (fromRowB, fromColB) = from.1
     let (toRow, toCol) = to
