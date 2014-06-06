@@ -31,15 +31,7 @@ class AppearanceProvider: AppearanceProviderProtocol {
       return UIColor(red: 246.0/255.0, green: 124.0/255.0, blue: 95.0/255.0, alpha: 1.0)
     case 64:
       return UIColor(red: 246.0/255.0, green: 94.0/255.0, blue: 59.0/255.0, alpha: 1.0)
-    case 128:
-      fallthrough
-    case 256:
-      fallthrough
-    case 512:
-      fallthrough
-    case 1024:
-      fallthrough
-    case 2048:
+    case 128, 256, 512, 1024, 2048:
       return UIColor(red: 237.0/255.0, green: 207.0/255.0, blue: 114.0/255.0, alpha: 1.0)
     default:
       return UIColor.whiteColor()
@@ -49,9 +41,7 @@ class AppearanceProvider: AppearanceProviderProtocol {
   // Provide a numeral color for a given value
   func numberColor(value: Int) -> UIColor {
     switch value {
-    case 2:
-      fallthrough
-    case 4:
+    case 2, 4:
       return UIColor(red: 119.0/255.0, green: 110.0/255.0, blue: 101.0/255.0, alpha: 1.0)
     default:
       return UIColor.whiteColor()
