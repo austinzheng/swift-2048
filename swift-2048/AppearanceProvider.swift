@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol AppearanceProviderProtocol {
+@class_protocol protocol AppearanceProviderProtocol {
   func tileColor(value: Int) -> UIColor
   func numberColor(value: Int) -> UIColor
   func fontForNumbers() -> UIFont

@@ -10,6 +10,7 @@ import UIKit
 
 /// A view representing a single swift-2048 tile.
 class TileView : UIView {
+  // This should be unowned. But there is a bug preventing 'unowned' from working correctly with protocols.
   var delegate: AppearanceProviderProtocol
   var value: Int = 0 {
   didSet {

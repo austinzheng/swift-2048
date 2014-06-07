@@ -9,7 +9,7 @@
 import UIKit
 
 /// A protocol that establishes a way for the game model to communicate with its parent view controller.
-protocol GameModelProtocol {
+@class_protocol protocol GameModelProtocol {
   func scoreChanged(score: Int)
   func moveOneTile(from: (Int, Int), to: (Int, Int), value: Int)
   func moveTwoTiles(from: ((Int, Int), (Int, Int)), to: (Int, Int), value: Int)
@@ -28,6 +28,8 @@ class GameModel: NSObject {
   }
   var gameboard: SquareGameboard<TileObject>
 
+  // This really should be unowned/weak. But there is currently a bug that causes the app to crash whenever the delegate
+  //  is accessed unless the delegate type is a specific class (rather than a protocol).
   let delegate: GameModelProtocol
 
   var queue: MoveCommand[]
