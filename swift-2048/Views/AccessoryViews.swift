@@ -12,7 +12,7 @@ protocol ScoreViewProtocol {
   func scoreChanged(newScore s: Int)
 }
 
-// A simple view that displays the score
+/// A simple view that displays the player's score.
 class ScoreView : UIView, ScoreViewProtocol {
   var score: Int = 0 {
   didSet {

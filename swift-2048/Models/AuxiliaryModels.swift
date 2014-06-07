@@ -8,7 +8,7 @@
 
 import Foundation
 
-// Represents directions supported by the game model
+/// An enum representing directions supported by the game model.
 enum MoveDirection {
   case Up
   case Down
@@ -16,7 +16,7 @@ enum MoveDirection {
   case Right
 }
 
-// Represents a move command
+/// An enum representing a movement command issued by the view controller as the result of the user swiping.
 struct MoveCommand {
   var direction: MoveDirection
   var completion: (Bool) -> ()
@@ -26,19 +26,21 @@ struct MoveCommand {
   }
 }
 
-// Represents a 'move order'
+/// An enum representing a 'move order'. This is a data structure the game model uses to inform the view controller
+/// which tiles on the gameboard should be moved and/or combined.
 enum MoveOrder {
   case SingleMoveOrder(source: Int, destination: Int, value: Int, wasMerge: Bool)
   case DoubleMoveOrder(firstSource: Int, secondSource: Int, destination: Int, value: Int)
 }
 
-// Represents an object in the tile grid
+/// An enum representing either an empty space or a tile upon the board.
 enum TileObject {
   case Empty
   case Tile(value: Int)
 }
 
-// Represents an action applied to a tile; used to generate move orders
+/// An enum representing an intermediate result used by the game logic when figuring out how the board should change as
+/// the result of a move. ActionTokens are transformed into MoveOrders before being sent to the delegate.
 enum ActionToken {
   case NoAction(source: Int, value: Int)
   case Move(source: Int, value: Int)
@@ -65,7 +67,8 @@ enum ActionToken {
   }
 }
 
-// A struct representing a square gameboard
+/// A struct representing a square gameboard. Because this struct uses generics, it could conceivably be used to
+/// represent state for many other games without modification.
 struct SquareGameboard<T> {
   let dimension: Int
   var boardArray: Array<T>
@@ -85,6 +88,15 @@ struct SquareGameboard<T> {
       assert(row >= 0 && row < dimension)
       assert(col >= 0 && col < dimension)
       boardArray[row*dimension + col] = newValue
+    }
+  }
+
+  // We mark this function as 'mutating' since it changes its 'parent' struct.
+  mutating func setAll(item: T) {
+    for i in 0..dimension {
+      for j in 0..dimension {
+        self[i, j] = item
+      }
     }
   }
 }

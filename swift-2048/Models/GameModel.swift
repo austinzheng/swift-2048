@@ -8,6 +8,7 @@
 
 import UIKit
 
+/// A protocol that establishes a way for the game model to communicate with its parent view controller.
 protocol GameModelProtocol {
   func scoreChanged(score: Int)
   func moveOneTile(from: (Int, Int), to: (Int, Int), value: Int)
@@ -15,6 +16,7 @@ protocol GameModelProtocol {
   func insertTile(location: (Int, Int), value: Int)
 }
 
+/// A class representing the game state and game logic for swift-2048. It is owned by a NumberTileGame view controller.
 class GameModel: NSObject {
   let dimension: Int
   let threshold: Int
@@ -44,12 +46,16 @@ class GameModel: NSObject {
     super.init()
   }
 
+  /// Reset the game state.
   func reset() {
     score = 0
+    gameboard.setAll(.Empty)
     queue.removeAll(keepCapacity: true)
     timer.invalidate()
   }
 
+  /// Order the game model to perform a move (because the user swiped their finger). The queue enforces a delay of a few
+  /// milliseconds between each move.
   func queueMove(direction: MoveDirection, completion: (Bool) -> ()) {
     if queue.count > maxCommands {
       // Queue is wedged. This should actually never happen in practice.
@@ -65,6 +71,8 @@ class GameModel: NSObject {
 
   //------------------------------------------------------------------------------------------------------------------//
 
+  /// Inform the game model that the move delay timer fired. Once the timer fires, the game model tries to execute a
+  /// single move that changes the game state.
   func timerFired(timer: NSTimer) {
     if queue.count == 0 {
       return
@@ -93,6 +101,7 @@ class GameModel: NSObject {
 
   //------------------------------------------------------------------------------------------------------------------//
 
+  /// Insert a tile with a given value at a position upon the gameboard.
   func insertTile(pos: (Int, Int), value: Int) {
     let (x, y) = pos
     switch gameboard[x, y] {
@@ -104,6 +113,7 @@ class GameModel: NSObject {
     }
   }
 
+  /// Insert a tile with a given value at a random open position upon the gameboard.
   func insertTileAtRandomLocation(value: Int) {
     let openSpots = gameboardEmptySpots()
     if openSpots.count == 0 {
@@ -116,6 +126,7 @@ class GameModel: NSObject {
     insertTile((x, y), value: value)
   }
 
+  /// Return a list of tuples describing the coordinates of empty spots remaining on the gameboard.
   func gameboardEmptySpots() -> (Int, Int)[] {
     var buffer = Array<(Int, Int)>()
     for i in 0..dimension {
@@ -202,9 +213,11 @@ class GameModel: NSObject {
 
   //------------------------------------------------------------------------------------------------------------------//
 
-  // Perform move
+  // Perform all calculations and update state for a single move.
   func performMove(direction: MoveDirection) -> Bool {
-    // Prepare the generator closure
+    // Prepare the generator closure. This closure differs in behavior depending on the direction of the move. It is
+    // used by the method to generate a list of tiles which should be modified. Depending on the direction this list
+    // may represent a single row or a single column, in either direction.
     let coordinateGenerator: (Int) -> (Int, Int)[] = { (iteration: Int) -> (Int, Int)[] in
       let buffer = Array<(Int, Int)>(count:self.dimension, repeatedValue: (0, 0))
       for i in 0..self.dimension {
@@ -264,7 +277,9 @@ class GameModel: NSObject {
 
   //------------------------------------------------------------------------------------------------------------------//
 
-  // Remove interstital space (e.g. |[2][-][-][4]| becomes |[2][4]|)
+  /// When computing the effects of a move upon a row of tiles, calculate and return a list of ActionTokens
+  /// corresponding to any moves necessary to remove interstital space. For example, |[2][ ][ ][4]| will become
+  /// |[2][4]|.
   func condense(group: TileObject[]) -> ActionToken[] {
     var tokenBuffer = ActionToken[]()
     for (idx, tile) in enumerate(group) {
@@ -281,7 +296,9 @@ class GameModel: NSObject {
     return tokenBuffer;
   }
 
-  // Collapse adjacent tiles of equal value
+  /// When computing the effects of a move upon a row of tiles, calculate and return an updated list of ActionTokens
+  /// corresponding to any merges that should take place. This method collapses adjacent tiles of equal value, but each
+  /// tile can take part in at most one collapse per move. For example, |[1][1][1][2][2]| will become |[2][1][4]|.
   func collapse(group: ActionToken[]) -> ActionToken[] {
     func quiescentTileStillQuiescent(inputPosition: Int, outputLength: Int, originalPosition: Int) -> Bool {
       // Return whether or not a 'NoAction' token still represents an unmoved tile
@@ -336,7 +353,8 @@ class GameModel: NSObject {
     return tokenBuffer
   }
 
-  // Convert all action tokens into move orders
+  /// When computing the effects of a move upon a row of tiles, take a list of ActionTokens prepared by the condense()
+  /// and convert() methods and convert them into MoveOrders that can be fed back to the delegate.
   func convert(group: ActionToken[]) -> MoveOrder[] {
     var moveBuffer = MoveOrder[]()
     for (idx, t) in enumerate(group) {
@@ -355,8 +373,12 @@ class GameModel: NSObject {
     return moveBuffer
   }
 
-  // Given an array of TileObjects, perform a collapse and create an array of move orders that can be fed to the view
+  /// Given an array of TileObjects, perform a collapse and create an array of move orders.
   func merge(group: TileObject[]) -> MoveOrder[] {
+    // Calculation takes place in three steps:
+    // 1. Calculate the moves necessary to produce the same tiles, but without any interstital space.
+    // 2. Take the above, and calculate the moves necessary to collapse adjacent tiles of equal value.
+    // 3. Take the above, and convert into MoveOrders that provide all necessary information to the delegate.
     return convert(collapse(condense(group)))
   }
 }

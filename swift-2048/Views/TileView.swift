@@ -8,6 +8,7 @@
 
 import UIKit
 
+/// A view representing a single swift-2048 tile.
 class TileView : UIView {
   var delegate: AppearanceProviderProtocol
   var value: Int = 0 {

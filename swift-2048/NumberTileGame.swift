@@ -8,6 +8,10 @@
 
 import UIKit
 
+/// A view controller representing the swift-2048 game. It serves mostly to tie a GameModel and a GameboardView
+/// together. Data flow works as follows: user input reaches the view controller and is forwarded to the model. Move
+/// orders calculated by the model are returned to the view controller and forwarded to the gameboard view, which
+/// performs any animations to update its state.
 class NumberTileGameViewController : UIViewController, GameModelProtocol {
   // How many tiles in both directions the gameboard contains
   var dimension: Int
@@ -227,7 +231,6 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
   }
 
   // Protocol
-
   func scoreChanged(score: Int) {
     if (!scoreView) {
       return

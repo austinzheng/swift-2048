@@ -42,6 +42,7 @@ class GameboardView : UIView {
     setupBackground(backgroundColor: backgroundColor, tileColor: foregroundColor)
   }
 
+  /// Reset the gameboard.
   func reset() {
     for (key, tile) in tiles {
       tile.removeFromSuperview()
@@ -49,6 +50,7 @@ class GameboardView : UIView {
     tiles.removeAll(keepCapacity: true)
   }
 
+  /// Return whether a given position is valid. Used for bounds checking.
   func positionIsValid(pos: (Int, Int)) -> Bool {
     let (x, y) = pos
     return (x >= 0 && x < dimension && y >= 0 && y < dimension)
@@ -73,6 +75,7 @@ class GameboardView : UIView {
     }
   }
 
+  /// Update the gameboard by inserting a tile in a given location. The tile will be inserted with a 'pop' animation.
   func insertTile(pos: (Int, Int), value: Int) {
     assert(positionIsValid(pos))
     let (row, col) = pos
@@ -100,6 +103,8 @@ class GameboardView : UIView {
       })
   }
 
+  /// Update the gameboard by moving a single tile from one location to another. If the move is going to collapse two
+  /// tiles into a new tile, the tile will 'pop' after moving to its new location.
   func moveOneTile(from: (Int, Int), to: (Int, Int), value: Int) {
     assert(positionIsValid(from) && positionIsValid(to))
     let (fromRow, fromCol) = from
@@ -152,6 +157,8 @@ class GameboardView : UIView {
       })
   }
 
+  /// Update the gameboard by moving two tiles from their original locations to a common destination. This action always
+  /// represents tile collapse, and the combined tile 'pops' after both tiles move into position.
   func moveTwoTiles(from: ((Int, Int), (Int, Int)), to: (Int, Int), value: Int) {
     assert(positionIsValid(from.0) && positionIsValid(from.1) && positionIsValid(to))
     let (fromRowA, fromColA) = from.0
