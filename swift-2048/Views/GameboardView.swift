@@ -61,9 +61,9 @@ class GameboardView : UIView {
     var xCursor = tilePadding
     var yCursor: CGFloat
     let bgRadius = (cornerRadius >= 2) ? cornerRadius - 2 : 0
-    for i in 0...dimension-1 {
+    for i in 0..dimension {
       yCursor = tilePadding
-      for j in 0...dimension-1 {
+      for j in 0..dimension {
         // Draw each tile
         let background = UIView(frame: CGRectMake(xCursor, yCursor, tileWidth, tileWidth))
         background.layer.cornerRadius = bgRadius
