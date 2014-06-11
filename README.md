@@ -23,8 +23,7 @@ Still have no idea how to make things private, public, or protected. In Objectiv
 
 Xcode is as unstable as always. The background compiler/code analyzer kept on crashing and restarting itself. Xcode was functional enough to allow the project to be brought to some state of completion. The debugger is horribly broken though. (Note that Xcode 6 DP is obviously beta software.)
 
-Features Swift has that Objective-C lacks
-=========================================
+### Features Swift has that Objective-C lacks
 (Not comprehensive)
 
 - Tuples
@@ -55,8 +54,7 @@ Features Swift has that Objective-C lacks
 - Native range operators and limited array slicing (``..`` and ``...``)
 
 
-Objective-C features with no direct native Swift idiom
-======================================================
+### Objective-C features with no direct native Swift idiom
 (AFAIK; some of these might be available through interop)
 
 - Method swizzling
@@ -67,8 +65,7 @@ Objective-C features with no direct native Swift idiom
 - Selectors
 
 
-Features I wish Swift had
-=========================
+### Features I wish Swift had
 
 - Better support for n-dimensional array initialization
 - Tuples usable as dictionary keys (although there are technical issues)
