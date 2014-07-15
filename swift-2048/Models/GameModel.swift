@@ -32,7 +32,7 @@ class GameModel: NSObject {
   //  is accessed unless the delegate type is a specific class (rather than a protocol).
   let delegate: GameModelProtocol
 
-  var queue: MoveCommand[]
+  var queue: [MoveCommand]
   var timer: NSTimer
 
   let maxCommands = 100
@@ -42,7 +42,7 @@ class GameModel: NSObject {
     dimension = d
     threshold = t
     self.delegate = delegate
-    queue = MoveCommand[]()
+    queue = [MoveCommand]()
     timer = NSTimer()
     gameboard = SquareGameboard(dimension: d, initialValue: .Empty)
     super.init()
@@ -129,10 +129,10 @@ class GameModel: NSObject {
   }
 
   /// Return a list of tuples describing the coordinates of empty spots remaining on the gameboard.
-  func gameboardEmptySpots() -> (Int, Int)[] {
+  func gameboardEmptySpots() -> [(Int, Int)] {
     var buffer = Array<(Int, Int)>()
-    for i in 0..dimension {
-      for j in 0..dimension {
+    for i in 0..<dimension {
+      for j in 0..<dimension {
         switch gameboard[i, j] {
         case .Empty:
           buffer += (i, j)
@@ -183,8 +183,8 @@ class GameModel: NSObject {
     }
 
     // Run through all the tiles and check for possible moves
-    for i in 0..dimension {
-      for j in 0..dimension {
+    for i in 0..<dimension {
+      for j in 0..<dimension {
         switch gameboard[i, j] {
         case .Empty:
           assert(false, "Gameboard reported itself as full, but we still found an empty tile. This is a logic error.")
@@ -199,8 +199,8 @@ class GameModel: NSObject {
   }
 
   func userHasWon() -> (Bool, (Int, Int)?) {
-    for i in 0..dimension {
-      for j in 0..dimension {
+    for i in 0..<dimension {
+      for j in 0..<dimension {
         // Look for a tile with the winning score or greater
         switch gameboard[i, j] {
         case let .Tile(v) where v >= threshold:
@@ -220,21 +220,21 @@ class GameModel: NSObject {
     // Prepare the generator closure. This closure differs in behavior depending on the direction of the move. It is
     // used by the method to generate a list of tiles which should be modified. Depending on the direction this list
     // may represent a single row or a single column, in either direction.
-    let coordinateGenerator: (Int) -> (Int, Int)[] = { (iteration: Int) -> (Int, Int)[] in
-      let buffer = Array<(Int, Int)>(count:self.dimension, repeatedValue: (0, 0))
-      for i in 0..self.dimension {
-        switch direction {
-        case .Up: buffer[i] = (i, iteration)
-        case .Down: buffer[i] = (self.dimension - i - 1, iteration)
-        case .Left: buffer[i] = (iteration, i)
-        case .Right: buffer[i] = (iteration, self.dimension - i - 1)
-        }
+    let coordinateGenerator: (Int) -> [(Int, Int)] = { (iteration: Int) -> [(Int, Int)] in
+      var buffer = Array<(Int, Int)>(count:self.dimension, repeatedValue: (0, 0))
+		for i in 0..<self.dimension {
+			switch direction {
+				case .Up: buffer[i] = (i, iteration)
+				case .Down: buffer[i] = (self.dimension - i - 1, iteration)
+				case .Left: buffer[i] = (iteration, i)
+				case .Right: buffer[i] = (iteration, self.dimension - i - 1)
+			}
       }
       return buffer
     }
 
     var atLeastOneMove = false
-    for i in 0..dimension {
+    for i in 0..<dimension {
       // Get the list of coords
       let coords = coordinateGenerator(i)
 
@@ -282,8 +282,8 @@ class GameModel: NSObject {
   /// When computing the effects of a move upon a row of tiles, calculate and return a list of ActionTokens
   /// corresponding to any moves necessary to remove interstital space. For example, |[2][ ][ ][4]| will become
   /// |[2][4]|.
-  func condense(group: TileObject[]) -> ActionToken[] {
-    var tokenBuffer = ActionToken[]()
+  func condense(group: [TileObject]) -> [ActionToken] {
+    var tokenBuffer = [ActionToken]()
     for (idx, tile) in enumerate(group) {
       // Go through all the tiles in 'group'. When we see a tile 'out of place', create a corresponding ActionToken.
       switch tile {
@@ -301,13 +301,13 @@ class GameModel: NSObject {
   /// When computing the effects of a move upon a row of tiles, calculate and return an updated list of ActionTokens
   /// corresponding to any merges that should take place. This method collapses adjacent tiles of equal value, but each
   /// tile can take part in at most one collapse per move. For example, |[1][1][1][2][2]| will become |[2][1][4]|.
-  func collapse(group: ActionToken[]) -> ActionToken[] {
+  func collapse(group: [ActionToken]) -> [ActionToken] {
     func quiescentTileStillQuiescent(inputPosition: Int, outputLength: Int, originalPosition: Int) -> Bool {
       // Return whether or not a 'NoAction' token still represents an unmoved tile
       return (inputPosition == outputLength) && (originalPosition == inputPosition)
     }
 
-    var tokenBuffer = ActionToken[]()
+    var tokenBuffer = [ActionToken]()
     var skipNext = false
     for (idx, token) in enumerate(group) {
       if skipNext {
@@ -357,8 +357,8 @@ class GameModel: NSObject {
 
   /// When computing the effects of a move upon a row of tiles, take a list of ActionTokens prepared by the condense()
   /// and convert() methods and convert them into MoveOrders that can be fed back to the delegate.
-  func convert(group: ActionToken[]) -> MoveOrder[] {
-    var moveBuffer = MoveOrder[]()
+  func convert(group: [ActionToken]) -> [MoveOrder] {
+    var moveBuffer = [MoveOrder]()
     for (idx, t) in enumerate(group) {
       switch t {
       case let .Move(s, v):
@@ -376,7 +376,7 @@ class GameModel: NSObject {
   }
 
   /// Given an array of TileObjects, perform a collapse and create an array of move orders.
-  func merge(group: TileObject[]) -> MoveOrder[] {
+  func merge(group: [TileObject]) -> [MoveOrder] {
     // Calculation takes place in three steps:
     // 1. Calculate the moves necessary to produce the same tiles, but without any interstital space.
     // 2. Take the above, and calculate the moves necessary to collapse adjacent tiles of equal value.
