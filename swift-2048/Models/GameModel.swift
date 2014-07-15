@@ -222,16 +222,17 @@ class GameModel: NSObject {
     // may represent a single row or a single column, in either direction.
     let coordinateGenerator: (Int) -> [(Int, Int)] = { (iteration: Int) -> [(Int, Int)] in
       var buffer = Array<(Int, Int)>(count:self.dimension, repeatedValue: (0, 0))
-		for i in 0..<self.dimension {
-			switch direction {
-				case .Up: buffer[i] = (i, iteration)
-				case .Down: buffer[i] = (self.dimension - i - 1, iteration)
-				case .Left: buffer[i] = (iteration, i)
-				case .Right: buffer[i] = (iteration, self.dimension - i - 1)
-			}
+      for i in 0..<self.dimension {
+        switch direction {
+          case .Up: buffer[i] = (i, iteration)
+          case .Down: buffer[i] = (self.dimension - i - 1, iteration)
+          case .Left: buffer[i] = (iteration, i)
+          case .Right: buffer[i] = (iteration, self.dimension - i - 1)
+        }
       }
       return buffer
     }
+
 
     var atLeastOneMove = false
     for i in 0..<dimension {
