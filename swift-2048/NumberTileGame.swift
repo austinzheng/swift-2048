@@ -94,7 +94,7 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
       return tentativeX >= 0 ? tentativeX : 0
     }
     // This nested function provides the y-position for a component view
-    func yPositionForViewAtPosition(order: Int, views: UIView[]) -> CGFloat {
+    func yPositionForViewAtPosition(order: Int, views: [UIView]) -> CGFloat {
       assert(views.count > 0)
       assert(order >= 0 && order < views.count)
       let viewHeight = views[order].bounds.size.height
@@ -103,7 +103,7 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
 
       // Not sure how to slice an array yet
       var acc: CGFloat = 0
-      for i in 0..order {
+      for i in 0..<order {
         acc += viewPadding + views[i].bounds.size.height
       }
       return viewsTop + acc

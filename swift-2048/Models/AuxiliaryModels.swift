@@ -71,11 +71,11 @@ enum ActionToken {
 /// represent state for many other games without modification.
 struct SquareGameboard<T> {
   let dimension: Int
-  var boardArray: Array<T>
+  var boardArray: [T]
 
   init(dimension d: Int, initialValue: T) {
     dimension = d
-    boardArray = T[](count:d*d, repeatedValue:initialValue)
+    boardArray = [T](count:d*d, repeatedValue:initialValue)
   }
 
   subscript(row: Int, col: Int) -> T {
@@ -93,8 +93,8 @@ struct SquareGameboard<T> {
 
   // We mark this function as 'mutating' since it changes its 'parent' struct.
   mutating func setAll(item: T) {
-    for i in 0..dimension {
-      for j in 0..dimension {
+    for i in 0..<dimension {
+      for j in 0..<dimension {
         self[i, j] = item
       }
     }
