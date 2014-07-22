@@ -45,22 +45,22 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
   }
 
   func setupSwipeControls() {
-    let upSwipe = UISwipeGestureRecognizer(target: self, action: Selector("upCommand"))
+    let upSwipe = UISwipeGestureRecognizer(target: self, action: Selector("up:"))
     upSwipe.numberOfTouchesRequired = 1
     upSwipe.direction = UISwipeGestureRecognizerDirection.Up
     view.addGestureRecognizer(upSwipe)
 
-    let downSwipe = UISwipeGestureRecognizer(target: self, action: Selector("downCommand"))
+    let downSwipe = UISwipeGestureRecognizer(target: self, action: Selector("down:"))
     downSwipe.numberOfTouchesRequired = 1
     downSwipe.direction = UISwipeGestureRecognizerDirection.Down
     view.addGestureRecognizer(downSwipe)
 
-    let leftSwipe = UISwipeGestureRecognizer(target: self, action: Selector("leftCommand"))
+    let leftSwipe = UISwipeGestureRecognizer(target: self, action: Selector("left:"))
     leftSwipe.numberOfTouchesRequired = 1
     leftSwipe.direction = UISwipeGestureRecognizerDirection.Left
     view.addGestureRecognizer(leftSwipe)
 
-    let rightSwipe = UISwipeGestureRecognizer(target: self, action: Selector("rightCommand"))
+    let rightSwipe = UISwipeGestureRecognizer(target: self, action: Selector("right:"))
     rightSwipe.numberOfTouchesRequired = 1
     rightSwipe.direction = UISwipeGestureRecognizerDirection.Right
     view.addGestureRecognizer(rightSwipe)
@@ -186,7 +186,8 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
   }
 
   // Commands
-  func upCommand() {
+  @objc(up:)
+  func upCommand(r: UIGestureRecognizer!) {
     assert(model != nil)
     let m = model!
     m.queueMove(MoveDirection.Up,
@@ -197,7 +198,8 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
       })
   }
 
-  func downCommand() {
+  @objc(down:)
+  func downCommand(r: UIGestureRecognizer!) {
     assert(model != nil)
     let m = model!
     m.queueMove(MoveDirection.Down,
@@ -208,7 +210,8 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
       })
   }
 
-  func leftCommand() {
+  @objc(left:)
+  func leftCommand(r: UIGestureRecognizer!) {
     assert(model != nil)
     let m = model!
     m.queueMove(MoveDirection.Left,
@@ -219,7 +222,8 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
       })
   }
 
-  func rightCommand() {
+  @objc(right:)
+  func rightCommand(r: UIGestureRecognizer!) {
     assert(model != nil)
     let m = model!
     m.queueMove(MoveDirection.Right,
