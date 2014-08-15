@@ -130,12 +130,12 @@ class GameModel: NSObject {
 
   /// Return a list of tuples describing the coordinates of empty spots remaining on the gameboard.
   func gameboardEmptySpots() -> [(Int, Int)] {
-    var buffer: [(Int, Int)] = []
+    var buffer = Array<(Int, Int)>()
     for i in 0..<dimension {
       for j in 0..<dimension {
         switch gameboard[i, j] {
         case .Empty:
-          buffer.append((i, j))
+          buffer += [(i, j)]
         case .Tile:
           break
         }
