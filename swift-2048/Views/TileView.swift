@@ -20,7 +20,11 @@ class TileView : UIView {
   }
   }
   var numberLabel: UILabel
-
+    
+  required init(coder: NSCoder) {
+    fatalError("NSCoding not supported")
+  }
+    
   init(position: CGPoint, width: CGFloat, value: Int, radius: CGFloat, delegate d: AppearanceProviderProtocol) {
     delegate = d
     numberLabel = UILabel(frame: CGRectMake(0, 0, width, width))
@@ -36,5 +40,5 @@ class TileView : UIView {
     backgroundColor = delegate.tileColor(value)
     numberLabel.textColor = delegate.numberColor(value)
     numberLabel.text = "\(value)"
-  }
+  }    
 }

@@ -41,7 +41,10 @@ class GameboardView : UIView {
     layer.cornerRadius = radius
     setupBackground(backgroundColor: backgroundColor, tileColor: foregroundColor)
   }
-
+  
+  required init(coder: NSCoder) {
+      fatalError("NSCoding not supported")
+  }
   /// Reset the gameboard.
   func reset() {
     for (key, tile) in tiles {
