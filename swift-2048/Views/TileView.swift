@@ -40,5 +40,5 @@ class TileView : UIView {
     backgroundColor = delegate.tileColor(value)
     numberLabel.textColor = delegate.numberColor(value)
     numberLabel.text = "\(value)"
-  }    
+  }
 }
