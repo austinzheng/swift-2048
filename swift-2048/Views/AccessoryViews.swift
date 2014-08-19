@@ -33,11 +33,11 @@ class ScoreView : UIView, ScoreViewProtocol {
     layer.cornerRadius = r
     self.addSubview(label)
   }
-    
-  required init(coder aDecoder: NSCoder!) {
+
+  required init(coder aDecoder: NSCoder) {
     fatalError("NSCoding not supported")
   }
-  
+
   func scoreChanged(newScore s: Int)  {
     score = s
   }

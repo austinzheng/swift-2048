@@ -108,7 +108,7 @@ class GameModel: NSObject {
     let (x, y) = pos
     switch gameboard[x, y] {
     case .Empty:
-      gameboard[x, y] = TileObject.Tile(value: value)
+      gameboard[x, y] = TileObject.Tile(value)
       delegate.insertTile(pos, value: value)
     case .Tile:
       break
@@ -150,36 +150,36 @@ class GameModel: NSObject {
 
   //------------------------------------------------------------------------------------------------------------------//
 
+  func tileBelowHasSameValue(loc: (Int, Int), _ value: Int) -> Bool {
+    let (x, y) = loc
+    if y == dimension-1 {
+      return false
+    }
+    switch gameboard[x, y+1] {
+    case let .Tile(v):
+      return v == value
+    default:
+      return false
+    }
+  }
+
+  func tileToRightHasSameValue(loc: (Int, Int), _ value: Int) -> Bool {
+    let (x, y) = loc
+    if x == dimension-1 {
+      return false
+    }
+    switch gameboard[x+1, y] {
+    case let .Tile(v):
+      return v == value
+    default:
+      return false
+    }
+  }
+
   func userHasLost() -> Bool {
     if !gameboardFull() {
       // Player can't lose before filling up the board
       return false
-    }
-
-    func tileBelowHasSameValue(loc: (Int, Int), value: Int) -> Bool {
-      let (x, y) = loc
-      if y == dimension-1 {
-        return false
-      }
-      switch gameboard[x, y+1] {
-      case let .Tile(v):
-        return v == value
-      default:
-        return false
-      }
-    }
-
-    func tileToRightHasSameValue(loc: (Int, Int), value: Int) -> Bool {
-      let (x, y) = loc
-      if x == dimension-1 {
-        return false
-      }
-      switch gameboard[x+1, y] {
-      case let .Tile(v):
-        return v == value
-      default:
-        return false
-      }
     }
 
     // Run through all the tiles and check for possible moves
@@ -189,7 +189,7 @@ class GameModel: NSObject {
         case .Empty:
           assert(false, "Gameboard reported itself as full, but we still found an empty tile. This is a logic error.")
         case let .Tile(v):
-          if tileBelowHasSameValue((i, j), v) || tileToRightHasSameValue((i, j), v) {
+          if self.tileBelowHasSameValue((i, j), v) || self.tileToRightHasSameValue((i, j), v) {
             return false
           }
         }
@@ -259,7 +259,7 @@ class GameModel: NSObject {
             score += v
           }
           gameboard[sx, sy] = TileObject.Empty
-          gameboard[dx, dy] = TileObject.Tile(value: v)
+          gameboard[dx, dy] = TileObject.Tile(v)
           delegate.moveOneTile(coords[s], to: coords[d], value: v)
         case let MoveOrder.DoubleMoveOrder(s1, s2, d, v):
           // Perform a simultaneous two-tile move
@@ -269,7 +269,7 @@ class GameModel: NSObject {
           score += v
           gameboard[s1x, s1y] = TileObject.Empty
           gameboard[s2x, s2y] = TileObject.Empty
-          gameboard[dx, dy] = TileObject.Tile(value: v)
+          gameboard[dx, dy] = TileObject.Tile(v)
           delegate.moveTwoTiles((coords[s1], coords[s2]), to: coords[d], value: v)
         }
       }
@@ -298,14 +298,16 @@ class GameModel: NSObject {
     return tokenBuffer;
   }
 
+  class func quiescentTileStillQuiescent(inputPosition: Int, outputLength: Int, originalPosition: Int) -> Bool {
+    // Return whether or not a 'NoAction' token still represents an unmoved tile
+    return (inputPosition == outputLength) && (originalPosition == inputPosition)
+  }
+
   /// When computing the effects of a move upon a row of tiles, calculate and return an updated list of ActionTokens
   /// corresponding to any merges that should take place. This method collapses adjacent tiles of equal value, but each
   /// tile can take part in at most one collapse per move. For example, |[1][1][1][2][2]| will become |[2][1][4]|.
   func collapse(group: [ActionToken]) -> [ActionToken] {
-    func quiescentTileStillQuiescent(inputPosition: Int, outputLength: Int, originalPosition: Int) -> Bool {
-      // Return whether or not a 'NoAction' token still represents an unmoved tile
-      return (inputPosition == outputLength) && (originalPosition == inputPosition)
-    }
+
 
     var tokenBuffer = [ActionToken]()
     var skipNext = false
@@ -323,7 +325,7 @@ class GameModel: NSObject {
       case let .NoAction(s, v)
         where (idx < group.count-1
           && v == group[idx+1].getValue()
-          && quiescentTileStillQuiescent(idx, tokenBuffer.count, s)):
+          && GameModel.quiescentTileStillQuiescent(idx, outputLength: tokenBuffer.count, originalPosition: s)):
         // This tile hasn't moved yet, but matches the next tile. This is a single merge
         // The last tile is *not* eligible for a merge
         let next = group[idx+1]
@@ -338,7 +340,7 @@ class GameModel: NSObject {
         let nv = t.getValue() + group[idx+1].getValue()
         skipNext = true
         tokenBuffer.append(ActionToken.DoubleCombine(source: t.getSource(), second: next.getSource(), value: nv))
-      case let .NoAction(s, v) where !quiescentTileStillQuiescent(idx, tokenBuffer.count, s):
+      case let .NoAction(s, v) where !GameModel.quiescentTileStillQuiescent(idx, outputLength: tokenBuffer.count, originalPosition: s):
         // A tile that didn't move before has moved (first cond.), or there was a previous merge (second cond.)
         tokenBuffer.append(ActionToken.Move(source: s, value: v))
       case let .NoAction(s, v):

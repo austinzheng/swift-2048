@@ -43,9 +43,9 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
     view.backgroundColor = UIColor.whiteColor()
     setupSwipeControls()
   }
-    
-  required init(coder aDecoder: NSCoder!) {
-   fatalError("NSCoding not supported")
+
+  required init(coder aDecoder: NSCoder) {
+    fatalError("NSCoding not supported")
   }
 
   func setupSwipeControls() {
