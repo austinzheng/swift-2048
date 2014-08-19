@@ -43,6 +43,10 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
     view.backgroundColor = UIColor.whiteColor()
     setupSwipeControls()
   }
+    
+  required init(coder aDecoder: NSCoder!) {
+   fatalError("NSCoding not supported")
+  }
 
   func setupSwipeControls() {
     let upSwipe = UISwipeGestureRecognizer(target: self, action: Selector("up:"))
@@ -236,7 +240,7 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
 
   // Protocol
   func scoreChanged(score: Int) {
-    if (!scoreView) {
+    if scoreView == nil {
       return
     }
     let s = scoreView!
