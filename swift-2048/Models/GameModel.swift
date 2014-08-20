@@ -149,37 +149,37 @@ class GameModel: NSObject {
   }
 
   //------------------------------------------------------------------------------------------------------------------//
-  func tileBelowHasSameValue(loc: (Int, Int), _ value: Int) -> Bool {
-    let (x, y) = loc
-    if y == dimension-1 {
-      return false
-    }
-    switch gameboard[x, y+1] {
-    case let .Tile(v):
-      return v == value
-    default:
-      return false
-    }
-  }
-  
-  func tileToRightHasSameValue(loc: (Int, Int), _ value: Int) -> Bool {
-    let (x, y) = loc
-    if x == dimension-1 {
-      return false
-    }
-    switch gameboard[x+1, y] {
-    case let .Tile(v):
-      return v == value
-    default:
-      return false
-    }
-  }
-  
   func userHasLost() -> Bool {
     if !gameboardFull() {
       // Player can't lose before filling up the board
       return false
     }
+
+  let tileBelowHasSameValue: ((Int, Int), Int) -> Bool = { (loc: (Int, Int), value: Int) -> Bool in
+    let (x, y) = loc
+    if y == self.dimension-1 {
+      return false
+    }
+    switch self.gameboard[x, y+1] {
+    case let .Tile(v):
+      return v == value
+    default:
+      return false
+    }
+  }
+  
+  let tileToRightHasSameValue: ((Int, Int), Int) -> Bool = { (loc: (Int, Int), value: Int) -> Bool in
+    let (x, y) = loc
+    if x == self.dimension-1 {
+      return false
+    }
+    switch self.gameboard[x+1, y] {
+    case let .Tile(v):
+      return v == value
+    default:
+      return false
+    }
+  }
 
     // Run through all the tiles and check for possible moves
     for i in 0..<dimension {
@@ -297,15 +297,16 @@ class GameModel: NSObject {
     return tokenBuffer;
   }
   
-  func quiescentTileStillQuiescent(inputPosition: Int, _ outputLength: Int, _ originalPosition: Int) -> Bool {
-    // Return whether or not a 'NoAction' token still represents an unmoved tile
-    return (inputPosition == outputLength) && (originalPosition == inputPosition)
-  }
-  
   /// When computing the effects of a move upon a row of tiles, calculate and return an updated list of ActionTokens
   /// corresponding to any merges that should take place. This method collapses adjacent tiles of equal value, but each
   /// tile can take part in at most one collapse per move. For example, |[1][1][1][2][2]| will become |[2][1][4]|.
   func collapse(group: [ActionToken]) -> [ActionToken] {
+
+    let quiescentTileStillQuiescent: (Int, Int, Int) -> Bool = { (inputPosition: Int, outputLength: Int, originalPosition: Int) -> Bool in
+      // Return whether or not a 'NoAction' token still represents an unmoved tile
+      return (inputPosition == outputLength) && (originalPosition == inputPosition)
+    }
+
     var tokenBuffer = [ActionToken]()
     var skipNext = false
     for (idx, token) in enumerate(group) {
