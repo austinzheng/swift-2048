@@ -44,7 +44,7 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
     setupSwipeControls()
   }
     
-  required init(coder aDecoder: NSCoder!) {
+  required init(coder aDecoder: NSCoder) {
    fatalError("NSCoding not supported")
   }
 

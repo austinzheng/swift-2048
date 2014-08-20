@@ -36,7 +36,7 @@ enum MoveOrder {
 /// An enum representing either an empty space or a tile upon the board.
 enum TileObject {
   case Empty
-  case Tile(value: Int)
+  case Tile(Int)
 }
 
 /// An enum representing an intermediate result used by the game logic when figuring out how the board should change as
