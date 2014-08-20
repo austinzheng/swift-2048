@@ -155,31 +155,31 @@ class GameModel: NSObject {
       return false
     }
 
-  let tileBelowHasSameValue: ((Int, Int), Int) -> Bool = { (loc: (Int, Int), value: Int) -> Bool in
-    let (x, y) = loc
-    if y == self.dimension-1 {
-      return false
+    let tileBelowHasSameValue: ((Int, Int), Int) -> Bool = { (loc: (Int, Int), value: Int) -> Bool in
+      let (x, y) = loc
+      if y == self.dimension-1 {
+        return false
+      }
+      switch self.gameboard[x, y+1] {
+      case let .Tile(v):
+        return v == value
+      default:
+        return false
+      }
     }
-    switch self.gameboard[x, y+1] {
-    case let .Tile(v):
-      return v == value
-    default:
-      return false
-    }
-  }
   
-  let tileToRightHasSameValue: ((Int, Int), Int) -> Bool = { (loc: (Int, Int), value: Int) -> Bool in
-    let (x, y) = loc
-    if x == self.dimension-1 {
-      return false
+    let tileToRightHasSameValue: ((Int, Int), Int) -> Bool = { (loc: (Int, Int), value: Int) -> Bool in
+      let (x, y) = loc
+      if x == self.dimension-1 {
+        return false
+      }
+      switch self.gameboard[x+1, y] {
+      case let .Tile(v):
+        return v == value
+      default:
+        return false
+      }
     }
-    switch self.gameboard[x+1, y] {
-    case let .Tile(v):
-      return v == value
-    default:
-      return false
-    }
-  }
 
     // Run through all the tiles and check for possible moves
     for i in 0..<dimension {
