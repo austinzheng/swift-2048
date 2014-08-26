@@ -30,11 +30,11 @@ class ModelTests: XCTestCase, GameModelProtocol {
 
   func testCondense1() {
     let m = GameModel(dimension: 5, threshold: 2048, delegate: self)
-    var group = [TileObject.Tile(value: 1),
-      TileObject.Tile(value: 2),
-      TileObject.Tile(value: 4),
-      TileObject.Tile(value: 8),
-      TileObject.Tile(value: 1)]
+    var group = [TileObject.Tile(1),
+      TileObject.Tile(2),
+      TileObject.Tile(4),
+      TileObject.Tile(8),
+      TileObject.Tile(1)]
     XCTAssert(group.count == 5, "Group should have 5 members before anything happens")
     let output = m.condense(group)
 
@@ -60,11 +60,11 @@ class ModelTests: XCTestCase, GameModelProtocol {
 
   func testCondense1b() {
     let m = GameModel(dimension: 5, threshold: 2048, delegate: self)
-    var group = [TileObject.Tile(value: 1),
+    var group = [TileObject.Tile(1),
       TileObject.Empty,
-      TileObject.Tile(value: 4),
+      TileObject.Tile(4),
       TileObject.Empty,
-      TileObject.Tile(value: 1)]
+      TileObject.Tile(1)]
     XCTAssert(group.count == 5, "Group should have 5 members before anything happens")
     let output = m.condense(group)
 
@@ -106,11 +106,11 @@ class ModelTests: XCTestCase, GameModelProtocol {
 
   func testCondense1c() {
     let m = GameModel(dimension: 5, threshold: 2048, delegate: self)
-    var group = [TileObject.Tile(value: 1),
-      TileObject.Tile(value: 4),
+    var group = [TileObject.Tile(1),
+      TileObject.Tile(4),
       TileObject.Empty,
       TileObject.Empty,
-      TileObject.Tile(value: 1),
+      TileObject.Tile(1),
       TileObject.Empty]
     XCTAssert(group.count == 6, "Group should have 6 members before anything happens")
     let output = m.condense(group)
@@ -155,11 +155,11 @@ class ModelTests: XCTestCase, GameModelProtocol {
     let m = GameModel(dimension: 5, threshold: 2048, delegate: self)
     var group = [TileObject.Empty,
       TileObject.Empty,
-      TileObject.Tile(value: 1),
-      TileObject.Tile(value: 4),
+      TileObject.Tile(1),
+      TileObject.Tile(4),
       TileObject.Empty,
       TileObject.Empty,
-      TileObject.Tile(value: 1),
+      TileObject.Tile(1),
       TileObject.Empty]
     XCTAssert(group.count == 8, "Group should have 8 members before anything happens")
     let output = m.condense(group)
@@ -194,11 +194,11 @@ class ModelTests: XCTestCase, GameModelProtocol {
 
   func testCondense4() {
     let m = GameModel(dimension: 5, threshold: 2048, delegate: self)
-    let group = [TileObject.Tile(value: 2),
-      TileObject.Tile(value: 2),
-      TileObject.Tile(value: 16),
+    let group = [TileObject.Tile(2),
+      TileObject.Tile(2),
+      TileObject.Tile(16),
       TileObject.Empty,
-      TileObject.Tile(value: 1)]
+      TileObject.Tile(1)]
     let output = m.condense(group)
     XCTAssert(output.count == 4, "Output had \(output.count) merge tiles, should have had 4")
   }
@@ -224,11 +224,11 @@ class ModelTests: XCTestCase, GameModelProtocol {
   func testMerge1() {
     // Scenario: no movement at all
     let m = GameModel(dimension: 5, threshold: 2048, delegate: self)
-    var group = [TileObject.Tile(value: 1),
-      TileObject.Tile(value: 2),
-      TileObject.Tile(value: 4),
-      TileObject.Tile(value: 8),
-      TileObject.Tile(value: 1)]
+    var group = [TileObject.Tile(1),
+      TileObject.Tile(2),
+      TileObject.Tile(4),
+      TileObject.Tile(8),
+      TileObject.Tile(1)]
     XCTAssert(group.count == 5, "Group should have 5 members before anything happens")
     let orders = m.merge(group)
     XCTAssert(orders.count == 0, "No move orders should have happened, but output had \(orders.count) items")
@@ -237,11 +237,11 @@ class ModelTests: XCTestCase, GameModelProtocol {
   func testMerge2() {
     // Scenario: some moves
     let m = GameModel(dimension: 5, threshold: 2048, delegate: self)
-    var group = [TileObject.Tile(value: 1),
+    var group = [TileObject.Tile(1),
       TileObject.Empty,
-      TileObject.Tile(value: 4),
+      TileObject.Tile(4),
       TileObject.Empty,
-      TileObject.Tile(value: 1)]
+      TileObject.Tile(1)]
     let orders = m.merge(group)
     XCTAssert(orders.count == 2, "There should have been 2 orders. Got \(orders.count) instead")
     // Verify orders
@@ -270,11 +270,11 @@ class ModelTests: XCTestCase, GameModelProtocol {
   func testMerge3() {
     // Scenario: no moves, one merge at end
     let m = GameModel(dimension: 5, threshold: 2048, delegate: self)
-    var group = [TileObject.Tile(value: 1),
-      TileObject.Tile(value: 2),
-      TileObject.Tile(value: 4),
-      TileObject.Tile(value: 1),
-      TileObject.Tile(value: 1)]
+    var group = [TileObject.Tile(1),
+      TileObject.Tile(2),
+      TileObject.Tile(4),
+      TileObject.Tile(1),
+      TileObject.Tile(1)]
     let orders = m.merge(group)
     XCTAssert(orders.count == 1, "There should have been 1 order. Got \(orders.count) instead")
     // Verify orders
@@ -298,11 +298,11 @@ class ModelTests: XCTestCase, GameModelProtocol {
   func testMerge4() {
     // Scenario: one move, one merge
     let m = GameModel(dimension: 5, threshold: 2048, delegate: self)
-    let group = [TileObject.Tile(value: 2),
-      TileObject.Tile(value: 2),
-      TileObject.Tile(value: 16),
+    let group = [TileObject.Tile(2),
+      TileObject.Tile(2),
+      TileObject.Tile(16),
       TileObject.Empty,
-      TileObject.Tile(value: 1)]
+      TileObject.Tile(1)]
     let orders = m.merge(group)
     XCTAssert(orders.count == 3, "There should have been 3 orders. Got \(orders.count) instead")
     // Verify orders
@@ -336,9 +336,9 @@ class ModelTests: XCTestCase, GameModelProtocol {
   func testMerge5() {
     // Scenario: multi-merge with 3 equal tiles involved
     let m = GameModel(dimension: 5, threshold: 2048, delegate: self)
-    let group = [TileObject.Tile(value: 2),
-      TileObject.Tile(value: 2),
-      TileObject.Tile(value: 2),
+    let group = [TileObject.Tile(2),
+      TileObject.Tile(2),
+      TileObject.Tile(2),
       TileObject.Empty,
       TileObject.Empty]
     let orders = m.merge(group)
@@ -369,11 +369,11 @@ class ModelTests: XCTestCase, GameModelProtocol {
   func testMerge6() {
     // Scenario: multiple merges
     let m = GameModel(dimension: 5, threshold: 2048, delegate: self)
-    let group = [TileObject.Tile(value: 2),
-      TileObject.Tile(value: 2),
-      TileObject.Tile(value: 2),
-      TileObject.Tile(value: 16),
-      TileObject.Tile(value: 16)]
+    let group = [TileObject.Tile(2),
+      TileObject.Tile(2),
+      TileObject.Tile(2),
+      TileObject.Tile(16),
+      TileObject.Tile(16)]
     let orders = m.merge(group)
     XCTAssert(orders.count == 3, "There should have been 3 orders. Got \(orders.count) instead")
     // Verify orders
@@ -411,10 +411,10 @@ class ModelTests: XCTestCase, GameModelProtocol {
     // Scenario: multiple spaces and merges
     let m = GameModel(dimension: 5, threshold: 2048, delegate: self)
     let group = [TileObject.Empty,
-      TileObject.Tile(value: 2),
-      TileObject.Tile(value: 2),
-      TileObject.Tile(value: 16),
-      TileObject.Tile(value: 16)]
+      TileObject.Tile(2),
+      TileObject.Tile(2),
+      TileObject.Tile(16),
+      TileObject.Tile(16)]
     let orders = m.merge(group)
     XCTAssert(orders.count == 2, "There should have been 2 orders. Got \(orders.count) instead")
     // Verify orders
@@ -445,11 +445,11 @@ class ModelTests: XCTestCase, GameModelProtocol {
   func testMerge8() {
     // Scenario: multiple spaces and merges
     let m = GameModel(dimension: 5, threshold: 2048, delegate: self)
-    let group = [TileObject.Tile(value: 4),
+    let group = [TileObject.Tile(4),
       TileObject.Empty,
-      TileObject.Tile(value: 4),
-      TileObject.Tile(value: 32),
-      TileObject.Tile(value: 32)]
+      TileObject.Tile(4),
+      TileObject.Tile(32),
+      TileObject.Tile(32)]
     let orders = m.merge(group)
     XCTAssert(orders.count == 2, "There should have been 2 orders. Got \(orders.count) instead")
     // Verify orders
@@ -483,9 +483,9 @@ class ModelTests: XCTestCase, GameModelProtocol {
     let m = GameModel(dimension: 5, threshold: 2048, delegate: self)
     let group = [TileObject.Empty,
       TileObject.Empty,
-      TileObject.Tile(value: 4),
+      TileObject.Tile(4),
       TileObject.Empty,
-      TileObject.Tile(value: 32)]
+      TileObject.Tile(32)]
     let orders = m.merge(group)
     XCTAssert(orders.count == 2, "There should have been 2 orders. Got \(orders.count) instead")
     // Verify orders
