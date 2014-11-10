@@ -50,6 +50,9 @@ class AppearanceProvider: AppearanceProviderProtocol {
 
   // Provide the font to be used on the number tiles
   func fontForNumbers() -> UIFont {
-    return UIFont(name: "HelveticaNeue-Bold", size: 20)
+    if let font = UIFont(name: "HelveticaNeue-Bold", size: 20) {
+      return font
+    }
+    return UIFont.systemFontOfSize(20)
   }
 }

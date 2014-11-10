@@ -116,7 +116,7 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
     // Create the score view
     let scoreView = ScoreView(backgroundColor: UIColor.blackColor(),
       textColor: UIColor.whiteColor(),
-      font: UIFont(name: "HelveticaNeue-Bold", size: 16.0),
+      font: UIFont(name: "HelveticaNeue-Bold", size: 16.0) ?? UIFont.systemFontOfSize(16.0),
       radius: 6)
     scoreView.score = 0
 
