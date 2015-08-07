@@ -102,7 +102,7 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
       assert(views.count > 0)
       assert(order >= 0 && order < views.count)
       let viewHeight = views[order].bounds.size.height
-      let totalHeight = CGFloat(views.count - 1)*viewPadding + views.map({ $0.bounds.size.height }).reduce(verticalViewOffset, { $0 + $1 })
+      let totalHeight = CGFloat(views.count - 1)*viewPadding + views.map({ $0.bounds.size.height }).reduce(verticalViewOffset, combine: { $0 + $1 })
       let viewsTop = 0.5*(vcHeight - totalHeight) >= 0 ? 0.5*(vcHeight - totalHeight) : 0
 
       // Not sure how to slice an array yet
