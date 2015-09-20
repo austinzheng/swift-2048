@@ -41,13 +41,13 @@ class GameboardView : UIView {
     layer.cornerRadius = radius
     setupBackground(backgroundColor: backgroundColor, tileColor: foregroundColor)
   }
-  
+
   required init(coder: NSCoder) {
-      fatalError("NSCoding not supported")
+    fatalError("NSCoding not supported")
   }
   /// Reset the gameboard.
   func reset() {
-    for (key, tile) in tiles {
+    for (_, tile) in tiles {
       tile.removeFromSuperview()
     }
     tiles.removeAll(keepCapacity: true)
@@ -64,9 +64,9 @@ class GameboardView : UIView {
     var xCursor = tilePadding
     var yCursor: CGFloat
     let bgRadius = (cornerRadius >= 2) ? cornerRadius - 2 : 0
-    for i in 0..<dimension {
+    for _ in 0..<dimension {
       yCursor = tilePadding
-      for j in 0..<dimension {
+      for _ in 0..<dimension {
         // Draw each tile
         let background = UIView(frame: CGRectMake(xCursor, yCursor, tileWidth, tileWidth))
         background.layer.cornerRadius = bgRadius
@@ -94,16 +94,16 @@ class GameboardView : UIView {
 
     // Add to board
     UIView.animateWithDuration(tileExpandTime, delay: tilePopDelay, options: UIViewAnimationOptions.TransitionNone,
-      animations: { () -> Void in
+      animations: {
         // Make the tile 'pop'
         tile.layer.setAffineTransform(CGAffineTransformMakeScale(self.tilePopMaxScale, self.tilePopMaxScale))
       },
-      completion: { (finished: Bool) -> Void in
+      completion: { finished in
         // Shrink the tile after it 'pops'
         UIView.animateWithDuration(self.tileContractTime, animations: { () -> Void in
           tile.layer.setAffineTransform(CGAffineTransformIdentity)
         })
-      })
+    })
   }
 
   /// Update the gameboard by moving a single tile from one location to another. If the move is going to collapse two
@@ -116,8 +116,9 @@ class GameboardView : UIView {
     let toKey = NSIndexPath(forRow: toRow, inSection: toCol)
 
     // Get the tiles
-    assert(tiles[fromKey] != nil)
-    let tile = tiles[fromKey]!
+    guard let tile = tiles[fromKey] else {
+      assert(false, "placeholder error")
+    }
     let endTile = tiles[toKey]
 
     // Make the frame
@@ -134,7 +135,7 @@ class GameboardView : UIView {
     UIView.animateWithDuration(perSquareSlideDuration,
       delay: 0.0,
       options: UIViewAnimationOptions.BeginFromCurrentState,
-      animations: { () -> Void in
+      animations: {
         // Slide tile
         tile.frame = finalFrame
       },
@@ -147,17 +148,16 @@ class GameboardView : UIView {
         tile.layer.setAffineTransform(CGAffineTransformMakeScale(self.tileMergeStartScale, self.tileMergeStartScale))
         // Pop tile
         UIView.animateWithDuration(self.tileMergeExpandTime,
-          animations: { () -> Void in
+          animations: {
             tile.layer.setAffineTransform(CGAffineTransformMakeScale(self.tilePopMaxScale, self.tilePopMaxScale))
           },
-          completion: { (finished: Bool) -> () in
+          completion: { finished in
             // Contract tile to original size
-            UIView.animateWithDuration(self.tileMergeContractTime,
-              animations: { () -> Void in
-                tile.layer.setAffineTransform(CGAffineTransformIdentity)
-              })
-          })
-      })
+            UIView.animateWithDuration(self.tileMergeContractTime) {
+              tile.layer.setAffineTransform(CGAffineTransformIdentity)
+            }
+        })
+    })
   }
 
   /// Update the gameboard by moving two tiles from their original locations to a common destination. This action always
@@ -170,11 +170,13 @@ class GameboardView : UIView {
     let fromKeyA = NSIndexPath(forRow: fromRowA, inSection: fromColA)
     let fromKeyB = NSIndexPath(forRow: fromRowB, inSection: fromColB)
     let toKey = NSIndexPath(forRow: toRow, inSection: toCol)
-    
-    assert(tiles[fromKeyA] != nil)
-    assert(tiles[fromKeyB] != nil)
-    let tileA = tiles[fromKeyA]!
-    let tileB = tiles[fromKeyB]!
+
+    guard let tileA = tiles[fromKeyA] else {
+      assert(false, "placeholder error")
+    }
+    guard let tileB = tiles[fromKeyB] else {
+      assert(false, "placeholder error")
+    }
 
     // Make the frame
     var finalFrame = tileA.frame
@@ -191,12 +193,12 @@ class GameboardView : UIView {
     UIView.animateWithDuration(perSquareSlideDuration,
       delay: 0.0,
       options: UIViewAnimationOptions.BeginFromCurrentState,
-      animations: { () -> Void in
+      animations: {
         // Slide tiles
         tileA.frame = finalFrame
         tileB.frame = finalFrame
       },
-      completion: { (finished: Bool) -> Void in
+      completion: { finished in
         tileA.value = value
         tileB.removeFromSuperview()
         if !finished {
@@ -205,17 +207,15 @@ class GameboardView : UIView {
         tileA.layer.setAffineTransform(CGAffineTransformMakeScale(self.tileMergeStartScale, self.tileMergeStartScale))
         // Pop tile
         UIView.animateWithDuration(self.tileMergeExpandTime,
-          animations: { () -> Void in
+          animations: {
             tileA.layer.setAffineTransform(CGAffineTransformMakeScale(self.tilePopMaxScale, self.tilePopMaxScale))
           },
-          completion: { (finished: Bool) -> Void in
+          completion: { finished in
             // Contract tile to original size
-            UIView.animateWithDuration(self.tileMergeContractTime,
-              animations: { () -> Void in
-                tileA.layer.setAffineTransform(CGAffineTransformIdentity)
-              })
-          })
-      })
+            UIView.animateWithDuration(self.tileMergeContractTime) {
+              tileA.layer.setAffineTransform(CGAffineTransformIdentity)
+            }
+        })
+    })
   }
-  
 }

@@ -7,6 +7,7 @@
 //
 
 import XCTest
+@testable import swift_2048
 
 class ModelTests: XCTestCase, GameModelProtocol {
 
@@ -40,7 +41,7 @@ class ModelTests: XCTestCase, GameModelProtocol {
 
     // Check the output
     XCTAssert(output.count == 5, "Output should have 5 merge tiles")
-    for (idx, object) in enumerate(output) {
+    for (idx, object) in output.enumerate() {
       let c = group[idx]
       switch c {
       case .Empty:
@@ -60,7 +61,7 @@ class ModelTests: XCTestCase, GameModelProtocol {
 
   func testCondense1b() {
     let m = GameModel(dimension: 5, threshold: 2048, delegate: self)
-    var group = [TileObject.Tile(1),
+    let group = [TileObject.Tile(1),
       TileObject.Empty,
       TileObject.Tile(4),
       TileObject.Empty,
@@ -70,7 +71,7 @@ class ModelTests: XCTestCase, GameModelProtocol {
 
     // Check the output
     XCTAssert(output.count == 3, "Output should have 3 merge tiles")
-    for (idx, object) in enumerate(output) {
+    for (idx, _) in output.enumerate() {
       let c = output[idx]
       switch c {
       case .SingleCombine:
@@ -106,7 +107,7 @@ class ModelTests: XCTestCase, GameModelProtocol {
 
   func testCondense1c() {
     let m = GameModel(dimension: 5, threshold: 2048, delegate: self)
-    var group = [TileObject.Tile(1),
+    let group = [TileObject.Tile(1),
       TileObject.Tile(4),
       TileObject.Empty,
       TileObject.Empty,
@@ -117,7 +118,7 @@ class ModelTests: XCTestCase, GameModelProtocol {
 
     // Check the output
     XCTAssert(output.count == 3, "Output should have 3 merge tiles")
-    for (idx, object) in enumerate(output) {
+    for (idx, _) in output.enumerate() {
       let c = output[idx]
       switch c {
       case .SingleCombine:
@@ -153,7 +154,7 @@ class ModelTests: XCTestCase, GameModelProtocol {
 
   func testCondense1d() {
     let m = GameModel(dimension: 5, threshold: 2048, delegate: self)
-    var group = [TileObject.Empty,
+    let group = [TileObject.Empty,
       TileObject.Empty,
       TileObject.Tile(1),
       TileObject.Tile(4),
@@ -166,14 +167,14 @@ class ModelTests: XCTestCase, GameModelProtocol {
 
     // Check the output
     XCTAssert(output.count == 3, "Output should have 3 merge tiles")
-    for (idx, object) in enumerate(output) {
+    for (idx, _) in output.enumerate() {
       let c = output[idx]
       switch c {
       case .SingleCombine:
         XCTFail("Output \(idx) was a single combine merge tile, but condense should never produce those!")
       case .DoubleCombine:
         XCTFail("Output \(idx) was a double combine merge tile, but condense should never produce those!")
-      case let .NoAction(s, v):
+      case .NoAction:
         XCTFail("Output \(idx) was a no action merge tile, but shouldn't have been!")
       case let .Move(s, v):
         if (idx == 0) {
@@ -207,7 +208,7 @@ class ModelTests: XCTestCase, GameModelProtocol {
 
   func testCollapse1() {
     let m = GameModel(dimension: 5, threshold: 2048, delegate: self)
-    var group = [ActionToken.NoAction(source: 0, value: 4),
+    let group = [ActionToken.NoAction(source: 0, value: 4),
       ActionToken.NoAction(source: 1, value: 2),
       ActionToken.NoAction(source: 2, value: 4),
       ActionToken.NoAction(source: 3, value: 2)]
@@ -224,7 +225,7 @@ class ModelTests: XCTestCase, GameModelProtocol {
   func testMerge1() {
     // Scenario: no movement at all
     let m = GameModel(dimension: 5, threshold: 2048, delegate: self)
-    var group = [TileObject.Tile(1),
+    let group = [TileObject.Tile(1),
       TileObject.Tile(2),
       TileObject.Tile(4),
       TileObject.Tile(8),
@@ -237,7 +238,7 @@ class ModelTests: XCTestCase, GameModelProtocol {
   func testMerge2() {
     // Scenario: some moves
     let m = GameModel(dimension: 5, threshold: 2048, delegate: self)
-    var group = [TileObject.Tile(1),
+    let group = [TileObject.Tile(1),
       TileObject.Empty,
       TileObject.Tile(4),
       TileObject.Empty,
@@ -245,7 +246,7 @@ class ModelTests: XCTestCase, GameModelProtocol {
     let orders = m.merge(group)
     XCTAssert(orders.count == 2, "There should have been 2 orders. Got \(orders.count) instead")
     // Verify orders
-    for (idx, order) in enumerate(orders) {
+    for (idx, order) in orders.enumerate() {
       switch order {
       case let .SingleMoveOrder(s, d, v, _):
         if (idx == 0) {
@@ -261,7 +262,7 @@ class ModelTests: XCTestCase, GameModelProtocol {
         else {
           XCTFail("Got a single move order at \(idx), but there shouldn't have been one")
         }
-      case let .DoubleMoveOrder(s1, s2, d, v):
+      case .DoubleMoveOrder:
         XCTFail("No double move orders are valid for this test")
       }
     }
@@ -270,7 +271,7 @@ class ModelTests: XCTestCase, GameModelProtocol {
   func testMerge3() {
     // Scenario: no moves, one merge at end
     let m = GameModel(dimension: 5, threshold: 2048, delegate: self)
-    var group = [TileObject.Tile(1),
+    let group = [TileObject.Tile(1),
       TileObject.Tile(2),
       TileObject.Tile(4),
       TileObject.Tile(1),
@@ -278,7 +279,7 @@ class ModelTests: XCTestCase, GameModelProtocol {
     let orders = m.merge(group)
     XCTAssert(orders.count == 1, "There should have been 1 order. Got \(orders.count) instead")
     // Verify orders
-    for (idx, order) in enumerate(orders) {
+    for (idx, order) in orders.enumerate() {
       switch order {
       case let .SingleMoveOrder(s, d, v, _):
         if (idx == 0) {
@@ -289,7 +290,7 @@ class ModelTests: XCTestCase, GameModelProtocol {
         else {
           XCTFail("Got a single move order at \(idx), but there shouldn't have been one")
         }
-      case let .DoubleMoveOrder(s1, s2, d, v):
+      case .DoubleMoveOrder:
         XCTFail("No double move orders are valid for this test")
       }
     }
@@ -306,7 +307,7 @@ class ModelTests: XCTestCase, GameModelProtocol {
     let orders = m.merge(group)
     XCTAssert(orders.count == 3, "There should have been 3 orders. Got \(orders.count) instead")
     // Verify orders
-    for (idx, order) in enumerate(orders) {
+    for (idx, order) in orders.enumerate() {
       switch order {
       case let .SingleMoveOrder(s, d, v, _):
         if (idx == 0) {
@@ -327,7 +328,7 @@ class ModelTests: XCTestCase, GameModelProtocol {
         else {
           XCTFail("Got a single move order at \(idx), but there shouldn't have been one")
         }
-      case let .DoubleMoveOrder(s1, s2, d, v):
+      case .DoubleMoveOrder:
         XCTFail("No double move orders are valid for this test")
       }
     }
@@ -344,7 +345,7 @@ class ModelTests: XCTestCase, GameModelProtocol {
     let orders = m.merge(group)
     XCTAssert(orders.count == 2, "There should have been 2 orders. Got \(orders.count) instead")
     // Verify orders
-    for (idx, order) in enumerate(orders) {
+    for (idx, order) in orders.enumerate() {
       switch order {
       case let .SingleMoveOrder(s, d, v, _):
         if (idx == 0) {
@@ -360,7 +361,7 @@ class ModelTests: XCTestCase, GameModelProtocol {
         else {
           XCTFail("Got a single move order at \(idx), but there shouldn't have been one")
         }
-      case let .DoubleMoveOrder(s1, s2, d, v):
+      case .DoubleMoveOrder:
         XCTFail("No double move orders are valid for this test")
       }
     }
@@ -377,7 +378,7 @@ class ModelTests: XCTestCase, GameModelProtocol {
     let orders = m.merge(group)
     XCTAssert(orders.count == 3, "There should have been 3 orders. Got \(orders.count) instead")
     // Verify orders
-    for (idx, order) in enumerate(orders) {
+    for (idx, order) in orders.enumerate() {
       switch order {
       case let .SingleMoveOrder(s, d, v, _):
         if (idx == 0) {
@@ -418,9 +419,9 @@ class ModelTests: XCTestCase, GameModelProtocol {
     let orders = m.merge(group)
     XCTAssert(orders.count == 2, "There should have been 2 orders. Got \(orders.count) instead")
     // Verify orders
-    for (idx, order) in enumerate(orders) {
+    for (idx, order) in orders.enumerate() {
       switch order {
-      case let .SingleMoveOrder(s, d, v, _):
+      case .SingleMoveOrder:
         XCTFail("No single move orders are valid for this test")
       case let .DoubleMoveOrder(s1, s2, d, v):
         if (idx == 0) {
@@ -453,7 +454,7 @@ class ModelTests: XCTestCase, GameModelProtocol {
     let orders = m.merge(group)
     XCTAssert(orders.count == 2, "There should have been 2 orders. Got \(orders.count) instead")
     // Verify orders
-    for (idx, order) in enumerate(orders) {
+    for (idx, order) in orders.enumerate() {
       switch order {
       case let .SingleMoveOrder(s, d, v, _):
         if (idx == 0) {
@@ -489,7 +490,7 @@ class ModelTests: XCTestCase, GameModelProtocol {
     let orders = m.merge(group)
     XCTAssert(orders.count == 2, "There should have been 2 orders. Got \(orders.count) instead")
     // Verify orders
-    for (idx, order) in enumerate(orders) {
+    for (idx, order) in orders.enumerate() {
       switch order {
       case let .SingleMoveOrder(s, d, v, _):
         if (idx == 0) {

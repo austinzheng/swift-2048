@@ -10,17 +10,17 @@ import UIKit
 
 /// A view representing a single swift-2048 tile.
 class TileView : UIView {
-  // This should be unowned. But there is a bug preventing 'unowned' from working correctly with protocols.
-  var delegate: AppearanceProviderProtocol
-  var value: Int = 0 {
-  didSet {
-    backgroundColor = delegate.tileColor(value)
-    numberLabel.textColor = delegate.numberColor(value)
-    numberLabel.text = "\(value)"
+  var value : Int = 0 {
+    didSet {
+      backgroundColor = delegate.tileColor(value)
+      numberLabel.textColor = delegate.numberColor(value)
+      numberLabel.text = "\(value)"
+    }
   }
-  }
-  var numberLabel: UILabel
-    
+
+  unowned let delegate : AppearanceProviderProtocol
+  let numberLabel : UILabel
+
   required init(coder: NSCoder) {
     fatalError("NSCoding not supported")
   }

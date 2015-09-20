@@ -10,20 +10,13 @@ import Foundation
 
 /// An enum representing directions supported by the game model.
 enum MoveDirection {
-  case Up
-  case Down
-  case Left
-  case Right
+  case Up, Down, Left, Right
 }
 
 /// An enum representing a movement command issued by the view controller as the result of the user swiping.
 struct MoveCommand {
-  var direction: MoveDirection
-  var completion: (Bool) -> ()
-  init(d: MoveDirection, c: (Bool) -> ()) {
-    direction = d
-    completion = c
-  }
+  let direction : MoveDirection
+  let completion : (Bool) -> ()
 }
 
 /// An enum representing a 'move order'. This is a data structure the game model uses to inform the view controller
@@ -70,8 +63,8 @@ enum ActionToken {
 /// A struct representing a square gameboard. Because this struct uses generics, it could conceivably be used to
 /// represent state for many other games without modification.
 struct SquareGameboard<T> {
-  let dimension: Int
-  var boardArray: [T]
+  let dimension : Int
+  var boardArray : [T]
 
   init(dimension d: Int, initialValue: T) {
     dimension = d

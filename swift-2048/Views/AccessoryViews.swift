@@ -14,10 +14,10 @@ protocol ScoreViewProtocol {
 
 /// A simple view that displays the player's score.
 class ScoreView : UIView, ScoreViewProtocol {
-  var score: Int = 0 {
-  didSet {
-    label.text = "SCORE: \(score)"
-  }
+  var score : Int = 0 {
+    didSet {
+      label.text = "SCORE: \(score)"
+    }
   }
 
   let defaultFrame = CGRectMake(0, 0, 140, 40)
