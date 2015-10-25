@@ -3,7 +3,7 @@
 //  swift-2048
 //
 //  Created by Austin Zheng on 6/3/14.
-//  Copyright (c) 2014 Austin Zheng. All rights reserved.
+//  Copyright (c) 2014 Austin Zheng. Released under the terms of the MIT license.
 //
 
 import UIKit
