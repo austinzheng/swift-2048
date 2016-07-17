@@ -49,22 +49,22 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
   }
 
   func setupSwipeControls() {
-    let upSwipe = UISwipeGestureRecognizer(target: self, action: Selector("up:"))
+    let upSwipe = UISwipeGestureRecognizer(target: self, action: #selector(NumberTileGameViewController.upCommand(_:)))
     upSwipe.numberOfTouchesRequired = 1
     upSwipe.direction = UISwipeGestureRecognizerDirection.Up
     view.addGestureRecognizer(upSwipe)
 
-    let downSwipe = UISwipeGestureRecognizer(target: self, action: Selector("down:"))
+    let downSwipe = UISwipeGestureRecognizer(target: self, action: #selector(NumberTileGameViewController.downCommand(_:)))
     downSwipe.numberOfTouchesRequired = 1
     downSwipe.direction = UISwipeGestureRecognizerDirection.Down
     view.addGestureRecognizer(downSwipe)
 
-    let leftSwipe = UISwipeGestureRecognizer(target: self, action: Selector("left:"))
+    let leftSwipe = UISwipeGestureRecognizer(target: self, action: #selector(NumberTileGameViewController.leftCommand(_:)))
     leftSwipe.numberOfTouchesRequired = 1
     leftSwipe.direction = UISwipeGestureRecognizerDirection.Left
     view.addGestureRecognizer(leftSwipe)
 
-    let rightSwipe = UISwipeGestureRecognizer(target: self, action: Selector("right:"))
+    let rightSwipe = UISwipeGestureRecognizer(target: self, action: #selector(NumberTileGameViewController.rightCommand(_:)))
     rightSwipe.numberOfTouchesRequired = 1
     rightSwipe.direction = UISwipeGestureRecognizerDirection.Right
     view.addGestureRecognizer(rightSwipe)
@@ -88,8 +88,14 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
   }
 
   func setupGame() {
-    let vcHeight = view.bounds.size.height
-    let vcWidth = view.bounds.size.width
+    // We will keep scoreboard and gameboard inside a smaller view just to make rotation easier
+    let smallerView = UIView(frame: CGRect(x: 100, y: 100, width: 500, height: 500))
+    smallerView.center = view.center
+    smallerView.autoresizingMask = [.FlexibleTopMargin , .FlexibleBottomMargin , .FlexibleLeftMargin , .FlexibleRightMargin]
+    smallerView.translatesAutoresizingMaskIntoConstraints = true
+    
+    let vcHeight = smallerView.bounds.size.height
+    let vcWidth = smallerView.bounds.size.width
 
     // This nested function provides the x-position for a component view
     func xPositionToCenterView(v: UIView) -> CGFloat {
@@ -143,13 +149,15 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
     f.origin.x = xPositionToCenterView(gameboard)
     f.origin.y = yPositionForViewAtPosition(1, views: views)
     gameboard.frame = f
-
+    
 
     // Add to game state
-    view.addSubview(gameboard)
-    board = gameboard
-    view.addSubview(scoreView)
+    smallerView.addSubview(gameboard)
+    self.board = gameboard
+    smallerView.addSubview(scoreView)
     self.scoreView = scoreView
+    
+    view.addSubview(smallerView)
 
     assert(model != nil)
     let m = model!

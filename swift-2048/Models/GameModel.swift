@@ -92,7 +92,7 @@ class GameModel : NSObject {
       timer = NSTimer.scheduledTimerWithTimeInterval(queueDelay,
         target: self,
         selector:
-        Selector("timerFired:"),
+        #selector(GameModel.timerFired(_:)),
         userInfo: nil,
         repeats: false)
     }
