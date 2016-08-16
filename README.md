@@ -8,7 +8,7 @@ Like the original Objective-C version, swift-2048 does not rely upon SpriteKit. 
 I'm not actively working on this, except to fix bugs and maintain compatibility with latest versions. Pull requests are welcome, though. Note that Swift was very different back when I first wrote this code, caveat emptor.
 
 
-If you want to check out a more advanced Swift project, please take a look at **[Lambdatron](https://github.com/austinzheng/Lambdatron)**, my Clojure interpreter.
+If you want to check out a more advanced Swift project, please take a look at **[Cormorant](https://github.com/austinzheng/Cormorant)**, my Clojure interpreter.
 
 Instructions
 ------------
