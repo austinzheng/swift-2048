@@ -118,6 +118,7 @@ class GameboardView : UIView {
     // Get the tiles
     guard let tile = tiles[fromKey] else {
       assert(false, "placeholder error")
+    return
     }
     let endTile = tiles[toKey]
 
@@ -173,9 +174,12 @@ class GameboardView : UIView {
 
     guard let tileA = tiles[fromKeyA] else {
       assert(false, "placeholder error")
+        return
+    
     }
     guard let tileB = tiles[fromKeyB] else {
       assert(false, "placeholder error")
+        return
     }
 
     // Make the frame
