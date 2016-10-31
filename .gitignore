@@ -18,6 +18,9 @@ DerivedData
 .idea/
 *.hmap
 *.xccheckout
+*.ipa
+2048swift.ipa.zip
+
 
 #CocoaPods
 Pods
