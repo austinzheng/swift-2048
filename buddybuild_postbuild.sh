@@ -25,4 +25,5 @@ curl -F "ipa=@$BUDDYBUILD_IPA_PATH" -F "dsym=@$BUDDYBUILD_PRODUCT_DIR/Release-ip
 echo "Testing craplytics"
 echo find "${DWARF_DSYM_FOLDER_PATH}" -name "*.dSYM" | xargs -I ${PODS_ROOT}/Fabric/upload-symbols -a ${CRASHLYTICS_API_KEY} -p ios
 
-find "${DWARF_DSYM_FOLDER_PATH}" -name "*.dSYM" | xargs -I ${PODS_ROOT}/Fabric/upload-symbols -a ${CRASHLYTICS_API_KEY} -p ios
+
+find "${DWARF_DSYM_FOLDER_PATH}" -name "*.dSYM" | xargs -I \{\} ${PODS_ROOT}/Fabric/upload-symbols -a ${CRASHLYTICS_API_KEY} -p ios \{\}
