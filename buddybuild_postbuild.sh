@@ -31,4 +31,6 @@ ls -la
 cd Pods.framework
 echo "whats in here"
 ls -la
+cd Pods
+echo "whats in here"
 find . -name "*.dSYM" | xargs -I \{\} Pods/Fabric/upload-symbols -a 4e398883f5a51079e0cfd9aa715683d57ac5a235 -p ios
