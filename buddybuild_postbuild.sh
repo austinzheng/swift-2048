@@ -16,6 +16,10 @@
 #echo "whats in here"
 #ls -la 
 
+echo -e "\n Where Da Syms" 
+cd $BUDDYBUILD_PRODUCT_DIR 
+find . -name "*.dSYM" |
+
 
 echo -e "\n Uploading to HockeyApp via command line" 
 cd $BUDDYBUILD_PRODUCT_DIR 
