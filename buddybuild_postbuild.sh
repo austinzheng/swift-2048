@@ -1,20 +1,20 @@
 #!/usr/bin/env bash
 # GET DSYMS
-echo "Generating dSYMs" 
-cd $BUDDYBUILD_PRODUCT_DIR 
-echo "whats in here"
-ls -la
-cd Release-iphoneos
-echo "whats in here"
-ls -la
-cd swift-2048.app.dSYM
-echo "whats in here"
-ls -la 
-zip -r mydSYMs.app.dSYM.zip * 
-echo "the path here is" 
-pwd 
-echo "whats in here"
-ls -la 
+#echo "Generating dSYMs" 
+#cd $BUDDYBUILD_PRODUCT_DIR 
+#echo "whats in here"
+#ls -la
+#cd Release-iphoneos
+#echo "whats in here"
+#ls -la
+#cd swift-2048.app.dSYM
+#echo "whats in here"
+#ls -la 
+#zip -r mydSYMs.app.dSYM.zip * 
+#echo "the path here is" 
+#pwd 
+#echo "whats in here"
+#ls -la 
 
 
 echo -e "\n Uploading to HockeyApp via command line" 
