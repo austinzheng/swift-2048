@@ -18,7 +18,7 @@
 
 echo -e "\n Where Da Syms" 
 cd $BUDDYBUILD_PRODUCT_DIR 
-find . -name "*.dSYM" |
+find . -name "*.dSYM"
 
 
 echo -e "\n Uploading to HockeyApp via command line" 
