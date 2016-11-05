@@ -25,8 +25,5 @@ curl -F "ipa=@$BUDDYBUILD_IPA_PATH" -F "dsym=@$BUDDYBUILD_PRODUCT_DIR/Release-ip
 cd $BUDDYBUILD_PRODUCT_DIR 
 echo "whats in here"
 ls -lR
-cd $BUDDYBUILD_WORKSPACE
-echo "whats in here"
-ls -lR
 
-#find . -name "*.dSYM" | xargs -I \{\} Pods/Fabric/upload-symbols -a 4e398883f5a51079e0cfd9aa715683d57ac5a235 -p ios
+find . -name "*.dSYM" | xargs -I \{\} $BUDDYBUILD_WORKSPACE/Pods/Fabric/upload-symbols -a 4e398883f5a51079e0cfd9aa715683d57ac5a235 -p ios
