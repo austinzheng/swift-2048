@@ -31,4 +31,5 @@ find . -name "*.dSYM" | xargs -I \{\} curl -F "ipa=@$BUDDYBUILD_IPA_PATH" -F "ds
 echo -e "\nUploading to Fabric via command line" 
 
 cd $BUDDYBUILD_PRODUCT_DIR 
-find . -name "*.dSYM" | xargs -I \{\} $BUDDYBUILD_WORKSPACE/Pods/Fabric/upload-symbols -a 4e398883f5a51079e0cfd9aa715683d57ac5a235 -p ios \{\}
+#find . -name "*.dSYM" | xargs -I \{\} $BUDDYBUILD_WORKSPACE/Pods/Fabric/upload-symbols -a 4e398883f5a51079e0cfd9aa715683d57ac5a235 -p ios \{\}
+$BUDDYBUILD_WORKSPACE/Pods/Fabric/upload-symbols -a 4e398883f5a51079e0cfd9aa715683d57ac5a235 -p ios $BUDDYBUILD_PRODUCT_DIR 
