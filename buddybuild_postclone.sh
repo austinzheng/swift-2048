@@ -5,4 +5,4 @@ if ! which swiftlint >/dev/null; then
 brew install swiftlint
 fi
 
-swiftlint
+#swiftlint
