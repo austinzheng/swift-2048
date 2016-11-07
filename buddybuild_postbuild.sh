@@ -40,7 +40,7 @@ fi
 echo "Trying Slather"
 
 echo password | sudo -S gem install slather
-slather coverage -s --scheme swift-2048 $BUDDYBUILD_WORKSPACE/swift-2048.xcodeproj
+slather coverage -s --scheme swift-2048 $BUDDYBUILD_TEST_DIR/swift-2048.xcodeproj
 
 
 
