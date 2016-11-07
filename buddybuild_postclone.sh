@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
-brew install swiftlint
+brew install swiftlint --force
 swiftlint
