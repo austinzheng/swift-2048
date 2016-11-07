@@ -41,6 +41,6 @@ fi
 
 #curl -F "ipa=@$BUDDYBUILD_IPA_PATH" -F "dsym=@$BUDDYBUILD_PRODUCT_DIR/Release-iphoneos/swift-2048.app.dSYM/mydSYMs.app.dsym.zip" -H "X-HockeyAppToken: 3c2b4783db2447518590a3a7d946ab67" https://rink.hockeyapp.net/api/2/apps/9934149eb72b4e6ab617feb1d822dae0/app_versions/upload
 
-echo "Uploading to Fabric via command line"
-FABRIC_API_KEY=4e398883f5a51079e0cfd9aa715683d57ac5a235
-$BUDDYBUILD_WORKSPACE/Pods/Fabric/upload-symbols -a $FABRIC_API_KEY -p ios $BUDDYBUILD_PRODUCT_DIR 
+#echo "Uploading to Fabric via command line"
+#FABRIC_API_KEY=4e398883f5a51079e0cfd9aa715683d57ac5a235
+#$BUDDYBUILD_WORKSPACE/Pods/Fabric/upload-symbols -a $FABRIC_API_KEY -p ios $BUDDYBUILD_PRODUCT_DIR 
