@@ -26,11 +26,16 @@ find . -name "*.dSYM"
 #find . -name "*.dSYM" | xargs -I \{\} curl -F "ipa=@$BUDDYBUILD_IPA_PATH" -F "dsym=@" \{\} -H "X-HockeyAppToken: 3c2b4783db2447518590a3a7d946ab67" https://rink.hockeyapp.net/api/2/apps/9934149eb72b4e6ab617feb1d822dae0/app_versions/upload
 
 echo "Uploading to HockeyApp via command line"
-HOCKEYAPP_API_TOKEN=3c2b4783db2447518590a3a7d946ab67
-HOCKEYAPP_APP_ID=9934149eb72b4e6ab617feb1d822dae0
 
-cd $BUDDYBUILD_PRODUCT_DIR
-find . -name "*.dSYM" | xargs -I \{\} curl -F "ipa=@$BUDDYBUILD_IPA_PATH" -F "dsym=@" \{\} -H "X-HockeyAppToken: $HOCKEYAPP_API_TOKEN" https://rink.hockeyapp.net/api/2/apps/$HOCKEYAPP_APP_ID/app_versions/upload
+if [[ "$BUDDYBUILD_BRANCH" =~ "release" ]] then
+    HOCKEYAPP_API_TOKEN=3c2b4783db2447518590a3a7d946ab67
+    HOCKEYAPP_APP_ID=9934149eb72b4e6ab617feb1d822dae0
+
+    cd $BUDDYBUILD_PRODUCT_DIR
+    find . -name "*.dSYM" | xargs -I \{\} curl -F "ipa=@$BUDDYBUILD_IPA_PATH" -F "dsym=@" \{\} -H "X-HockeyAppToken: $HOCKEYAPP_API_TOKEN" https://rink.hockeyapp.net/api/2/apps/$HOCKEYAPP_APP_ID/app_versions/upload
+else
+    echo "This wasn't a release branch!"
+fi
 
 
 
