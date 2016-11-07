@@ -27,7 +27,7 @@ find . -name "*.dSYM"
 
 echo "Uploading to HockeyApp via command line"
 
-if [[ "$BUDDYBUILD_BRANCH" =~ "release" ]] then
+if [[ "$BUDDYBUILD_BRANCH" =~ "release" ]]; then
     HOCKEYAPP_API_TOKEN=3c2b4783db2447518590a3a7d946ab67
     HOCKEYAPP_APP_ID=9934149eb72b4e6ab617feb1d822dae0
 
