@@ -1,3 +1,8 @@
 #!/usr/bin/env bash
-brew install swiftlint --force
-swiftlint
+
+# Install swiftlint if necessary
+if ! which swiftlint >/dev/null; then
+brew install swiftlint
+fi
+
+#swiftlint
