@@ -4,6 +4,15 @@ cd $BUDDYBUILD_TEST_DIR
 echo "Whats in $BUDDYBUILD_TEST_DIR"
 ls -laR
 
+cd $BUDDYBUILD_PRODUCT_DIR
+echo "Whats in $BUDDYBUILD_PRODUCT_DIR"
+ls -laR
+
+cd $BUDDYBUILD_WORKSPACE
+echo "Whats in $BUDDYBUILD_WORKSPACE"
+ls -laR
+
+
 # GET DSYMS
 #echo "Generating dSYMs" 
 #cd $BUDDYBUILD_PRODUCT_DIR 
