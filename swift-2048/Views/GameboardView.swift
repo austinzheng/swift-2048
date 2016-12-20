@@ -13,21 +13,21 @@ class GameboardView : UIView {
   var tileWidth: CGFloat
   var tilePadding: CGFloat
   var cornerRadius: CGFloat
-  var tiles: Dictionary<NSIndexPath, TileView>
+  var tiles: Dictionary<IndexPath, TileView>
 
   let provider = AppearanceProvider()
 
   let tilePopStartScale: CGFloat = 0.1
   let tilePopMaxScale: CGFloat = 1.1
-  let tilePopDelay: NSTimeInterval = 0.05
-  let tileExpandTime: NSTimeInterval = 0.18
-  let tileContractTime: NSTimeInterval = 0.08
+  let tilePopDelay: TimeInterval = 0.05
+  let tileExpandTime: TimeInterval = 0.18
+  let tileContractTime: TimeInterval = 0.08
 
   let tileMergeStartScale: CGFloat = 1.0
-  let tileMergeExpandTime: NSTimeInterval = 0.08
-  let tileMergeContractTime: NSTimeInterval = 0.08
+  let tileMergeExpandTime: TimeInterval = 0.08
+  let tileMergeContractTime: TimeInterval = 0.08
 
-  let perSquareSlideDuration: NSTimeInterval = 0.08
+  let perSquareSlideDuration: TimeInterval = 0.08
 
   init(dimension d: Int, tileWidth width: CGFloat, tilePadding padding: CGFloat, cornerRadius radius: CGFloat, backgroundColor: UIColor, foregroundColor: UIColor) {
     assert(d > 0)
@@ -37,7 +37,7 @@ class GameboardView : UIView {
     cornerRadius = radius
     tiles = Dictionary()
     let sideLength = padding + CGFloat(dimension)*(width + padding)
-    super.init(frame: CGRectMake(0, 0, sideLength, sideLength))
+    super.init(frame: CGRect(x: 0, y: 0, width: sideLength, height: sideLength))
     layer.cornerRadius = radius
     setupBackground(backgroundColor: backgroundColor, tileColor: foregroundColor)
   }
@@ -50,11 +50,11 @@ class GameboardView : UIView {
     for (_, tile) in tiles {
       tile.removeFromSuperview()
     }
-    tiles.removeAll(keepCapacity: true)
+    tiles.removeAll(keepingCapacity: true)
   }
 
   /// Return whether a given position is valid. Used for bounds checking.
-  func positionIsValid(pos: (Int, Int)) -> Bool {
+  func positionIsValid(_ pos: (Int, Int)) -> Bool {
     let (x, y) = pos
     return (x >= 0 && x < dimension && y >= 0 && y < dimension)
   }
@@ -68,7 +68,7 @@ class GameboardView : UIView {
       yCursor = tilePadding
       for _ in 0..<dimension {
         // Draw each tile
-        let background = UIView(frame: CGRectMake(xCursor, yCursor, tileWidth, tileWidth))
+        let background = UIView(frame: CGRect(x: xCursor, y: yCursor, width: tileWidth, height: tileWidth))
         background.layer.cornerRadius = bgRadius
         background.backgroundColor = tileColor
         addSubview(background)
@@ -79,41 +79,41 @@ class GameboardView : UIView {
   }
 
   /// Update the gameboard by inserting a tile in a given location. The tile will be inserted with a 'pop' animation.
-  func insertTile(pos: (Int, Int), value: Int) {
+  func insertTile(_ pos: (Int, Int), value: Int) {
     assert(positionIsValid(pos))
     let (row, col) = pos
     let x = tilePadding + CGFloat(col)*(tileWidth + tilePadding)
     let y = tilePadding + CGFloat(row)*(tileWidth + tilePadding)
     let r = (cornerRadius >= 2) ? cornerRadius - 2 : 0
-    let tile = TileView(position: CGPointMake(x, y), width: tileWidth, value: value, radius: r, delegate: provider)
-    tile.layer.setAffineTransform(CGAffineTransformMakeScale(tilePopStartScale, tilePopStartScale))
+    let tile = TileView(position: CGPoint(x: x, y: y), width: tileWidth, value: value, radius: r, delegate: provider)
+    tile.layer.setAffineTransform(CGAffineTransform(scaleX: tilePopStartScale, y: tilePopStartScale))
 
     addSubview(tile)
-    bringSubviewToFront(tile)
-    tiles[NSIndexPath(forRow: row, inSection: col)] = tile
+    bringSubview(toFront: tile)
+    tiles[IndexPath(row: row, section: col)] = tile
 
     // Add to board
-    UIView.animateWithDuration(tileExpandTime, delay: tilePopDelay, options: UIViewAnimationOptions.TransitionNone,
+    UIView.animate(withDuration: tileExpandTime, delay: tilePopDelay, options: UIViewAnimationOptions(),
       animations: {
         // Make the tile 'pop'
-        tile.layer.setAffineTransform(CGAffineTransformMakeScale(self.tilePopMaxScale, self.tilePopMaxScale))
+        tile.layer.setAffineTransform(CGAffineTransform(scaleX: self.tilePopMaxScale, y: self.tilePopMaxScale))
       },
       completion: { finished in
         // Shrink the tile after it 'pops'
-        UIView.animateWithDuration(self.tileContractTime, animations: { () -> Void in
-          tile.layer.setAffineTransform(CGAffineTransformIdentity)
+        UIView.animate(withDuration: self.tileContractTime, animations: { () -> Void in
+          tile.layer.setAffineTransform(CGAffineTransform.identity)
         })
     })
   }
 
   /// Update the gameboard by moving a single tile from one location to another. If the move is going to collapse two
   /// tiles into a new tile, the tile will 'pop' after moving to its new location.
-  func moveOneTile(from: (Int, Int), to: (Int, Int), value: Int) {
+  func moveOneTile(_ from: (Int, Int), to: (Int, Int), value: Int) {
     assert(positionIsValid(from) && positionIsValid(to))
     let (fromRow, fromCol) = from
     let (toRow, toCol) = to
-    let fromKey = NSIndexPath(forRow: fromRow, inSection: fromCol)
-    let toKey = NSIndexPath(forRow: toRow, inSection: toCol)
+    let fromKey = IndexPath(row: fromRow, section: fromCol)
+    let toKey = IndexPath(row: toRow, section: toCol)
 
     // Get the tiles
     guard let tile = tiles[fromKey] else {
@@ -127,14 +127,14 @@ class GameboardView : UIView {
     finalFrame.origin.y = tilePadding + CGFloat(toRow)*(tileWidth + tilePadding)
 
     // Update board state
-    tiles.removeValueForKey(fromKey)
+    tiles.removeValue(forKey: fromKey)
     tiles[toKey] = tile
 
     // Animate
     let shouldPop = endTile != nil
-    UIView.animateWithDuration(perSquareSlideDuration,
+    UIView.animate(withDuration: perSquareSlideDuration,
       delay: 0.0,
-      options: UIViewAnimationOptions.BeginFromCurrentState,
+      options: UIViewAnimationOptions.beginFromCurrentState,
       animations: {
         // Slide tile
         tile.frame = finalFrame
@@ -145,31 +145,31 @@ class GameboardView : UIView {
         if !shouldPop || !finished {
           return
         }
-        tile.layer.setAffineTransform(CGAffineTransformMakeScale(self.tileMergeStartScale, self.tileMergeStartScale))
+        tile.layer.setAffineTransform(CGAffineTransform(scaleX: self.tileMergeStartScale, y: self.tileMergeStartScale))
         // Pop tile
-        UIView.animateWithDuration(self.tileMergeExpandTime,
+        UIView.animate(withDuration: self.tileMergeExpandTime,
           animations: {
-            tile.layer.setAffineTransform(CGAffineTransformMakeScale(self.tilePopMaxScale, self.tilePopMaxScale))
+            tile.layer.setAffineTransform(CGAffineTransform(scaleX: self.tilePopMaxScale, y: self.tilePopMaxScale))
           },
           completion: { finished in
             // Contract tile to original size
-            UIView.animateWithDuration(self.tileMergeContractTime) {
-              tile.layer.setAffineTransform(CGAffineTransformIdentity)
-            }
+            UIView.animate(withDuration: self.tileMergeContractTime, animations: {
+              tile.layer.setAffineTransform(CGAffineTransform.identity)
+            }) 
         })
     })
   }
 
   /// Update the gameboard by moving two tiles from their original locations to a common destination. This action always
   /// represents tile collapse, and the combined tile 'pops' after both tiles move into position.
-  func moveTwoTiles(from: ((Int, Int), (Int, Int)), to: (Int, Int), value: Int) {
+  func moveTwoTiles(_ from: ((Int, Int), (Int, Int)), to: (Int, Int), value: Int) {
     assert(positionIsValid(from.0) && positionIsValid(from.1) && positionIsValid(to))
     let (fromRowA, fromColA) = from.0
     let (fromRowB, fromColB) = from.1
     let (toRow, toCol) = to
-    let fromKeyA = NSIndexPath(forRow: fromRowA, inSection: fromColA)
-    let fromKeyB = NSIndexPath(forRow: fromRowB, inSection: fromColB)
-    let toKey = NSIndexPath(forRow: toRow, inSection: toCol)
+    let fromKeyA = IndexPath(row: fromRowA, section: fromColA)
+    let fromKeyB = IndexPath(row: fromRowB, section: fromColB)
+    let toKey = IndexPath(row: toRow, section: toCol)
 
     guard let tileA = tiles[fromKeyA] else {
       assert(false, "placeholder error")
@@ -186,13 +186,13 @@ class GameboardView : UIView {
     // Update the state
     let oldTile = tiles[toKey]  // TODO: make sure this doesn't cause issues
     oldTile?.removeFromSuperview()
-    tiles.removeValueForKey(fromKeyA)
-    tiles.removeValueForKey(fromKeyB)
+    tiles.removeValue(forKey: fromKeyA)
+    tiles.removeValue(forKey: fromKeyB)
     tiles[toKey] = tileA
 
-    UIView.animateWithDuration(perSquareSlideDuration,
+    UIView.animate(withDuration: perSquareSlideDuration,
       delay: 0.0,
-      options: UIViewAnimationOptions.BeginFromCurrentState,
+      options: UIViewAnimationOptions.beginFromCurrentState,
       animations: {
         // Slide tiles
         tileA.frame = finalFrame
@@ -204,17 +204,17 @@ class GameboardView : UIView {
         if !finished {
           return
         }
-        tileA.layer.setAffineTransform(CGAffineTransformMakeScale(self.tileMergeStartScale, self.tileMergeStartScale))
+        tileA.layer.setAffineTransform(CGAffineTransform(scaleX: self.tileMergeStartScale, y: self.tileMergeStartScale))
         // Pop tile
-        UIView.animateWithDuration(self.tileMergeExpandTime,
+        UIView.animate(withDuration: self.tileMergeExpandTime,
           animations: {
-            tileA.layer.setAffineTransform(CGAffineTransformMakeScale(self.tilePopMaxScale, self.tilePopMaxScale))
+            tileA.layer.setAffineTransform(CGAffineTransform(scaleX: self.tilePopMaxScale, y: self.tilePopMaxScale))
           },
           completion: { finished in
             // Contract tile to original size
-            UIView.animateWithDuration(self.tileMergeContractTime) {
-              tileA.layer.setAffineTransform(CGAffineTransformIdentity)
-            }
+            UIView.animate(withDuration: self.tileMergeContractTime, animations: {
+              tileA.layer.setAffineTransform(CGAffineTransform.identity)
+            }) 
         })
     })
   }

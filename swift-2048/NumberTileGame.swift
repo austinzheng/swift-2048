@@ -40,7 +40,7 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
     threshold = t > 8 ? t : 8
     super.init(nibName: nil, bundle: nil)
     model = GameModel(dimension: dimension, threshold: threshold, delegate: self)
-    view.backgroundColor = UIColor.whiteColor()
+    view.backgroundColor = UIColor.white
     setupSwipeControls()
   }
 
@@ -49,24 +49,24 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
   }
 
   func setupSwipeControls() {
-    let upSwipe = UISwipeGestureRecognizer(target: self, action: Selector("up:"))
+    let upSwipe = UISwipeGestureRecognizer(target: self, action: #selector(NumberTileGameViewController.upCommand(_:)))
     upSwipe.numberOfTouchesRequired = 1
-    upSwipe.direction = UISwipeGestureRecognizerDirection.Up
+    upSwipe.direction = UISwipeGestureRecognizerDirection.up
     view.addGestureRecognizer(upSwipe)
 
-    let downSwipe = UISwipeGestureRecognizer(target: self, action: Selector("down:"))
+    let downSwipe = UISwipeGestureRecognizer(target: self, action: #selector(NumberTileGameViewController.downCommand(_:)))
     downSwipe.numberOfTouchesRequired = 1
-    downSwipe.direction = UISwipeGestureRecognizerDirection.Down
+    downSwipe.direction = UISwipeGestureRecognizerDirection.down
     view.addGestureRecognizer(downSwipe)
 
-    let leftSwipe = UISwipeGestureRecognizer(target: self, action: Selector("left:"))
+    let leftSwipe = UISwipeGestureRecognizer(target: self, action: #selector(NumberTileGameViewController.leftCommand(_:)))
     leftSwipe.numberOfTouchesRequired = 1
-    leftSwipe.direction = UISwipeGestureRecognizerDirection.Left
+    leftSwipe.direction = UISwipeGestureRecognizerDirection.left
     view.addGestureRecognizer(leftSwipe)
 
-    let rightSwipe = UISwipeGestureRecognizer(target: self, action: Selector("right:"))
+    let rightSwipe = UISwipeGestureRecognizer(target: self, action: #selector(NumberTileGameViewController.rightCommand(_:)))
     rightSwipe.numberOfTouchesRequired = 1
-    rightSwipe.direction = UISwipeGestureRecognizerDirection.Right
+    rightSwipe.direction = UISwipeGestureRecognizerDirection.right
     view.addGestureRecognizer(rightSwipe)
   }
 
@@ -92,17 +92,17 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
     let vcWidth = view.bounds.size.width
 
     // This nested function provides the x-position for a component view
-    func xPositionToCenterView(v: UIView) -> CGFloat {
+    func xPositionToCenterView(_ v: UIView) -> CGFloat {
       let viewWidth = v.bounds.size.width
       let tentativeX = 0.5*(vcWidth - viewWidth)
       return tentativeX >= 0 ? tentativeX : 0
     }
     // This nested function provides the y-position for a component view
-    func yPositionForViewAtPosition(order: Int, views: [UIView]) -> CGFloat {
+    func yPositionForViewAtPosition(_ order: Int, views: [UIView]) -> CGFloat {
       assert(views.count > 0)
       assert(order >= 0 && order < views.count)
 //      let viewHeight = views[order].bounds.size.height
-      let totalHeight = CGFloat(views.count - 1)*viewPadding + views.map({ $0.bounds.size.height }).reduce(verticalViewOffset, combine: { $0 + $1 })
+      let totalHeight = CGFloat(views.count - 1)*viewPadding + views.map({ $0.bounds.size.height }).reduce(verticalViewOffset, { $0 + $1 })
       let viewsTop = 0.5*(vcHeight - totalHeight) >= 0 ? 0.5*(vcHeight - totalHeight) : 0
 
       // Not sure how to slice an array yet
@@ -114,9 +114,9 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
     }
 
     // Create the score view
-    let scoreView = ScoreView(backgroundColor: UIColor.blackColor(),
-      textColor: UIColor.whiteColor(),
-      font: UIFont(name: "HelveticaNeue-Bold", size: 16.0) ?? UIFont.systemFontOfSize(16.0),
+    let scoreView = ScoreView(backgroundColor: UIColor.black,
+      textColor: UIColor.white,
+      font: UIFont(name: "HelveticaNeue-Bold", size: 16.0) ?? UIFont.systemFont(ofSize: 16.0),
       radius: 6)
     scoreView.score = 0
 
@@ -128,8 +128,8 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
       tileWidth: width,
       tilePadding: padding,
       cornerRadius: 6,
-      backgroundColor: UIColor.blackColor(),
-      foregroundColor: UIColor.darkGrayColor())
+      backgroundColor: UIColor.black,
+      foregroundColor: UIColor.darkGray)
 
     // Set up the frames
     let views = [scoreView, gameboard]
@@ -167,7 +167,7 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
       let alertView = UIAlertView()
       alertView.title = "Victory"
       alertView.message = "You won!"
-      alertView.addButtonWithTitle("Cancel")
+      alertView.addButton(withTitle: "Cancel")
       alertView.show()
       // TODO: At this point we should stall the game until the user taps 'New Game' (which hasn't been implemented yet)
       return
@@ -184,17 +184,17 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
       let alertView = UIAlertView()
       alertView.title = "Defeat"
       alertView.message = "You lost..."
-      alertView.addButtonWithTitle("Cancel")
+      alertView.addButton(withTitle: "Cancel")
       alertView.show()
     }
   }
 
   // Commands
   @objc(up:)
-  func upCommand(r: UIGestureRecognizer!) {
+  func upCommand(_ r: UIGestureRecognizer!) {
     assert(model != nil)
     let m = model!
-    m.queueMove(MoveDirection.Up,
+    m.queueMove(MoveDirection.up,
       completion: { (changed: Bool) -> () in
         if changed {
           self.followUp()
@@ -203,10 +203,10 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
   }
 
   @objc(down:)
-  func downCommand(r: UIGestureRecognizer!) {
+  func downCommand(_ r: UIGestureRecognizer!) {
     assert(model != nil)
     let m = model!
-    m.queueMove(MoveDirection.Down,
+    m.queueMove(MoveDirection.down,
       completion: { (changed: Bool) -> () in
         if changed {
           self.followUp()
@@ -215,10 +215,10 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
   }
 
   @objc(left:)
-  func leftCommand(r: UIGestureRecognizer!) {
+  func leftCommand(_ r: UIGestureRecognizer!) {
     assert(model != nil)
     let m = model!
-    m.queueMove(MoveDirection.Left,
+    m.queueMove(MoveDirection.left,
       completion: { (changed: Bool) -> () in
         if changed {
           self.followUp()
@@ -227,10 +227,10 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
   }
 
   @objc(right:)
-  func rightCommand(r: UIGestureRecognizer!) {
+  func rightCommand(_ r: UIGestureRecognizer!) {
     assert(model != nil)
     let m = model!
-    m.queueMove(MoveDirection.Right,
+    m.queueMove(MoveDirection.right,
       completion: { (changed: Bool) -> () in
         if changed {
           self.followUp()
@@ -239,7 +239,7 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
   }
 
   // Protocol
-  func scoreChanged(score: Int) {
+  func scoreChanged(_ score: Int) {
     if scoreView == nil {
       return
     }
@@ -247,19 +247,19 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
     s.scoreChanged(newScore: score)
   }
 
-  func moveOneTile(from: (Int, Int), to: (Int, Int), value: Int) {
+  func moveOneTile(_ from: (Int, Int), to: (Int, Int), value: Int) {
     assert(board != nil)
     let b = board!
     b.moveOneTile(from, to: to, value: value)
   }
 
-  func moveTwoTiles(from: ((Int, Int), (Int, Int)), to: (Int, Int), value: Int) {
+  func moveTwoTiles(_ from: ((Int, Int), (Int, Int)), to: (Int, Int), value: Int) {
     assert(board != nil)
     let b = board!
     b.moveTwoTiles(from, to: to, value: value)
   }
 
-  func insertTile(location: (Int, Int), value: Int) {
+  func insertTile(_ location: (Int, Int), value: Int) {
     assert(board != nil)
     let b = board!
     b.insertTile(location, value: value)
