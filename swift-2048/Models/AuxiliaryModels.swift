@@ -10,7 +10,7 @@ import Foundation
 
 /// An enum representing directions supported by the game model.
 enum MoveDirection {
-  case Up, Down, Left, Right
+  case up, down, left, right
 }
 
 /// An enum representing a movement command issued by the view controller as the result of the user swiping.
@@ -22,40 +22,40 @@ struct MoveCommand {
 /// An enum representing a 'move order'. This is a data structure the game model uses to inform the view controller
 /// which tiles on the gameboard should be moved and/or combined.
 enum MoveOrder {
-  case SingleMoveOrder(source: Int, destination: Int, value: Int, wasMerge: Bool)
-  case DoubleMoveOrder(firstSource: Int, secondSource: Int, destination: Int, value: Int)
+  case singleMoveOrder(source: Int, destination: Int, value: Int, wasMerge: Bool)
+  case doubleMoveOrder(firstSource: Int, secondSource: Int, destination: Int, value: Int)
 }
 
 /// An enum representing either an empty space or a tile upon the board.
 enum TileObject {
-  case Empty
-  case Tile(Int)
+  case empty
+  case tile(Int)
 }
 
 /// An enum representing an intermediate result used by the game logic when figuring out how the board should change as
 /// the result of a move. ActionTokens are transformed into MoveOrders before being sent to the delegate.
 enum ActionToken {
-  case NoAction(source: Int, value: Int)
-  case Move(source: Int, value: Int)
-  case SingleCombine(source: Int, value: Int)
-  case DoubleCombine(source: Int, second: Int, value: Int)
+  case noAction(source: Int, value: Int)
+  case move(source: Int, value: Int)
+  case singleCombine(source: Int, value: Int)
+  case doubleCombine(source: Int, second: Int, value: Int)
 
   // Get the 'value', regardless of the specific type
   func getValue() -> Int {
     switch self {
-    case let .NoAction(_, v): return v
-    case let .Move(_, v): return v
-    case let .SingleCombine(_, v): return v
-    case let .DoubleCombine(_, _, v): return v
+    case let .noAction(_, v): return v
+    case let .move(_, v): return v
+    case let .singleCombine(_, v): return v
+    case let .doubleCombine(_, _, v): return v
     }
   }
   // Get the 'source', regardless of the specific type
   func getSource() -> Int {
     switch self {
-    case let .NoAction(s, _): return s
-    case let .Move(s, _): return s
-    case let .SingleCombine(s, _): return s
-    case let .DoubleCombine(s, _, _): return s
+    case let .noAction(s, _): return s
+    case let .move(s, _): return s
+    case let .singleCombine(s, _): return s
+    case let .doubleCombine(s, _, _): return s
     }
   }
 }
@@ -68,7 +68,7 @@ struct SquareGameboard<T> {
 
   init(dimension d: Int, initialValue: T) {
     dimension = d
-    boardArray = [T](count:d*d, repeatedValue:initialValue)
+    boardArray = [T](repeating: initialValue, count: d*d)
   }
 
   subscript(row: Int, col: Int) -> T {
@@ -85,7 +85,7 @@ struct SquareGameboard<T> {
   }
 
   // We mark this function as 'mutating' since it changes its 'parent' struct.
-  mutating func setAll(item: T) {
+  mutating func setAll(to item: T) {
     for i in 0..<dimension {
       for j in 0..<dimension {
         self[i, j] = item

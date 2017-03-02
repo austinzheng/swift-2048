@@ -9,7 +9,7 @@
 import UIKit
 
 protocol ScoreViewProtocol {
-  func scoreChanged(newScore s: Int)
+  func scoreChanged(to s: Int)
 }
 
 /// A simple view that displays the player's score.
@@ -20,12 +20,12 @@ class ScoreView : UIView, ScoreViewProtocol {
     }
   }
 
-  let defaultFrame = CGRectMake(0, 0, 140, 40)
+  let defaultFrame = CGRect(x: 0, y: 0, width: 140, height: 40)
   var label: UILabel
 
   init(backgroundColor bgcolor: UIColor, textColor tcolor: UIColor, font: UIFont, radius r: CGFloat) {
     label = UILabel(frame: defaultFrame)
-    label.textAlignment = NSTextAlignment.Center
+    label.textAlignment = NSTextAlignment.center
     super.init(frame: defaultFrame)
     backgroundColor = bgcolor
     label.textColor = tcolor
@@ -38,13 +38,13 @@ class ScoreView : UIView, ScoreViewProtocol {
     fatalError("NSCoding not supported")
   }
 
-  func scoreChanged(newScore s: Int)  {
+  func scoreChanged(to s: Int)  {
     score = s
   }
 }
 
 // A simple view that displays several buttons for controlling the app
 class ControlView {
-  let defaultFrame = CGRectMake(0, 0, 140, 40)
+  let defaultFrame = CGRect(x: 0, y: 0, width: 140, height: 40)
   // TODO: Implement me
 }
