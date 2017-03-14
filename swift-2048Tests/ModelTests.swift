@@ -36,7 +36,7 @@ class ModelTests: XCTestCase, GameModelProtocol {
       TileObject.tile(4),
       TileObject.tile(8),
       TileObject.tile(1)]
-    XCTAssert(group.count == 5, "Group should have 5 members before anything happens")
+    XCTAssert(group.count == 4, "Group should have 5 members before anything happens")
     let output = m.condense(group)
 
     // Check the output
