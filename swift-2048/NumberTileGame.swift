@@ -73,6 +73,7 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
 
   // View Controller
   override func viewDidLoad()  {
+    self.view.backgroundColor = UIColor.red
     super.viewDidLoad()
     setupGame()
   }
@@ -85,6 +86,16 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
     m.reset()
     m.insertTileAtRandomLocation(2)
     m.insertTileAtRandomLocation(2)
+  }
+    
+  func onSettings() {
+        //[0][1]
+    
+    let viewController:UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Settings")
+
+    self.present(viewController, animated: true, completion: nil)
+    
+    
   }
 
   func setupGame() {
@@ -130,9 +141,14 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
       cornerRadius: 6,
       backgroundColor: UIColor.black,
       foregroundColor: UIColor.darkGray)
+    
+    let settingsButton = UIButton(type: UIButtonType.system)
+    settingsButton .setTitle("Settings", for: UIControlState.normal)
+    settingsButton.sizeToFit()
+    settingsButton.addTarget(self, action: #selector(NumberTileGameViewController.onSettings), for: UIControlEvents.touchUpInside)
 
     // Set up the frames
-    let views = [scoreView, gameboard]
+    let views = [scoreView, gameboard, settingsButton]
 
     var f = scoreView.frame
     f.origin.x = xPositionToCenterView(scoreView)
@@ -143,6 +159,11 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
     f.origin.x = xPositionToCenterView(gameboard)
     f.origin.y = yPositionForViewAtPosition(1, views: views)
     gameboard.frame = f
+    
+    f = settingsButton.frame
+    f.origin.x = xPositionToCenterView(settingsButton)
+    f.origin.y = yPositionForViewAtPosition(2, views: views)
+    settingsButton.frame = f
 
 
     // Add to game state
@@ -150,6 +171,8 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
     board = gameboard
     view.addSubview(scoreView)
     self.scoreView = scoreView
+    
+    view.addSubview(settingsButton)
 
     assert(model != nil)
     let m = model!

@@ -20,6 +20,8 @@
 		1AEF46D01BAE736400119D81 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1AEF46CF1BAE736400119D81 /* Launch Screen.storyboard */; };
 		1AF8F0B619403AA400A7049E /* AccessoryViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF8F0B519403AA400A7049E /* AccessoryViews.swift */; };
 		1AF8F0B81941841000A7049E /* AuxiliaryModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF8F0B71941841000A7049E /* AuxiliaryModels.swift */; };
+		836176DB1E7F4B3000378197 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836176DA1E7F4B3000378197 /* SettingsViewController.swift */; };
+		836176DD1E7F4B5700378197 /* SettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836176DC1E7F4B5700378197 /* SettingsModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +59,8 @@
 		1AEF46CF1BAE736400119D81 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		1AF8F0B519403AA400A7049E /* AccessoryViews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccessoryViews.swift; path = Views/AccessoryViews.swift; sourceTree = "<group>"; };
 		1AF8F0B71941841000A7049E /* AuxiliaryModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AuxiliaryModels.swift; path = Models/AuxiliaryModels.swift; sourceTree = "<group>"; };
+		836176DA1E7F4B3000378197 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		836176DC1E7F4B5700378197 /* SettingsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +113,8 @@
 				1AE339B0193DCEAE0081FFA4 /* Views */,
 				1AE8BEF3193EF260007592BA /* NumberTileGame.swift */,
 				1AE8BEF1193EF1C7007592BA /* AppearanceProvider.swift */,
+				836176DA1E7F4B3000378197 /* SettingsViewController.swift */,
+				836176DC1E7F4B5700378197 /* SettingsModel.swift */,
 			);
 			path = "swift-2048";
 			sourceTree = "<group>";
@@ -274,7 +280,9 @@
 			files = (
 				1AE8BEF4193EF260007592BA /* NumberTileGame.swift in Sources */,
 				1AF8F0B619403AA400A7049E /* AccessoryViews.swift in Sources */,
+				836176DD1E7F4B5700378197 /* SettingsModel.swift in Sources */,
 				1AE8BEF6193EF4B6007592BA /* TileView.swift in Sources */,
+				836176DB1E7F4B3000378197 /* SettingsViewController.swift in Sources */,
 				1AC563E5193DCE6000402286 /* ViewController.swift in Sources */,
 				1AE8BEF2193EF1C7007592BA /* AppearanceProvider.swift in Sources */,
 				1AC563E3193DCE6000402286 /* AppDelegate.swift in Sources */,
@@ -417,7 +425,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = "swift-2048/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "dennispi.swift-2048";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -439,7 +447,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = "swift-2048/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "dennispi.swift-2048";
 				PRODUCT_NAME = "$(TARGET_NAME)";
