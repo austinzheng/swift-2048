@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0C15BADF66F614DACB6FC070 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5FB8378372DAC7F2D43AD47 /* CoreVideo.framework */; };
+		199499951F4798813D59B4AC /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A276791588E5987158265DC /* AssetsLibrary.framework */; };
 		1AC563E3193DCE6000402286 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC563E2193DCE6000402286 /* AppDelegate.swift */; };
 		1AC563E5193DCE6000402286 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC563E4193DCE6000402286 /* ViewController.swift */; };
 		1AC563E8193DCE6000402286 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1AC563E6193DCE6000402286 /* Main.storyboard */; };
@@ -20,8 +22,15 @@
 		1AEF46D01BAE736400119D81 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1AEF46CF1BAE736400119D81 /* Launch Screen.storyboard */; };
 		1AF8F0B619403AA400A7049E /* AccessoryViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF8F0B519403AA400A7049E /* AccessoryViews.swift */; };
 		1AF8F0B81941841000A7049E /* AuxiliaryModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF8F0B71941841000A7049E /* AuxiliaryModels.swift */; };
+		4BB2BDEC47FD0E8B225040D0 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C3B46A497E380BB42CCC125 /* CoreText.framework */; };
+		6561FA405449FFBA1DD8523D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F929C53165FAFAA0CFA0F41A /* SystemConfiguration.framework */; };
 		836176DB1E7F4B3000378197 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836176DA1E7F4B3000378197 /* SettingsViewController.swift */; };
 		836176DD1E7F4B5700378197 /* SettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836176DC1E7F4B5700378197 /* SettingsModel.swift */; };
+		A8B2ED6322B00A32FB4B345F /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31FE4BF08B05F44A509DC356 /* CoreMedia.framework */; };
+		C6222B443C57159B2DA2FC98 /* BuddyBuildSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2477B1F5B3BC9970A98775FF /* BuddyBuildSDK.framework */; };
+		CAFFE45AE74C657F154BA908 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EBA583CD7D9D383FF60B07F /* CoreTelephony.framework */; };
+		E91B9F219292A7E94CA7975A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2970529147EC7A0AAD78998 /* QuartzCore.framework */; };
+		F99E28A2EC3948A994BD3E99 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 947FD60DD9F8EB5D97B0B72E /* AVFoundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,8 +68,18 @@
 		1AEF46CF1BAE736400119D81 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		1AF8F0B519403AA400A7049E /* AccessoryViews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccessoryViews.swift; path = Views/AccessoryViews.swift; sourceTree = "<group>"; };
 		1AF8F0B71941841000A7049E /* AuxiliaryModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AuxiliaryModels.swift; path = Models/AuxiliaryModels.swift; sourceTree = "<group>"; };
+		20129923B257AE575B821DC8 /* Bridging-Header.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
+		2477B1F5B3BC9970A98775FF /* BuddyBuildSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BuddyBuildSDK.framework; sourceTree = "<group>"; };
+		31FE4BF08B05F44A509DC356 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		7EBA583CD7D9D383FF60B07F /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		836176DA1E7F4B3000378197 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		836176DC1E7F4B5700378197 /* SettingsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsModel.swift; sourceTree = "<group>"; };
+		8C3B46A497E380BB42CCC125 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		947FD60DD9F8EB5D97B0B72E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		9A276791588E5987158265DC /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		D2970529147EC7A0AAD78998 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		D5FB8378372DAC7F2D43AD47 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		F929C53165FAFAA0CFA0F41A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +87,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C6222B443C57159B2DA2FC98 /* BuddyBuildSDK.framework in Frameworks */,
+				199499951F4798813D59B4AC /* AssetsLibrary.framework in Frameworks */,
+				4BB2BDEC47FD0E8B225040D0 /* CoreText.framework in Frameworks */,
+				CAFFE45AE74C657F154BA908 /* CoreTelephony.framework in Frameworks */,
+				6561FA405449FFBA1DD8523D /* SystemConfiguration.framework in Frameworks */,
+				E91B9F219292A7E94CA7975A /* QuartzCore.framework in Frameworks */,
+				F99E28A2EC3948A994BD3E99 /* AVFoundation.framework in Frameworks */,
+				A8B2ED6322B00A32FB4B345F /* CoreMedia.framework in Frameworks */,
+				0C15BADF66F614DACB6FC070 /* CoreVideo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -88,6 +116,7 @@
 				1AC563F2193DCE6000402286 /* swift-2048Tests */,
 				1AC563DE193DCE6000402286 /* Products */,
 				64BE32800BADF8326B2831F6 /* Frameworks */,
+				20129923B257AE575B821DC8 /* Bridging-Header.h */,
 			);
 			sourceTree = "<group>";
 		};
@@ -166,6 +195,15 @@
 		64BE32800BADF8326B2831F6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2477B1F5B3BC9970A98775FF /* BuddyBuildSDK.framework */,
+				9A276791588E5987158265DC /* AssetsLibrary.framework */,
+				8C3B46A497E380BB42CCC125 /* CoreText.framework */,
+				7EBA583CD7D9D383FF60B07F /* CoreTelephony.framework */,
+				F929C53165FAFAA0CFA0F41A /* SystemConfiguration.framework */,
+				D2970529147EC7A0AAD78998 /* QuartzCore.framework */,
+				947FD60DD9F8EB5D97B0B72E /* AVFoundation.framework */,
+				31FE4BF08B05F44A509DC356 /* CoreMedia.framework */,
+				D5FB8378372DAC7F2D43AD47 /* CoreVideo.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -431,6 +469,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -453,6 +492,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
