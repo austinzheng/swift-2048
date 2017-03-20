@@ -39,6 +39,16 @@
                ReferencedContainer = "container:swift-2048.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "8384965A1E809CF400961E31"
+               BuildableName = "swift-2048UITests.xctest"
+               BlueprintName = "swift-2048UITests"
+               ReferencedContainer = "container:swift-2048.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
