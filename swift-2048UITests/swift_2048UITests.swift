@@ -47,7 +47,7 @@ class swift_2048UITests: XCTestCase {
     
     func testSettings() {
         XCUIApplication().buttons["Settings"].tap()
-
+        sleep(10)
         
     }
     
