@@ -94,6 +94,7 @@
 		8384965B1E809CF400961E31 /* swift-2048UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "swift-2048UITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8384965D1E809CF400961E31 /* swift_2048UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = swift_2048UITests.swift; sourceTree = "<group>"; };
 		8384965F1E809CF400961E31 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		83FAC5E41E80FC8100C0D955 /* swift-2048UITests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "swift-2048UITests-Bridging-Header.h"; sourceTree = "<group>"; };
 		8C3B46A497E380BB42CCC125 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		947FD60DD9F8EB5D97B0B72E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		9A276791588E5987158265DC /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
@@ -251,6 +252,7 @@
 			children = (
 				8384965D1E809CF400961E31 /* swift_2048UITests.swift */,
 				8384965F1E809CF400961E31 /* Info.plist */,
+				83FAC5E41E80FC8100C0D955 /* swift-2048UITests-Bridging-Header.h */,
 			);
 			path = "swift-2048UITests";
 			sourceTree = "<group>";
@@ -338,6 +340,7 @@
 					8384965A1E809CF400961E31 = {
 						CreatedOnToolsVersion = 8.2;
 						DevelopmentTeam = L4FET847JL;
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 1AC563DC193DCE6000402286;
 					};
@@ -657,6 +660,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = L4FET847JL;
@@ -673,6 +677,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.buddybuild.swift-2048UITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OBJC_BRIDGING_HEADER = "swift-2048UITests/swift-2048UITests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = "swift-2048";
 			};
@@ -682,6 +688,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -698,6 +705,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.buddybuild.swift-2048UITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "swift-2048UITests/swift-2048UITests-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = "swift-2048";
 			};
