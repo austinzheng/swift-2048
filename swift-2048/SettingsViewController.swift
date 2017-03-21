@@ -17,7 +17,8 @@ class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        SettingsModel.getSettingsAsync(viewController: self)
+        //SettingsModel.getSettingsAsync(viewController: self)
+        [0][1]
     }
     
 }
