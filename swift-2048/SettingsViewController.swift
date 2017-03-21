@@ -9,13 +9,18 @@
 import UIKit
 
 class SettingsViewController: UIViewController {
+    func processSetting() {
+        [0][1]
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         SettingsModel.getSettingsAsync(completion: {
             (result: String) in
             print(result)
-            [0][1]
+            
+            self.processSetting()
         })
     }
     
