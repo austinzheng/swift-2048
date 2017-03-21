@@ -9,6 +9,8 @@
 import UIKit
 
 class SettingsViewController: UIViewController {
+    
+    @inline(never)
     func processSetting() {
         [0][1]
     }
