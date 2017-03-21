@@ -27,6 +27,15 @@
 		836176DB1E7F4B3000378197 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836176DA1E7F4B3000378197 /* SettingsViewController.swift */; };
 		836176DD1E7F4B5700378197 /* SettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836176DC1E7F4B5700378197 /* SettingsModel.swift */; };
 		8384965E1E809CF400961E31 /* swift_2048UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8384965D1E809CF400961E31 /* swift_2048UITests.swift */; };
+		83AFB4771E80A8AA00B27F13 /* BuddyBuildSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2477B1F5B3BC9970A98775FF /* BuddyBuildSDK.framework */; };
+		83AFB4781E80A8C100B27F13 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A276791588E5987158265DC /* AssetsLibrary.framework */; };
+		83AFB4791E80A8C800B27F13 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EBA583CD7D9D383FF60B07F /* CoreTelephony.framework */; };
+		83AFB47A1E80A8D000B27F13 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C3B46A497E380BB42CCC125 /* CoreText.framework */; };
+		83AFB47B1E80A8D700B27F13 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31FE4BF08B05F44A509DC356 /* CoreMedia.framework */; };
+		83AFB47C1E80A8E000B27F13 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 947FD60DD9F8EB5D97B0B72E /* AVFoundation.framework */; };
+		83AFB47D1E80A8E700B27F13 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5FB8378372DAC7F2D43AD47 /* CoreVideo.framework */; };
+		83AFB47E1E80A8EE00B27F13 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2970529147EC7A0AAD78998 /* QuartzCore.framework */; };
+		83AFB47F1E80A8F600B27F13 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F929C53165FAFAA0CFA0F41A /* SystemConfiguration.framework */; };
 		A8B2ED6322B00A32FB4B345F /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31FE4BF08B05F44A509DC356 /* CoreMedia.framework */; };
 		C6222B443C57159B2DA2FC98 /* BuddyBuildSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2477B1F5B3BC9970A98775FF /* BuddyBuildSDK.framework */; };
 		CAFFE45AE74C657F154BA908 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EBA583CD7D9D383FF60B07F /* CoreTelephony.framework */; };
@@ -121,6 +130,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				83AFB47F1E80A8F600B27F13 /* SystemConfiguration.framework in Frameworks */,
+				83AFB47E1E80A8EE00B27F13 /* QuartzCore.framework in Frameworks */,
+				83AFB47D1E80A8E700B27F13 /* CoreVideo.framework in Frameworks */,
+				83AFB47C1E80A8E000B27F13 /* AVFoundation.framework in Frameworks */,
+				83AFB47B1E80A8D700B27F13 /* CoreMedia.framework in Frameworks */,
+				83AFB47A1E80A8D000B27F13 /* CoreText.framework in Frameworks */,
+				83AFB4791E80A8C800B27F13 /* CoreTelephony.framework in Frameworks */,
+				83AFB4781E80A8C100B27F13 /* AssetsLibrary.framework in Frameworks */,
+				83AFB4771E80A8AA00B27F13 /* BuddyBuildSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -626,6 +644,10 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = L4FET847JL;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = "swift-2048UITests/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -646,6 +668,10 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = L4FET847JL;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = "swift-2048UITests/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
