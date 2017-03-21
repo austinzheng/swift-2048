@@ -9,11 +9,11 @@
 import Foundation
 
 class SettingsModel {
-    class func getSettingsAsync(completion: @escaping (_: String) -> Void) {
+    class func getSettingsAsync(viewController: SettingsViewController) {
         
         // NOTE: I set deployment target to 10.0
         Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { (_) in
-            completion("settings");
+            viewController.processSetting()
         }
     }
 }
