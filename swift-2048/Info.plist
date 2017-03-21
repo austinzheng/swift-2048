@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>BUDDYBUILD_SETTING_ENABLE_UI_TESTS_VIDEO_RECORDING</key>
-	<true/>
+	<integer>1</integer>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
