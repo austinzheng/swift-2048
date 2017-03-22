@@ -10,7 +10,7 @@ import UIKit
 
 class SettingsViewController: UIViewController {
     
-    func processSetting() {
+    @IBAction func processSetting() {
         [0][1]
     }
     
