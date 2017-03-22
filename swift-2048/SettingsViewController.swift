@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SettingsViewController: UIViewController {
+class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     
     override func viewDidLoad() {
@@ -18,6 +18,32 @@ class SettingsViewController: UIViewController {
         Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { (_) in
             self.getSettings()
         }
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if (section == 0) {
+            return 3;
+        } else {
+            return 1;
+        }
+    }
+    
+    func tableView(tableView: UITableView!, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return 51
+    }
+    
+    func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
+        return 2
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell")
+        
+        //cell.titleLabel.text = "\(ListArray.objectAtIndex(indexPath.item))"
+        
+        cell?.textLabel?.text = "Hello"
+        
+        return cell!
     }
     
     private func getSettings() {
