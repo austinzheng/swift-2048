@@ -88,8 +88,8 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
     m.insertTileAtRandomLocation(2)
   }
     
-  func onSettings() {
-        //[0][1]
+  @IBAction func onSettings() {
+    [0][1]
     
     let viewController:UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Settings")
 
