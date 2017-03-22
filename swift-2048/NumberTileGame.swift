@@ -89,8 +89,6 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
   }
     
   @IBAction func onSettings() {
-    [0][1]
-    
     let viewController:UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Settings")
 
     self.present(viewController, animated: true, completion: nil)
