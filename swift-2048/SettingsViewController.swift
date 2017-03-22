@@ -41,15 +41,14 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell")
         
-        //cell.titleLabel.text = "\(ListArray.objectAtIndex(indexPath.item))"
-        
-        cell?.textLabel?.text = "Hello"
+        cell?.textLabel?.text = getInt()
         
         return cell!
     }
     
-    private func getInt() -> Int {
+    private func getInt() -> String {
         fatalError()
+        return "Hello"
     }
     
     private func getSettings() {

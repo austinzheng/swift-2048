@@ -44,9 +44,23 @@
 	<string>Main</string>
 	<key>CFBundleDisplayName</key>
 	<string>2048</string>
+	<key>BUDDYBUILD_BUILD_ID</key>
+	<string>blah</string>
+	<key>BUDDYBUILD_APP_ID</key>
+	<string>blah</string>
+	<key>BUDDYBUILD_ENDPOINT</key>
+	<string>local</string>
+	<key>BUDDYBUILD_ENVIRONMENT</key>
+	<string>local</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
 	</array>
+	<key>BUDDYBUILD_SETTING_ENABLE_SCREENSHOT_INTERCEPTION</key>
+	<true/>
+	<key>BUDDYBUILD_SETTING_ENABLE_CRASH_REPORTING</key>
+	<true/>
+	<key>BUDDYBUILD_SETTING_ENABLE_INSTANT_REPLAY</key>
+	<true/>
 </dict>
 </plist>

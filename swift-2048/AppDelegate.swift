@@ -45,7 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
 
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
-        BuddyBuildSDK.uiTestRecordingDidReceiveRemoteNotification(userInfo)
+        //BuddyBuildSDK.uiTestRecordingDidReceiveRemoteNotification(userInfo)
     }
 }
 
