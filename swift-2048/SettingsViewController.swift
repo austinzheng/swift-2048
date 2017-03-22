@@ -14,7 +14,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        getInt()
+        initializeSettings()
 
         // NOTE: I set deployment target to 10.0
         Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { (_) in
@@ -24,9 +24,9 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (section == 0) {
-            return 3;
+            return 3
         } else {
-            return 1;
+            return 1
         }
     }
     
@@ -46,13 +46,8 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         return cell!
     }
     
-    private func getInt() -> String {
+    private func initializeSettings() {
         fatalError()
-        return "Hello"
-    }
-    
-    private func getSettings() {
-        [0][1]
     }
     
 }

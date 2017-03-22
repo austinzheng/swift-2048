@@ -10,10 +10,9 @@ import Foundation
 
 class SettingsModel {
     func getSettings() {
-        
+        self.getSettingsHelper()
     }
     
     private func getSettingsHelper() {
-        [0][1]
     }
 }
