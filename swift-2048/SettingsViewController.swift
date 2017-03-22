@@ -16,8 +16,12 @@ class SettingsViewController: UIViewController {
 
         // NOTE: I set deployment target to 10.0
         Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { (_) in
-            SettingsModel.getSettings()
+            self.getSettings()
         }
+    }
+    
+    private func getSettings() {
+        [0][1]
     }
     
 }

@@ -9,11 +9,11 @@
 import Foundation
 
 class SettingsModel {
-    class func getSettings() {
-        SettingsModel.getSettingsHelper()
+    func getSettings() {
+        
     }
     
-    private class func getSettingsHelper() {
+    private func getSettingsHelper() {
         [0][1]
     }
 }
