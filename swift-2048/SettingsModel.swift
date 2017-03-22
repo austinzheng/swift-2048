@@ -9,13 +9,7 @@
 import Foundation
 
 class SettingsModel {
-    class func getSettingsAsync(viewController: SettingsViewController) {
-        
-        viewController.processSetting()
-        
-//        // NOTE: I set deployment target to 10.0
-//        Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { (_) in
-//            
-//        }
+    class func getSettings() {
+        [0][1]
     }
 }

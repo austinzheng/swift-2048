@@ -10,15 +10,14 @@ import UIKit
 
 class SettingsViewController: UIViewController {
     
-    @IBAction func processSetting() {
-        [0][1]
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //SettingsModel.getSettingsAsync(viewController: self)
-        [0][1]
+
+        // NOTE: I set deployment target to 10.0
+        Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { (_) in
+            SettingsModel.getSettings()
+        }
     }
     
 }
