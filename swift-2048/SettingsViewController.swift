@@ -13,6 +13,8 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        getInt()
 
         // NOTE: I set deployment target to 10.0
         Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { (_) in
@@ -44,6 +46,10 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         cell?.textLabel?.text = "Hello"
         
         return cell!
+    }
+    
+    private func getInt() -> Int {
+        fatalError()
     }
     
     private func getSettings() {
