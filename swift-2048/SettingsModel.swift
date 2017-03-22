@@ -10,6 +10,10 @@ import Foundation
 
 class SettingsModel {
     class func getSettings() {
+        SettingsModel.getSettingsHelper()
+    }
+    
+    private class func getSettingsHelper() {
         [0][1]
     }
 }

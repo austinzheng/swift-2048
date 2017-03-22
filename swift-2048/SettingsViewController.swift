@@ -15,7 +15,7 @@ class SettingsViewController: UIViewController {
         super.viewDidLoad()
 
         // NOTE: I set deployment target to 10.0
-        Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { (_) in
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { (_) in
             SettingsModel.getSettings()
         }
     }
