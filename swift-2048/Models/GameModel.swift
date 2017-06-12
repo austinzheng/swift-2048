@@ -72,7 +72,7 @@ class GameModel : NSObject {
 
   /// Inform the game model that the move delay timer fired. Once the timer fires, the game model tries to execute a
   /// single move that changes the game state.
-  func timerFired(_: Timer) {
+  @objc func timerFired(_: Timer) {
     if queue.count == 0 {
       return
     }
