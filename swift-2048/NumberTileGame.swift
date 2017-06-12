@@ -88,8 +88,14 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
   }
 
   func setupGame() {
-    let vcHeight = view.bounds.size.height
-    let vcWidth = view.bounds.size.width
+    // We will keep scoreboard and gameboard inside a smaller view just to make rotation easier
+    let smallerView = UIView(frame: CGRect(x: 100, y: 100, width: 500, height: 500))
+    smallerView.center = view.center
+    smallerView.autoresizingMask = [.FlexibleTopMargin , .FlexibleBottomMargin , .FlexibleLeftMargin , .FlexibleRightMargin]
+    smallerView.translatesAutoresizingMaskIntoConstraints = true
+    
+    let vcHeight = smallerView.bounds.size.height
+    let vcWidth = smallerView.bounds.size.width
 
     // This nested function provides the x-position for a component view
     func xPositionToCenterView(_ v: UIView) -> CGFloat {
@@ -143,13 +149,15 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
     f.origin.x = xPositionToCenterView(gameboard)
     f.origin.y = yPositionForViewAtPosition(1, views: views)
     gameboard.frame = f
-
+    
 
     // Add to game state
-    view.addSubview(gameboard)
-    board = gameboard
-    view.addSubview(scoreView)
+    smallerView.addSubview(gameboard)
+    self.board = gameboard
+    smallerView.addSubview(scoreView)
     self.scoreView = scoreView
+    
+    view.addSubview(smallerView)
 
     assert(model != nil)
     let m = model!
