@@ -22,7 +22,9 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
   var model: GameModel?
 
   var scoreView: ScoreViewProtocol?
+  var highScore = UILabel(frame: CGRect(x: 0, y: 25, width: UIScreen.main.bounds.width, height: 40))
 
+  
   // Width of the gameboard
   let boardWidth: CGFloat = 230.0
   // How much padding to place between the tiles
@@ -119,6 +121,15 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
       font: UIFont(name: "HelveticaNeue-Bold", size: 16.0) ?? UIFont.systemFont(ofSize: 16.0),
       radius: 6)
     scoreView.score = 0
+    
+    highScore.textAlignment = NSTextAlignment.center
+    highScore.backgroundColor = UIColor.white
+    highScore.textColor = UIColor.black
+    highScore.font = UIFont(name: "HelveticaNeue-Bold", size: 16.0) ?? UIFont.systemFont(ofSize: 16.0)
+
+    highScore.text = "HighScore: \(UserDefaults().integer(forKey: "HIGHSCORE"))"
+
+    self.view.addSubview(highScore)
 
     // Create the gameboard
     let padding: CGFloat = dimension > 5 ? thinPadding : thickPadding
@@ -144,7 +155,6 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
     f.origin.y = yPositionForViewAtPosition(1, views: views)
     gameboard.frame = f
 
-
     // Add to game state
     view.addSubview(gameboard)
     board = gameboard
@@ -162,30 +172,39 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
     assert(model != nil)
     let m = model!
     let (userWon, _) = m.userHasWon()
-    if userWon {
-      // TODO: alert delegate we won
-      let alertView = UIAlertView()
-      alertView.title = "Victory"
-      alertView.message = "You won!"
-      alertView.addButton(withTitle: "Cancel")
-      alertView.show()
-      // TODO: At this point we should stall the game until the user taps 'New Game' (which hasn't been implemented yet)
+    if userWon && !m.continueGame {
+      // Alert delegate we won
+      NSLog("You won!")
+        
+      let alert = UIAlertController(title: "Victory", message: "You won!", preferredStyle: .alert)
+      alert.addAction(UIAlertAction(title: NSLocalizedString("New Game", comment: "New Game action"), style: .default, handler: { _ in
+          self.reset()
+      }))
+      alert.addAction(UIAlertAction(title: NSLocalizedString("Continue", comment: "Continue action"), style: .default, handler: { _ in
+          m.continueGame = true
+      }))
+        
+      self.present(alert, animated: true, completion: nil)
+      
       return
     }
 
     // Now, insert more tiles
     let randomVal = Int(arc4random_uniform(10))
     m.insertTileAtRandomLocation(withValue: randomVal == 1 ? 4 : 2)
+    highScore.text = "HighScore: \(UserDefaults().integer(forKey: "HIGHSCORE"))"
 
     // At this point, the user may lose
     if m.userHasLost() {
-      // TODO: alert delegate we lost
+      // Alert delegate we lost
       NSLog("You lost...")
-      let alertView = UIAlertView()
-      alertView.title = "Defeat"
-      alertView.message = "You lost..."
-      alertView.addButton(withTitle: "Cancel")
-      alertView.show()
+
+      let alert = UIAlertController(title: "Defeat", message: "You lost...", preferredStyle: .alert)
+      alert.addAction(UIAlertAction(title: NSLocalizedString("Reset", comment: "Reset action"), style: .default, handler: { _ in
+          self.reset()
+      }))
+        
+      self.present(alert, animated: true, completion: nil)
     }
   }
 
