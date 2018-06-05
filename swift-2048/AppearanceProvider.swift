@@ -33,6 +33,9 @@ class AppearanceProvider: AppearanceProviderProtocol {
       return UIColor(red: 246.0/255.0, green: 94.0/255.0, blue: 59.0/255.0, alpha: 1.0)
     case 128, 256, 512, 1024, 2048:
       return UIColor(red: 237.0/255.0, green: 207.0/255.0, blue: 114.0/255.0, alpha: 1.0)
+    //131072 is the highest tile possible
+    case 4096, 8192, 16384, 32768, 65536, 131072:
+      return UIColor.red
     default:
       return UIColor.white
     }

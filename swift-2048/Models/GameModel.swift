@@ -28,6 +28,8 @@ class GameModel : NSObject {
   }
   var gameboard: SquareGameboard<TileObject>
 
+    var continueGame = false // Won the game but want to continue
+    
   unowned let delegate : GameModelProtocol
 
   var queue: [MoveCommand]

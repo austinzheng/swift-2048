@@ -162,30 +162,38 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
     assert(model != nil)
     let m = model!
     let (userWon, _) = m.userHasWon()
-    if userWon {
-      // TODO: alert delegate we won
-      let alertView = UIAlertView()
-      alertView.title = "Victory"
-      alertView.message = "You won!"
-      alertView.addButton(withTitle: "Cancel")
-      alertView.show()
-      // TODO: At this point we should stall the game until the user taps 'New Game' (which hasn't been implemented yet)
+    if userWon && !m.continueGame {
+      // Alert delegate we won
+      NSLog("You won!")
+        
+      let alert = UIAlertController(title: "Victory", message: "You won!", preferredStyle: .alert)
+      alert.addAction(UIAlertAction(title: NSLocalizedString("New Game", comment: "New Game action"), style: .default, handler: { _ in
+          self.reset()
+      }))
+      alert.addAction(UIAlertAction(title: NSLocalizedString("Continue", comment: "Continue action"), style: .default, handler: { _ in
+          m.continueGame = true
+      }))
+        
+      self.present(alert, animated: true, completion: nil)
+      
       return
     }
 
     // Now, insert more tiles
     let randomVal = Int(arc4random_uniform(10))
     m.insertTileAtRandomLocation(withValue: randomVal == 1 ? 4 : 2)
-
+    
     // At this point, the user may lose
     if m.userHasLost() {
-      // TODO: alert delegate we lost
+      // Alert delegate we lost
       NSLog("You lost...")
-      let alertView = UIAlertView()
-      alertView.title = "Defeat"
-      alertView.message = "You lost..."
-      alertView.addButton(withTitle: "Cancel")
-      alertView.show()
+
+      let alert = UIAlertController(title: "Defeat", message: "You lost...", preferredStyle: .alert)
+      alert.addAction(UIAlertAction(title: NSLocalizedString("Reset", comment: "Reset action"), style: .default, handler: { _ in
+          self.reset()
+      }))
+        
+      self.present(alert, animated: true, completion: nil)
     }
   }
 
