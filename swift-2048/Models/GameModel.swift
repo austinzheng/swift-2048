@@ -27,8 +27,10 @@ class GameModel : NSObject {
     }
   }
   var gameboard: SquareGameboard<TileObject>
+    
+  var highScore = UserDefaults().integer(forKey: "HIGHSCORE")
 
-    var continueGame = false // Won the game but want to continue
+  var continueGame = false // Won the game but want to continue
     
   unowned let delegate : GameModelProtocol
 
@@ -241,6 +243,10 @@ class GameModel : NSObject {
           let (dx, dy) = coords[d]
           if wasMerge {
             score += v
+            if score > highScore{
+                UserDefaults.standard.set(score, forKey: "HIGHSCORE")
+            }
+
           }
           gameboard[sx, sy] = TileObject.empty
           gameboard[dx, dy] = TileObject.tile(v)

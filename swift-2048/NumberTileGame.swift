@@ -22,7 +22,9 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
   var model: GameModel?
 
   var scoreView: ScoreViewProtocol?
+  var highScore = UILabel(frame: CGRect(x: 0, y: 25, width: UIScreen.main.bounds.width, height: 40))
 
+  
   // Width of the gameboard
   let boardWidth: CGFloat = 230.0
   // How much padding to place between the tiles
@@ -119,6 +121,15 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
       font: UIFont(name: "HelveticaNeue-Bold", size: 16.0) ?? UIFont.systemFont(ofSize: 16.0),
       radius: 6)
     scoreView.score = 0
+    
+    highScore.textAlignment = NSTextAlignment.center
+    highScore.backgroundColor = UIColor.white
+    highScore.textColor = UIColor.black
+    highScore.font = UIFont(name: "HelveticaNeue-Bold", size: 16.0) ?? UIFont.systemFont(ofSize: 16.0)
+
+    highScore.text = "HighScore: \(UserDefaults().integer(forKey: "HIGHSCORE"))"
+
+    self.view.addSubview(highScore)
 
     // Create the gameboard
     let padding: CGFloat = dimension > 5 ? thinPadding : thickPadding
@@ -143,7 +154,6 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
     f.origin.x = xPositionToCenterView(gameboard)
     f.origin.y = yPositionForViewAtPosition(1, views: views)
     gameboard.frame = f
-
 
     // Add to game state
     view.addSubview(gameboard)
@@ -182,7 +192,8 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
     // Now, insert more tiles
     let randomVal = Int(arc4random_uniform(10))
     m.insertTileAtRandomLocation(withValue: randomVal == 1 ? 4 : 2)
-    
+    highScore.text = "HighScore: \(UserDefaults().integer(forKey: "HIGHSCORE"))"
+
     // At this point, the user may lose
     if m.userHasLost() {
       // Alert delegate we lost
