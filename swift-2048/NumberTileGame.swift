@@ -51,22 +51,22 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
   func setupSwipeControls() {
     let upSwipe = UISwipeGestureRecognizer(target: self, action: #selector(NumberTileGameViewController.upCommand(_:)))
     upSwipe.numberOfTouchesRequired = 1
-    upSwipe.direction = UISwipeGestureRecognizerDirection.up
+    upSwipe.direction = UISwipeGestureRecognizer.Direction.up
     view.addGestureRecognizer(upSwipe)
 
     let downSwipe = UISwipeGestureRecognizer(target: self, action: #selector(NumberTileGameViewController.downCommand(_:)))
     downSwipe.numberOfTouchesRequired = 1
-    downSwipe.direction = UISwipeGestureRecognizerDirection.down
+    downSwipe.direction = UISwipeGestureRecognizer.Direction.down
     view.addGestureRecognizer(downSwipe)
 
     let leftSwipe = UISwipeGestureRecognizer(target: self, action: #selector(NumberTileGameViewController.leftCommand(_:)))
     leftSwipe.numberOfTouchesRequired = 1
-    leftSwipe.direction = UISwipeGestureRecognizerDirection.left
+    leftSwipe.direction = UISwipeGestureRecognizer.Direction.left
     view.addGestureRecognizer(leftSwipe)
 
     let rightSwipe = UISwipeGestureRecognizer(target: self, action: #selector(NumberTileGameViewController.rightCommand(_:)))
     rightSwipe.numberOfTouchesRequired = 1
-    rightSwipe.direction = UISwipeGestureRecognizerDirection.right
+    rightSwipe.direction = UISwipeGestureRecognizer.Direction.right
     view.addGestureRecognizer(rightSwipe)
   }
 
