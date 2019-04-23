@@ -13,7 +13,7 @@ If you want to check out a more advanced Swift project, please take a look at **
 Instructions
 ------------
 
-You will need Xcode 7 to run the project. Run it in the simulator or on an actual device.
+You will need Xcode 7 to run the project. Run it in the simulator or on an actual device with iOS 8.0+.
 
 Tap the button to play the game. Swipe to move the tiles.
 

@@ -163,13 +163,11 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
     let m = model!
     let (userWon, _) = m.userHasWon()
     if userWon {
-      // TODO: alert delegate we won
-      let alertView = UIAlertView()
-      alertView.title = "Victory"
-      alertView.message = "You won!"
-      alertView.addButton(withTitle: "Cancel")
-      alertView.show()
-      // TODO: At this point we should stall the game until the user taps 'New Game' (which hasn't been implemented yet)
+      // alert delegate we won
+      let alertView = UIAlertController(title: "Victory", message: "You won!", preferredStyle: .alert)
+      alertView.addAction(UIAlertAction(title: "New Game", style: .default, handler: {action in self.reset()}))
+      alertView.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+      self.present(alertView, animated: true)
       return
     }
 
@@ -179,13 +177,12 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
 
     // At this point, the user may lose
     if m.userHasLost() {
-      // TODO: alert delegate we lost
+      // alert delegate we lost
       NSLog("You lost...")
-      let alertView = UIAlertView()
-      alertView.title = "Defeat"
-      alertView.message = "You lost..."
-      alertView.addButton(withTitle: "Cancel")
-      alertView.show()
+      let alertView = UIAlertController(title: "Defeat", message: "You lost...", preferredStyle: .alert)
+      alertView.addAction(UIAlertAction(title: "New Game", style: .default, handler: {action in self.reset()}))
+      alertView.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+      self.present(alertView, animated: true)
     }
   }
 
