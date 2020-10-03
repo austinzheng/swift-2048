@@ -89,11 +89,11 @@ class GameboardView : UIView {
     tile.layer.setAffineTransform(CGAffineTransform(scaleX: tilePopStartScale, y: tilePopStartScale))
 
     addSubview(tile)
-    bringSubview(toFront: tile)
+    bringSubviewToFront(tile)
     tiles[IndexPath(row: row, section: col)] = tile
 
     // Add to board
-    UIView.animate(withDuration: tileExpandTime, delay: tilePopDelay, options: UIViewAnimationOptions(),
+    UIView.animate(withDuration: tileExpandTime, delay: tilePopDelay, options: UIView.AnimationOptions(),
       animations: {
         // Make the tile 'pop'
         tile.layer.setAffineTransform(CGAffineTransform(scaleX: self.tilePopMaxScale, y: self.tilePopMaxScale))
@@ -134,7 +134,7 @@ class GameboardView : UIView {
     let shouldPop = endTile != nil
     UIView.animate(withDuration: perSquareSlideDuration,
       delay: 0.0,
-      options: UIViewAnimationOptions.beginFromCurrentState,
+      options: UIView.AnimationOptions.beginFromCurrentState,
       animations: {
         // Slide tile
         tile.frame = finalFrame
@@ -192,7 +192,7 @@ class GameboardView : UIView {
 
     UIView.animate(withDuration: perSquareSlideDuration,
       delay: 0.0,
-      options: UIViewAnimationOptions.beginFromCurrentState,
+      options: UIView.AnimationOptions.beginFromCurrentState,
       animations: {
         // Slide tiles
         tileA.frame = finalFrame
