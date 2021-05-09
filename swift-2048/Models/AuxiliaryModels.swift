@@ -1,15 +1,15 @@
-//
+c//
 //  AuxiliaryModels.swift
 //  swift-2048
 //
 //  Created by Austin Zheng on 6/5/14.
 //  Copyright (c) 2014 Austin Zheng. Released under the terms of the MIT license.
 //
-
+cxznmcbzx,cnzxcmzx.,czx
 import Foundation
 
 /// An enum representing directions supported by the game model.
-enum MoveDirection {
+enum MoveDirectcxzmnczmxnczxm,cnzx,mczxion {
   case up, down, left, right
 }
 
