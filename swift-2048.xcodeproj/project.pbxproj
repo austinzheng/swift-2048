@@ -1,4 +1,4 @@
-// !$*UTF8*$!
+test for course angela// !$*UTF8*$!
 {
 	archiveVersion = 1;
 	classes = {
