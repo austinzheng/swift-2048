@@ -42,6 +42,7 @@ class NumberTileGameViewController : UIViewController, GameModelProtocol {
     model = GameModel(dimension: dimension, threshold: threshold, delegate: self)
     view.backgroundColor = UIColor.white
     setupSwipeControls()
+    self.modalPresentationStyle = .fullScreen
   }
 
   required init(coder aDecoder: NSCoder) {
