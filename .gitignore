@@ -21,3 +21,5 @@ DerivedData
 
 #CocoaPods
 Pods
+
+#comments which should not be on this platform are not dislpayed here.
